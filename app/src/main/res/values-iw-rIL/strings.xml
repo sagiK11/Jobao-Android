@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jobao</string>
+    <string name="title_home">בית</string>
+    <string name="title_add_job">בקשה חדשה</string>
+    <string name="title_edit_job">עדכון בקשה</string>
+    <string name="recent_applies">הגשות אחרונות</string>
+    <string name="recent_activity">פעילות אחרונה</string>
+    <string name="cd_add_button">הוספת בקשה</string>
+    <string name="company_name">שם החברה</string>
+    <string name="position_title">תפקיד</string>
+    <string name="date_applied">תאריך הגשה</string>
+    <string name="add_application">הוסף</string>
+    <string name="edit_application">עדכן</string>
+    <string name="sent_with_cover_letter">נשלח עם מכתב נלווה</string>
+    <string name="applied_via">אופן הגשה</string>
+    <string name="yes">כן</string>
+    <string name="no">לא</string>
+    <string name="required_field">שדה חובה</string>
+    <string name="select_date">בחר תאריך</string>
+    <string-array name="applied_via_array">
+        <item>אתר החברה</item>
+        <item>אימייל</item>
+        <item>הפנייה מעמית</item>
+    </string-array>
+    <string-array name="sent_with_cover_letter_array">
+        <item>לא</item>
+        <item>כן</item>
+    </string-array>
+    <string-array name="status_array">
+        <item>מחכה לתשובה</item>
+        <item>בתהליך</item>
+        <item>נדחה</item>
+        <item>התקבל</item>
+    </string-array>
+    <string name="applications">בקשות</string>
+    <string name="search_application">חפש בקשה..</string>
+    <string name="some_data">קצת נתונים</string>
+    <string name="sort">מיין</string>
+    <string name="sort_by_name">מיין לפי חברה</string>
+    <string name="sort_by_title">מיין לפי תפקיד</string>
+    <string name="sort_by_date">מיין לפי תאריך</string>
+    <string name="hide_declined">הסתר דחיות</string>
+    <string name="job_deleted">ההגשה נמחקה</string>
+    <string name="undo">בטל</string>
+    <string name="created_at">נוצר: %1$s </string>
+    <string name="status">מצב הבקשה</string>
+    <string name="add_success">הבקשה נוספה בהצלחה!</string>
+    <string name="edit_success">הבקשה נשמרה בהצלחה!</string>
+    <string name="pending">מחכה לתשובה</string>
+    <string name="in_process">בתהליך</string>
+    <string name="accepted">התקבל</string>
+    <string name="company_view_error">שם חברה לא תקין</string>
+    <string name="title_view_error">תפקיד לא תקין</string>
+    <string name="date_view_error">תאריך לא תקין</string>
+    <string name="site">אתר החברה</string>
+    <string name="email">אימייל</string>
+    <string name="reference">הפנייה מעמית</string>
+    <string name="confirmation_exit">וודא יציאה</string>
+    <string name="confirmation_exit_msg">לצאת?</string>
+    <string name="cancel">בטל</string>
+    <string name="date">%1$d/%2$d/%3$d</string>
+</resources>

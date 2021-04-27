@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">Jobao</string>
+    <string name="title_home">Home</string>
+    <string name="title_add_job">New Application</string>
+    <string name="title_edit_job">Edit Application</string>
+    <string name="recent_applies">recent applies</string>
+    <string name="recent_activity">recent activity</string>
+    <string name="cd_add_button">add button</string>
+    <string name="company_name">company name</string>
+    <string name="position_title">position title</string>
+    <string name="date_applied">date applied</string>
+    <string name="add_application">add application</string>
+    <string name="edit_application">edit application</string>
+    <string name="sent_with_cover_letter">sent with cover letter</string>
+    <string name="applied_via">applied via</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="required_field">required</string>
+    <string name="select_date">select date</string>
+    <string-array name="applied_via_array">
+        <item>Site</item>
+        <item>Email</item>
+        <item>Reference</item>
+    </string-array>
+    <string-array name="sent_with_cover_letter_array">
+        <item>no</item>
+        <item>yes</item>
+    </string-array>
+    <string-array name="status_array">
+        <item>Pending</item>
+        <item>In Process</item>
+        <item>Rejected</item>
+        <item>Accepted</item>
+    </string-array>
+    <string name="applications">applications</string>
+    <string name="search_application">search..</string>
+    <string name="some_data">Some Data</string>
+    <string name="sort">sort</string>
+    <string name="sort_by_name">sort by company</string>
+    <string name="sort_by_title">sort by title</string>
+    <string name="sort_by_date">sort by date</string>
+    <string name="hide_declined">hide rejects</string>
+    <string name="job_deleted">application deleted</string>
+    <string name="undo">UNDO</string>
+    <string name="created_at">Created: %1$s </string>
+    <string name="status">status</string>
+    <string name="add_success">application adde!</string>
+    <string name="edit_success">application saved!</string>
+    <string name="pending">Pending</string>
+    <string name="in_process">In Process</string>
+    <string name="accepted">Accepted</string>
+    <string name="company_view_error">invalid company name</string>
+    <string name="title_view_error">invalid title</string>
+    <string name="date_view_error">invalid date</string>
+    <string name="site">site</string>
+    <string name="email">email</string>
+    <string name="reference">reference</string>
+    <string name="confirmation_exit">confirm exit</string>
+    <string name="confirmation_exit_msg">Are you sure you wish to exit?</string>
+    <string name="cancel">cancel</string>
+    <string name="date">%1$d/%2$d/%3$d</string>
+
+</resources>
