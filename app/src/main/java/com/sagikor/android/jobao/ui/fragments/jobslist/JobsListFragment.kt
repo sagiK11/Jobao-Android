@@ -156,6 +156,10 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                 jobViewModel.onHideRejectedSelected(item.isChecked)
                 true
             }
+            R.id.action_sort_by_status ->{
+                jobViewModel.onSortOrderSelected(SortOrder.BY_STATUS)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -41,13 +41,13 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentAddEditJobBinding.bind(view)
-
+        initSpinners(binding)
+        initEventChannel(binding)
         binding.apply {
             setFields(this)
             bindListeners(this)
         }
-        initSpinners(binding)
-        initEventChannel(binding)
+
     }
 
     private fun bindListeners(fragmentAddEditJobBinding: FragmentAddEditJobBinding) {

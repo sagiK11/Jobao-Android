@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 private const val TAG = "PreferencesHandler"
 
-enum class SortOrder { BY_COMPANY, BY_DATE }
+enum class SortOrder { BY_COMPANY, BY_DATE, BY_STATUS }
 
 data class FilteredPreferences(val sortOrder: SortOrder, val hideRejected: Boolean)
 

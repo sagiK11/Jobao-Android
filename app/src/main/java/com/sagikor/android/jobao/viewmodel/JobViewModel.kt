@@ -38,17 +38,11 @@ class JobViewModel @ViewModelInject constructor(
     }.flatMapLatest { (query, filteredPreferences) ->
         jobDao.getJobs(
             query, filteredPreferences.sortOrder, when (filteredPreferences.hideRejected) {
-                true -> JobStatus.REJECTED
-                else -> JobStatus.PENDING
+                true -> JobStatus.PENDING
+                else -> JobStatus.REJECTED
             }
         )
     }
-
-    //original
-//    query, filteredPreferences.sortOrder, when (filteredPreferences.hideRejected) {
-//        true -> JobStatus.PENDING
-//        else -> JobStatus.REJECTED
-//    }
 
     val jobs = jobsFlow.asLiveData()
 

@@ -4,20 +4,23 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.sagikor.android.jobao.util.Converters
+import com.sagikor.android.jobao.util.*
 import kotlinx.android.parcel.Parcelize
 import java.text.DateFormat
 
-@TypeConverters(Converters::class)
+@TypeConverters(Converters::class, AppliedViaConverters::class, SentWithCoverLetterConverters::class)
 @Parcelize
 @Entity(tableName = "user_jobs")
 data class Job(
     val companyName: String,
     val title: String,
     val dateApplied: String,
-    @TypeConverters(Converters::class) var status: JobStatus,
-    @TypeConverters(Converters::class) var appliedVia: AppliedVia,
-    @TypeConverters(Converters::class) val isCoverLetterSent: SentWithCoverLetter,
+    @TypeConverters(Converters::class)
+    var status: JobStatus,
+    @TypeConverters(Converters::class)
+    var appliedVia: AppliedVia,
+    @TypeConverters(Converters::class)
+    var isCoverLetterSent: SentWithCoverLetter,
     var declinedDate: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
     @PrimaryKey(autoGenerate = true) val id: Int = 0

@@ -39,7 +39,8 @@
     <string name="sort">מיין</string>
     <string name="sort_by_name">מיין לפי חברה</string>
     <string name="sort_by_title">מיין לפי תפקיד</string>
-    <string name="sort_by_date">מיין לפי תאריך</string>
+    <string name="sort_by_date">מיין לפי תאריך יצירה</string>
+    <string name="sort_by_status">מיין לפי סטטוס</string>
     <string name="hide_declined">הסתר דחיות</string>
     <string name="job_deleted">ההגשה נמחקה</string>
     <string name="undo">בטל</string>

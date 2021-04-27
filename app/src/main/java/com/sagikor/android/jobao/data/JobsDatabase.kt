@@ -9,14 +9,15 @@ import com.sagikor.android.jobao.model.AppliedVia
 import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.model.JobStatus
 import com.sagikor.android.jobao.model.SentWithCoverLetter
+import com.sagikor.android.jobao.util.AppliedViaConverters
 import com.sagikor.android.jobao.util.Converters
+import com.sagikor.android.jobao.util.SentWithCoverLetterConverters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
-
+@TypeConverters(Converters::class, AppliedViaConverters::class, SentWithCoverLetterConverters::class)
 @Database(entities = [Job::class], version = 1, exportSchema = false)
-@TypeConverters(Converters::class)
 abstract class JobsDatabase : RoomDatabase() {
 
     abstract fun jobDao(): JobDao

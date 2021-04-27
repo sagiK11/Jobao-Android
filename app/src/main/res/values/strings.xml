@@ -38,7 +38,8 @@
     <string name="sort">sort</string>
     <string name="sort_by_name">sort by company</string>
     <string name="sort_by_title">sort by title</string>
-    <string name="sort_by_date">sort by date</string>
+    <string name="sort_by_date">sort by creation date</string>
+    <string name="sort_by_status">sort by status</string>
     <string name="hide_declined">hide rejects</string>
     <string name="job_deleted">application deleted</string>
     <string name="undo">UNDO</string>
