@@ -9,7 +9,7 @@
     <string name="company_name">company name</string>
     <string name="position_title">position title</string>
     <string name="date_applied">date applied</string>
-    <string name="add_application">add application</string>
+    <string name="add_application">new application</string>
     <string name="edit_application">edit application</string>
     <string name="sent_with_cover_letter">sent with cover letter</string>
     <string name="applied_via">applied via</string>
