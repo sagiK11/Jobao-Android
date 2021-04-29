@@ -6,16 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="20dp"
         android:layout_height="match_parent">
 
         <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
             android:id="@+id/chart_recent_activity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="28dp" />
-    </com.google.android.material.card.MaterialCardView>
+             />
+    </androidx.cardview.widget.CardView>
 
 
 </LinearLayout>

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
@@ -17,7 +18,6 @@ import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.model.JobStatus
 import com.sagikor.android.jobao.viewmodel.JobViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
@@ -27,7 +27,7 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private val jobViewModel: JobViewModel by viewModels()
-    private val viewModel : HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
     private lateinit var chartAdapter: ChartAdapter
     private val chartsList: MutableList<AAChartModel> = ArrayList()
 
@@ -45,13 +45,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    private fun initJobsChannel(binding: FragmentHomeBinding){
+    private fun initJobsChannel(binding: FragmentHomeBinding) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.jobEvent.collect { event ->
-                when(event){
+                when (event) {
                     HomeViewModel.JobsEvent.NavigateToAddNewJobScreen -> {
-                        val action = HomeFragmentDirections.actionNavigationHomeToAddEditFragment(null,
-                        getString(R.string.title_add_job))
+                        val action = HomeFragmentDirections.actionNavigationHomeToAddEditFragment(
+                            null,
+                            getString(R.string.title_add_job)
+                        )
                         findNavController().navigate(action)
                     }
                 }
@@ -66,18 +68,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             viewPager.apply {
                 viewPager.adapter = chartAdapter
             }
-            fab.setOnClickListener{
-                viewModel.onAddNewJobClick()
-            }
         }
     }
 
     private fun observeApplicationsInfo(binding: FragmentHomeBinding) {
         jobViewModel.jobs.observe(viewLifecycleOwner) {
             binding.apply {
-                totalApplications.text = it.size.toString()
-                totalReplies.text =
-                    it.filter { item -> item.status == JobStatus.ACCEPTED || item.status == JobStatus.IN_PROCESS }.size.toString()
+                totalApplications.text = getString(R.string.total_application, it.size.toString())
+                totalPending.text = getString(
+                    R.string.total_pending,
+                    it.filter { job -> job.status == JobStatus.PENDING }.size.toString()
+                )
+                totalProcesses.text = getString(
+                    R.string.total_processes,
+                    it.filter { job -> job.wasReplied }.size.toString()
+                )
+                totalActiveProcesses.text = getString(
+                    R.string.active_processes,
+                    it.filter { job -> job.status == JobStatus.IN_PROCESS }.size.toString()
+                )
+                totalOffers.text = getString(
+                    R.string.total_offers,
+                    it.filter { job -> job.status == JobStatus.ACCEPTED }.size.toString()
+                )
             }
         }
     }
@@ -94,62 +107,60 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun getDatesChart(binding: FragmentHomeBinding): AAChartModel {
         val aaDatesChart: AAChartModel = AAChartModel()
-            .chartType(AAChartType.Area)
+            .chartType(AAChartType.Column)
             .title(binding.root.context.getString(R.string.dates))
-            .backgroundColor(binding.root.context.getColor(R.color.soft_theme))
-            .dataLabelsEnabled(true)
+            .dataLabelsEnabled(true).tooltipEnabled(false)
 
         //get last 7 days
         val calender = Calendar.getInstance()
-//        calender.time = Date(System.currentTimeMillis())
-//        val daysList = mutableListOf<Triple<String, String, Int>>()
-//        for (i in 0..6) {
-//            daysList.add(initialTriple(calender))
-//            calender.add(Calendar.DAY_OF_MONTH, -1)
-//        }
+        calender.time = Date(System.currentTimeMillis())
+        val daysList = mutableListOf<Pair<String, Int>>()
+        for (i in 0..6) {
+            daysList.add(initialPair(calender))
+            calender.add(Calendar.DAY_OF_MONTH, -1)
+        }
 
         jobViewModel.jobs.observe(viewLifecycleOwner) { jobsList ->
-//            for (job in jobsList) {
-//                for (i in 0..6) {
-//                    daysList[i] = getUpdatedDayValue(daysList[i], job)
-//                }
-//            }
-//            val seriesArray = mutableListOf<AASeriesElement>()
-//            for (i in 0..6) {
-//                seriesArray.add(getSeries(daysList[i].third, daysList[i].first))
-//            }
-            //aaDatesChart.series(seriesArray.toTypedArray())
+            for (job in jobsList) {
+                for (i in 0..6) {
+                    daysList[i] = getUpdatedDayValue(daysList[i], job)
+                }
+            }
+            val seriesArray = mutableListOf<AASeriesElement>()
+            for (i in 0..6) {
+                seriesArray.add(getSeries(daysList[i].second, daysList[i].first))
+            }
+            aaDatesChart.series(seriesArray.toTypedArray())
         }
         return aaDatesChart
     }
 
-//    private fun initialTriple(cal: Calendar): Triple<String, String, Int> {
-//        return Triple<String, String, Int>(
-//            SimpleDateFormat("dd").format(cal.timeInMillis),
-//            SimpleDateFormat("d/M/yyyy").format(cal.timeInMillis),
-//            0
-//        )
-//    }
+    private fun initialPair(cal: Calendar): Pair<String, Int> {
+        return Pair<String, Int>(
+            SimpleDateFormat("d", Locale.ENGLISH).format(cal.timeInMillis),
+            0
+        )
+    }
 
-//    private fun getUpdatedDayValue(
-//        day: Triple<String, String, Int>,
-//        job: Job
-//    ): Triple<String, String, Int> {
-//        return if (job.dateApplied == day.second) {
-//            day.copy(third = day.third + 1)
-//        } else {
-//            day
-//        }
-//
-//    }
+    private fun getUpdatedDayValue(
+        day: Pair<String, Int>,
+        job: Job
+    ): Pair<String, Int> {
+        return if (SimpleDateFormat("d", Locale.ENGLISH).format(job.createdAt) == day.first) {
+            day.copy(second = day.second + 1)
+        } else {
+            day
+        }
+
+    }
 
     private fun getAppliedViaChart(binding: FragmentHomeBinding): AAChartModel {
         val appliedViaOptionNo = 3
         val options = IntArray(appliedViaOptionNo)
         val aaAppliedViaChart: AAChartModel = AAChartModel()
             .chartType(AAChartType.Pie)
-            .title(binding.root.context.getString(R.string.applied_via))
-            .backgroundColor(binding.root.context.getColor(R.color.soft_theme))
+            .title(binding.root.context.getString(R.string.applied_via)).tooltipEnabled(false)
+
 
         jobViewModel.jobs.observe(viewLifecycleOwner) { jobsList ->
             for (job in jobsList) {
@@ -185,7 +196,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val aaStatusChart: AAChartModel = AAChartModel()
             .chartType(AAChartType.Column)
             .title(binding.root.context.getString(R.string.applications_status))
-            .dataLabelsEnabled(true)
+            .dataLabelsEnabled(true).tooltipEnabled(false)
 
         jobViewModel.jobs.observe(viewLifecycleOwner) { jobsList ->
             for (job in jobsList) {

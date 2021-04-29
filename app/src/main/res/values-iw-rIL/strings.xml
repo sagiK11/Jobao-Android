@@ -64,8 +64,12 @@
     <string name="date">%1$d/%2$d/%3$d</string>
     <string name="applications_status">מצב ההגשות</string>
     <string name="dates">הגשות לפי תאריך</string>
-    <string name="total_application">סה"כ הגשות: </string>
-    <string name="total_replies">סה"כ הגשות שנענו: </string>
+    <string name="total_application">%1$s הגשות</string>
+    <string name="total_replies">הגשות שנענו %1$s</string>
+    <string name="total_processes">%1$s תהליכים</string>
+    <string name="total_pending">מחכה לתשובה מ-%1$s חברות</string>
+    <string name="active_processes">%1$s פעילים</string>
+    <string name="total_offers">%1$s הצעות</string>
     <string name="date_dialog">תאריך</string>
     <string name="dashboard">לוח בקרה</string>
 </resources>

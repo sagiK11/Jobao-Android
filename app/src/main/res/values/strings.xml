@@ -63,12 +63,14 @@
     <string name="date">%1$d/%2$d/%3$d</string>
     <string name="applications_status">Applications status</string>
     <string name="dates">Activity by dates</string>
-    <string name="total_application">Total applications: </string>
-    <string name="total_replies">Total replies: </string>
+    <string name="total_application">%1$s total applications</string>
+    <string name="total_replies">%1$s total replies</string>
+    <string name="total_processes">%1$s total processes</string>
+    <string name="total_pending">%1$s total pending</string>
+    <string name="active_processes">%1$s active </string>
+    <string name="total_offers">%1$s offers </string>
     <string name="date_dialog">Date</string>
     <string name="dashboard">Dashboard</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
