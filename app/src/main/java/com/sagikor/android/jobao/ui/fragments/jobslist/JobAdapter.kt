@@ -11,7 +11,8 @@ import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.model.JobStatus
 
 
-class JobAdapter(private val listener: onItemClickListener) : ListAdapter<Job, JobAdapter.JobViewHolder>(DiffCallback()) {
+class JobAdapter(private val listener: onItemClickListener)
+    : ListAdapter<Job, JobAdapter.JobViewHolder>(DiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
@@ -61,7 +62,6 @@ class JobAdapter(private val listener: onItemClickListener) : ListAdapter<Job, J
 
     interface onItemClickListener{
         fun onItemClick(job : Job)
-        //fun onCheckBoxSelect(job : Job, isChecked : Boolean)
     }
 
 
@@ -73,58 +73,4 @@ class JobAdapter(private val listener: onItemClickListener) : ListAdapter<Job, J
             oldItem == newItem
     }
 
-
 }
-
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
-//        return JobViewHolder(LayoutInflater.from(parent.context).inflate(
-//            R.layout.job_list_item,parent,false))
-//    }
-//
-//    override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
-//        val currentItem = applicationsList[position]
-//        val hourGlassIcon = holder.itemView.context.getDrawable(R.drawable.ic_round_hourglass_top_24)
-//        holder.itemView.list_item_id.text = currentItem.id.toString()
-//        holder.itemView.list_item_company_name.text = currentItem.companyName
-//        holder.itemView.list_item_position_title.text =currentItem.title
-//        holder.itemView.list_item_status.setImageDrawable(hourGlassIcon)
-//    }
-//
-//    override fun getItemCount(): Int {
-//        return this.applicationsList.size
-//    }
-//
-//    fun submitList(jobList: List<Job>){
-//        this.applicationsList = jobList
-//        notifyDataSetChanged()
-//    }
-
-
-//original
-//private var applicationsList  = emptyList<Job>()
-//class MyViewHolder(itemView : View): RecyclerView.ViewHolder(itemView){
-//
-//}
-//
-//override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-//    return MyViewHolder(LayoutInflater.from(parent.context).inflate(
-//        R.layout.application_list_item,parent,false))
-//}
-//
-//override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-//    val currentItem = applicationsList[position]
-//    val hourGlassIcon = holder.itemView.context.getDrawable(R.drawable.ic_round_hourglass_top_24)
-//    holder.itemView.list_item_id.text = currentItem.id.toString()
-//    holder.itemView.list_item_company_name.text = currentItem.companyName
-//    holder.itemView.list_item_position_title.text =currentItem.title
-//    holder.itemView.list_item_status.setImageDrawable(hourGlassIcon)
-//}
-//
-//override fun getItemCount(): Int {
-//    return this.applicationsList.size
-//}
-//
-//fun submitList(jobList: List<Job>){
-//    this.applicationsList = jobList
-//    notifyDataSetChanged()
-//}

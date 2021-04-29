@@ -92,13 +92,13 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                         )
                             .setAction(getString(R.string.undo)) {
                                 jobViewModel.onUndoDeleteJob(event.job)
-                            }.show()
+                            }.setAnchorView(R.id.nav_view).show()
                     }
                     is JobViewModel.JobsEvents.NavigateToEditJobScreen -> {
                         val action =
-                            JobsListFragmentDirections.actionNavigationApplicationsToNavigationAddApplication(
+                            JobsListFragmentDirections.actionNavigationApplicationsToAddEditFragment(
                                 event.job,
-                                getString(R.string.edit_application)
+                                getString(R.string.title_edit_job)
                             )
                         findNavController().navigate(action)
                     }
@@ -111,7 +111,7 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                             requireView(),
                             msg,
                             Snackbar.LENGTH_LONG
-                        ).show()
+                        ).setAnchorView(R.id.nav_view).show()
                     }
                 }.exhaustive
             }
