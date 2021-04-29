@@ -14,7 +14,6 @@ import java.text.DateFormat
 data class Job(
     val companyName: String,
     val title: String,
-    val dateApplied: String,
     @TypeConverters(Converters::class)
     var status: JobStatus,
     @TypeConverters(Converters::class)
