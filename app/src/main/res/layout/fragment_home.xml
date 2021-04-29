@@ -13,28 +13,64 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/rv_jobs_list"
+        app:layout_constraintBottom_toTopOf="@+id/txt_view1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        app:text="@string/recent_applies" />
+        app:text="@string/recent_activity" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_jobs_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintBottom_toTopOf="@+id/separator_recent_activity"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/txt_view1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/total_application"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/separator_recent_applies">
+        app:layout_constraintEnd_toStartOf="@+id/total_applications"
+        app:layout_constraintTop_toBottomOf="@+id/separator_recent_applies"
+        app:layout_constraintBottom_toTopOf="@+id/txt_view2"
+        />
+    <TextView
+        android:id="@+id/total_applications"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        tools:text="90"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_view1"
+        app:layout_constraintTop_toTopOf="@+id/txt_view1"
+        app:layout_constraintBottom_toBottomOf="@id/txt_view1"
+        />
 
-    </androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:id="@+id/txt_view2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/total_replies"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/total_replies"
+        app:layout_constraintTop_toBottomOf="@+id/txt_view1"
+        app:layout_constraintBottom_toTopOf="@+id/separator_recent_activity"
+        />
+    <TextView
+        android:id="@+id/total_replies"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        tools:text="90"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_view2"
+        app:layout_constraintTop_toTopOf="@+id/txt_view2"
+        app:layout_constraintBottom_toBottomOf="@id/txt_view2"
+        />
+
 
     <com.sagikor.android.jobao.ui.custom.SeparatorView
         android:id="@+id/separator_recent_activity"
@@ -43,15 +79,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/rv_recent_activity"
+        app:layout_constraintBottom_toTopOf="@+id/viewPager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_jobs_list"
+        app:layout_constraintTop_toBottomOf="@+id/txt_view2"
         app:text="@string/some_data"
         />
 
-    <HorizontalScrollView
-        android:id="@+id/rv_recent_activity"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -65,16 +101,20 @@
         app:layout_constraintTop_toBottomOf="@+id/separator_recent_activity"
         app:layout_constraintVertical_weight="3">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
-                android:id="@+id/chart_recent_activity"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
-
-        </androidx.cardview.widget.CardView>
 
 
-    </HorizontalScrollView>
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:clickable="true"
+        android:backgroundTint="@color/theme_primary"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,12 @@
 package com.sagikor.android.jobao.ui.fragments.addedit
 
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -30,6 +26,7 @@ import com.sagikor.android.jobao.util.AppExceptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_edit_job.view.*
 import kotlinx.coroutines.flow.collect
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -51,32 +48,13 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
     }
 
     private fun bindListeners(fragmentAddEditJobBinding: FragmentAddEditJobBinding) {
-        val calender = Calendar.getInstance()
-        val year = calender.get(Calendar.YEAR)
-        val month = calender.get(Calendar.MONTH)
-        val day = calender.get(Calendar.DAY_OF_MONTH)
         fragmentAddEditJobBinding.edCompanyName.addTextChangedListener {
             viewModel.jobCompany = it.toString()
         }
         fragmentAddEditJobBinding.edPositionTitle.addTextChangedListener {
             viewModel.jobTitle = it.toString()
         }
-        fragmentAddEditJobBinding.edDateApplied.addTextChangedListener {
-            viewModel.jobDateApplied = it.toString()
-        }
-        fragmentAddEditJobBinding.edDateApplied.setOnClickListener {
-            val datePicker = DatePickerDialog(requireContext(), { view, year, month, day ->
-                fragmentAddEditJobBinding.edDateApplied.setText(
-                    getString(
-                        R.string.date,
-                        day,
-                        month,
-                        year
-                    )
-                )
-            }, year, month, day)
-            datePicker.show()
-        }
+
 
         fragmentAddEditJobBinding.btnAddApplication.setOnClickListener {
             viewModel.onSaveClick()
@@ -88,7 +66,6 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
         val isInEditMode = viewModel.job != null
         fragmentAddEditJobBinding.edCompanyName.setText(viewModel.jobCompany)
         fragmentAddEditJobBinding.edPositionTitle.setText(viewModel.jobTitle)
-        fragmentAddEditJobBinding.edDateApplied.setText(viewModel.jobDateApplied)
         fragmentAddEditJobBinding.spinnerStatus.setSelection(viewModel.jobStatus.ordinal)
         fragmentAddEditJobBinding.spinnerAppliedVia.setSelection(viewModel.jobAppliedVia.ordinal)
         fragmentAddEditJobBinding.spinnerSentCoverLetter.setSelection(viewModel.jobIsCoverLetterSent.ordinal)
@@ -96,14 +73,10 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
         fragmentAddEditJobBinding.dateCreated.text =
             getString(R.string.created_at, "${viewModel.job?.createdAtDateFormat}")
 
-        val casted = requireActivity() as AppCompatActivity
-        casted.supportActionBar?.title
         if (isInEditMode) {
             fragmentAddEditJobBinding.btnAddApplication.text = getString(R.string.edit_application)
-            casted.supportActionBar?.title = getString(R.string.title_edit_job)
         } else {
             fragmentAddEditJobBinding.btnAddApplication.text = getString(R.string.add_application)
-            casted.supportActionBar?.title = getString(R.string.title_add_job)
         }
 
 
@@ -131,7 +104,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                             requireView(),
                             msg,
                             Snackbar.LENGTH_LONG
-                        ).show()
+                        ).setAnchorView(R.id.nav_view).show()
                     }
                     is AddEditViewModel.AddEditJobEvent.ShowInvalidInputMessage -> {
                         val error = when (event.location) {
@@ -143,7 +116,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                             requireView(),
                             error,
                             Snackbar.LENGTH_LONG
-                        ).show()
+                        ).setAnchorView(R.id.nav_view).show()
                     }
                 }
             }
@@ -222,6 +195,12 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                 else -> JobStatus.REJECTED
             }
             viewModel.jobStatus = jobStatus
+            if (jobStatus == JobStatus.REJECTED)
+                viewModel.jobDeclinedDate =
+                    SimpleDateFormat("d/M/yyyy").format(Date(System.currentTimeMillis()))
+            else {
+                viewModel.jobDeclinedDate = ""
+            }
         }
 
         override fun onNothingSelected(parent: AdapterView<*>) {}

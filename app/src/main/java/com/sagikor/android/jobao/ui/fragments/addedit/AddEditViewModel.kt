@@ -37,10 +37,11 @@ class AddEditViewModel @ViewModelInject constructor(
             state.set("jobTitle", value)
         }
 
-    var jobDateApplied = state.get<String>("jobDateApplied") ?: job?.dateApplied ?: ""
+
+    var jobDeclinedDate = state.get<String>("jobDeclinedDate") ?: job?.declinedDate ?: ""
         set(value) {
             field = value
-            state.set("jobDateApplied", value)
+            state.set("jobDeclinedDate", value)
         }
 
     var jobStatus = state.get<JobStatus>("jobStatus") ?: job?.status ?: JobStatus.PENDING
@@ -63,6 +64,7 @@ class AddEditViewModel @ViewModelInject constructor(
             state.set("jobIsCoverLetterSent", value)
         }
 
+
     fun onSaveClick() {
         try {
             validateForm()
@@ -76,9 +78,9 @@ class AddEditViewModel @ViewModelInject constructor(
             val updatedJob = job.copy(
                 companyName = jobCompany,
                 title = jobTitle,
-                dateApplied = jobDateApplied,
                 status = jobStatus,
                 appliedVia = jobAppliedVia,
+                declinedDate = jobDeclinedDate,
                 isCoverLetterSent = jobIsCoverLetterSent
             )
             updateJob(updatedJob)
@@ -86,9 +88,9 @@ class AddEditViewModel @ViewModelInject constructor(
             val newJob = Job(
                 companyName = jobCompany,
                 title = jobTitle,
-                dateApplied = jobDateApplied,
                 status = jobStatus,
                 appliedVia = jobAppliedVia,
+                declinedDate = jobDeclinedDate,
                 isCoverLetterSent = jobIsCoverLetterSent
             )
             createJob(newJob)
@@ -126,9 +128,6 @@ class AddEditViewModel @ViewModelInject constructor(
             }
             jobTitle.isBlank() -> {
                 throw AppExceptions.Input(AppExceptions.Location.TITLE)
-            }
-            jobDateApplied.isBlank() -> {
-                throw AppExceptions.Input(AppExceptions.Location.DATE_APPLIED)
             }
         }
     }

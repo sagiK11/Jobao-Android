@@ -46,6 +46,7 @@ class JobViewModel @ViewModelInject constructor(
 
     val jobs = jobsFlow.asLiveData()
 
+
     fun onSortOrderSelected(sortOrder: SortOrder) {
         viewModelScope.launch {
             preferencesHandler.updateSortOrder(sortOrder)
@@ -95,4 +96,6 @@ class JobViewModel @ViewModelInject constructor(
         data class ShowUndoDeleteJobMessage(val job: Job) : JobsEvents()
         data class ShowJobSavedConfirmationMessage(val message: String) : JobsEvents()
     }
+
+
 }

@@ -1,195 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?><!--<layout -->
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.addedit.AddEditFragment">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_company_name"
-        style="@style/text_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="wrap_content">
 
-        android:hint="@string/company_name"
-        app:helperText="@string/required_field"
-        app:helperTextEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/til_position_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13999999"
-        app:layout_constraintVertical_chainStyle="packed">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_company_name"
-            android:ellipsize="end"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_position_title"
-        style="@style/text_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/position_title"
-        app:helperText="@string/required_field"
-        app:helperTextEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/til_date_applied"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_company_name">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_position_title"
-            android:ellipsize="end"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_company_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/company_name"
+            app:boxBackgroundColor="@color/transparent"
+            app:helperText="@string/required_field"
+            app:helperTextEnabled="true"
+            app:layout_constraintBottom_toTopOf="@+id/til_position_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.13999999"
+            app:layout_constraintVertical_chainStyle="packed">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_company_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_date_applied"
-        style="@style/text_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@android:color/transparent"
-        android:hint="@string/date_applied"
-
-        app:endIconDrawable="@drawable/ic_baseline_calender"
-        app:helperText="@string/required_field"
-        app:helperTextEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/tv_status"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_position_title">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_date_applied"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_position_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:inputType="none"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/position_title"
+            app:boxBackgroundColor="@color/transparent"
+            app:helperText="@string/required_field"
+            app:helperTextEnabled="true"
+            app:layout_constraintBottom_toTopOf="@+id/tv_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_company_name">
 
-    <TextView
-        android:id="@+id/tv_status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/status"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toTopOf="@+id/tv_applied_via"
-        app:layout_constraintEnd_toStartOf="@id/spinner_status"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_date_applied" />
-
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spinner_status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_status"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_status"
-        app:layout_constraintTop_toTopOf="@+id/tv_status" />
-
-    <TextView
-        android:id="@+id/tv_applied_via"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/applied_via"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toTopOf="@+id/tv_sent_with_cover_letter"
-        app:layout_constraintEnd_toStartOf="@id/spinner_applied_via"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_status" />
-
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spinner_applied_via"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_applied_via"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_applied_via"
-        app:layout_constraintTop_toTopOf="@+id/tv_applied_via" />
-
-    <TextView
-        android:id="@+id/tv_sent_with_cover_letter"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/sent_with_cover_letter"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toTopOf="@+id/date_created"
-        app:layout_constraintEnd_toStartOf="@+id/spinner_sent_cover_letter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_applied_via" />
-
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spinner_sent_cover_letter"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_sent_with_cover_letter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_sent_with_cover_letter"
-        app:layout_constraintTop_toTopOf="@+id/tv_sent_with_cover_letter" />
-
-    <TextView
-        android:id="@+id/date_created"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_application"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sent_with_cover_letter"
-        tools:text="created at sunday" />
-
-    <Button
-        android:id="@+id/btn_add_application"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/add_application"
-        style="@style/buttons"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_created" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_position_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/status"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toTopOf="@+id/tv_applied_via"
+            app:layout_constraintEnd_toStartOf="@id/spinner_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_position_title" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_status"
+            app:layout_constraintTop_toTopOf="@+id/tv_status" />
+
+        <TextView
+            android:id="@+id/tv_applied_via"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/applied_via"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toTopOf="@+id/tv_sent_with_cover_letter"
+            app:layout_constraintEnd_toStartOf="@id/spinner_applied_via"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_status" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_applied_via"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_applied_via"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_applied_via"
+            app:layout_constraintTop_toTopOf="@+id/tv_applied_via" />
+
+        <TextView
+            android:id="@+id/tv_sent_with_cover_letter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/sent_with_cover_letter"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toTopOf="@+id/date_created"
+            app:layout_constraintEnd_toStartOf="@+id/spinner_sent_cover_letter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_applied_via" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_sent_cover_letter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_sent_with_cover_letter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_sent_with_cover_letter"
+            app:layout_constraintTop_toTopOf="@+id/tv_sent_with_cover_letter" />
+
+        <TextView
+            android:id="@+id/date_created"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/btn_add_application"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sent_with_cover_letter"
+            tools:text="created at sunday" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_application"
+            style="@style/buttons"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/add_application"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_created" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
