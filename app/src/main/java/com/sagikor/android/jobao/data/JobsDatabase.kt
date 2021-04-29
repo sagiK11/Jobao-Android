@@ -37,11 +37,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Microsoft1",
                         "Engineer1",
-                        "1/1/1999",
+
                         JobStatus.ACCEPTED,
                         AppliedVia.REFERENCE,
                         SentWithCoverLetter.NO,
-                        "1/1/2000",
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -49,11 +49,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Microsoft2",
                         "Engineer2",
-                        "2/1/1999",
+
                         JobStatus.IN_PROCESS,
                         AppliedVia.EMAIL,
                         SentWithCoverLetter.NO,
-                        "1/1/2000",
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -61,11 +61,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Microsoft3",
                         "Engineer3",
-                        "3/1/1999",
+
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
-                        "1/1/2000",
+                        "7/7/2018",
                         System.currentTimeMillis()
                     )
                 )
@@ -73,11 +73,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Microsoft4",
                         "CTO",
-                        "4/1/1999",
+
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
-                        "1/1/2000",
+                        "1/1/2018",
                         System.currentTimeMillis()
                     )
                 )
@@ -85,11 +85,10 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Microsoft5",
                         "Student",
-                        "5/1/1999",
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
-                        "1/1/2000",
+                        "1/1/2021",
                         System.currentTimeMillis()
                     )
                 )
@@ -97,35 +96,263 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Microsoft6",
                         "Manager",
-                        "6/1/1999",
+
                         JobStatus.PENDING,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
-                        "1/1/2000",
+                        "",
                         System.currentTimeMillis()
                     )
                 )
                 dao.addJob(
                     Job(
-                        "Facebook",
+                        "Facebook1",
                         "Data Guy",
-                        "1/1/1998",
+
                         JobStatus.PENDING,
                         AppliedVia.SITE,
                         SentWithCoverLetter.YES,
-                        "1/1/2000",
+                        "",
                         System.currentTimeMillis()
                     )
                 )
                 dao.addJob(
                     Job(
-                        "Facebook",
+                        "Facebook2",
                         "Spy Guy",
-                        "22/1/1999",
+
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
-                        "1/1/2000",
+                        "1/1/2007",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Netflix1",
+                        "Engineer1",
+
+                        JobStatus.ACCEPTED,
+                        AppliedVia.REFERENCE,
+                        SentWithCoverLetter.NO,
+                        "",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Netflix2",
+                        "Engineer2",
+
+                        JobStatus.IN_PROCESS,
+                        AppliedVia.EMAIL,
+                        SentWithCoverLetter.NO,
+                        "",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Netflix3",
+                        "Engineer3",
+
+                        JobStatus.ACCEPTED,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Apple1",
+                        "CTO",
+
+                        JobStatus.REJECTED,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "1/5/2014",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Apple2",
+                        "Student",
+
+                        JobStatus.REJECTED,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "1/1/2010",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Apple3",
+                        "Manager",
+
+                        JobStatus.PENDING,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Apple4",
+                        "Data Guy",
+
+                        JobStatus.PENDING,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.YES,
+                        "",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Google1",
+                        "Architect",
+
+                        JobStatus.REJECTED,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "1/2/2021",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Google2",
+                        "Manager",
+
+                        JobStatus.PENDING,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Google3",
+                        "Data Guy",
+
+                        JobStatus.PENDING,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.YES,
+                        "",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Dell1",
+                        "Hardware Engineer",
+
+                        JobStatus.ACCEPTED,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Dell12",
+                        "Software Engineer",
+
+                        JobStatus.ACCEPTED,
+                        AppliedVia.REFERENCE,
+                        SentWithCoverLetter.NO,
+                        "",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Dell13",
+                        "Engineer2",
+
+                        JobStatus.REJECTED,
+                        AppliedVia.EMAIL,
+                        SentWithCoverLetter.NO,
+                        "1/1/2020",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Amazon1",
+                        "Engineer3",
+
+                        JobStatus.REJECTED,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "5/1/2017",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Amazon2",
+                        "CTO",
+
+                        JobStatus.REJECTED,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "5/1/1999",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Amazon3",
+                        "Student",
+
+                        JobStatus.REJECTED,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "1/1/2012",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Amazon4",
+                        "Manager",
+
+                        JobStatus.PENDING,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Waze",
+                        "Data Guy",
+
+                        JobStatus.REJECTED,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.YES,
+                        "3/4/2014",
+                        System.currentTimeMillis()
+                    )
+                )
+                dao.addJob(
+                    Job(
+                        "Waze2",
+                        "Spy Guy",
+
+                        JobStatus.REJECTED,
+                        AppliedVia.SITE,
+                        SentWithCoverLetter.NO,
+                        "1/4/2021",
                         System.currentTimeMillis()
                     )
                 )
@@ -133,33 +360,4 @@ abstract class JobsDatabase : RoomDatabase() {
             }
         }
     }
-
 }
-
-//original
-//@Database(entities = [Job::class], version = 1, exportSchema = false)
-//abstract class UserDatabase : RoomDatabase() {
-//
-//    abstract fun jobDao(): JobDao
-//
-//    companion object {
-//        @Volatile
-//        private var INSTANCE: UserDatabase? = null
-//
-//        fun getDatabase(context: Context): UserDatabase {
-//            val tempInstance = INSTANCE
-//            if (tempInstance != null)
-//                return tempInstance
-//            synchronized(this) {
-//                val instance = Room.databaseBuilder(
-//                    context.applicationContext,
-//                    UserDatabase::class.java,
-//
-//                    "user_database"
-//                ).build()
-//                INSTANCE = instance
-//                return instance
-//            }
-//        }
-//    }
-//}
