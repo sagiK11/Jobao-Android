@@ -9,37 +9,43 @@
         android:id="@+id/navigation_home"
         android:name="com.sagikor.android.jobao.ui.fragments.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
 
-    <fragment
-        android:id="@+id/navigation_add_application"
-        android:name="com.sagikor.android.jobao.ui.fragments.addedit.AddEditFragment"
-        android:label="{title}"
-        tools:layout="@layout/fragment_add_edit_job">
         <action
-            android:id="@+id/action_addFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-        <argument
-            android:name="job"
-            app:argType="com.sagikor.android.jobao.model.Job"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="title"
-            app:argType="string" />
+            android:id="@+id/action_navigation_home_to_addEditFragment"
+            app:destination="@id/navigation_add_edit" />
     </fragment>
+
 
     <fragment
         android:id="@+id/navigation_applications"
         android:name="com.sagikor.android.jobao.ui.fragments.jobslist.JobsListFragment"
         android:label="@string/applications"
         tools:layout="@layout/fragment_jobs_list" >
+
         <action
-            android:id="@+id/action_navigation_applications_to_navigation_home"
-            app:destination="@id/navigation_home" />
-        <action
-            android:id="@+id/action_navigation_applications_to_navigation_add_application"
-            app:destination="@id/navigation_add_application" />
+            android:id="@+id/action_navigation_applications_to_addEditFragment"
+            app:destination="@id/navigation_add_edit" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.sagikor.android.jobao.ui.fragments.dashboard.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/navigation_add_edit"
+        android:name="com.sagikor.android.jobao.ui.fragments.addedit.AddEditFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_add_edit_job" >
+            <argument
+                android:name="job"
+                app:argType="com.sagikor.android.jobao.model.Job"
+                app:nullable="true"
+                android:defaultValue="@null" />
+            <argument
+                android:name="title"
+                app:argType="string" />
+    </fragment>
+
 
 </navigation>

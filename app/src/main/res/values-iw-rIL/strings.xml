@@ -2,11 +2,11 @@
 <resources>
     <string name="app_name">Jobao</string>
     <string name="title_home">בית</string>
-    <string name="title_add_job">בקשה חדשה</string>
-    <string name="title_edit_job">עדכון בקשה</string>
+    <string name="title_add_job">הגשה חדשה</string>
+    <string name="title_edit_job">עדכון הגשה</string>
     <string name="recent_applies">הגשות אחרונות</string>
     <string name="recent_activity">פעילות אחרונה</string>
-    <string name="cd_add_button">הוספת בקשה</string>
+    <string name="cd_add_button">הוספת הגשה</string>
     <string name="company_name">שם החברה</string>
     <string name="position_title">תפקיד</string>
     <string name="date_applied">תאריך הגשה</string>
@@ -33,8 +33,8 @@
         <item>נדחה</item>
         <item>התקבל</item>
     </string-array>
-    <string name="applications">בקשות</string>
-    <string name="search_application">חפש בקשה..</string>
+    <string name="applications">הגשות</string>
+    <string name="search_application">חפש הגשה..</string>
     <string name="some_data">קצת נתונים</string>
     <string name="sort">מיין</string>
     <string name="sort_by_name">מיין לפי חברה</string>
@@ -45,12 +45,13 @@
     <string name="job_deleted">ההגשה נמחקה</string>
     <string name="undo">בטל</string>
     <string name="created_at">נוצר: %1$s </string>
-    <string name="status">מצב הבקשה</string>
-    <string name="add_success">הבקשה נוספה בהצלחה!</string>
-    <string name="edit_success">הבקשה נשמרה בהצלחה!</string>
+    <string name="status">מצב ההגשה</string>
+    <string name="add_success">ההגשה נוספה בהצלחה!</string>
+    <string name="edit_success">ההגשה נשמרה בהצלחה!</string>
     <string name="pending">מחכה לתשובה</string>
     <string name="in_process">בתהליך</string>
     <string name="accepted">התקבל</string>
+    <string name="rejected">דחייה</string>
     <string name="company_view_error">שם חברה לא תקין</string>
     <string name="title_view_error">תפקיד לא תקין</string>
     <string name="date_view_error">תאריך לא תקין</string>
@@ -61,4 +62,10 @@
     <string name="confirmation_exit_msg">לצאת?</string>
     <string name="cancel">בטל</string>
     <string name="date">%1$d/%2$d/%3$d</string>
+    <string name="applications_status">מצב ההגשות</string>
+    <string name="dates">הגשות לפי תאריך</string>
+    <string name="total_application">סה"כ הגשות: </string>
+    <string name="total_replies">סה"כ הגשות שנענו: </string>
+    <string name="date_dialog">תאריך</string>
+    <string name="dashboard">לוח בקרה</string>
 </resources>

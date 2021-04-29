@@ -32,7 +32,7 @@
         <item>Rejected</item>
         <item>Accepted</item>
     </string-array>
-    <string name="applications">applications</string>
+    <string name="applications">Applications</string>
     <string name="search_application">search..</string>
     <string name="some_data">Some Data</string>
     <string name="sort">sort</string>
@@ -50,6 +50,7 @@
     <string name="pending">Pending</string>
     <string name="in_process">In Process</string>
     <string name="accepted">Accepted</string>
+    <string name="rejected">Rejected</string>
     <string name="company_view_error">invalid company name</string>
     <string name="title_view_error">invalid title</string>
     <string name="date_view_error">invalid date</string>
@@ -60,5 +61,14 @@
     <string name="confirmation_exit_msg">Are you sure you wish to exit?</string>
     <string name="cancel">cancel</string>
     <string name="date">%1$d/%2$d/%3$d</string>
+    <string name="applications_status">Applications status</string>
+    <string name="dates">Activity by dates</string>
+    <string name="total_application">Total applications: </string>
+    <string name="total_replies">Total replies: </string>
+    <string name="date_dialog">Date</string>
+    <string name="dashboard">Dashboard</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>
