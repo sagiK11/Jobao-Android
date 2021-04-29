@@ -1,7 +1,9 @@
 package com.sagikor.android.jobao.ui.activities
 
 import android.app.Activity
+import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -11,24 +13,32 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.sagikor.android.jobao.R
+import com.sagikor.android.jobao.ui.fragments.home.HomeFragment
+import com.sagikor.android.jobao.ui.fragments.home.HomeFragmentDirections
+import com.sagikor.android.jobao.ui.fragments.jobslist.JobsListFragment
+import com.sagikor.android.jobao.ui.fragments.jobslist.JobsListFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.RuntimeException
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
-    private lateinit var appBarConfiguration : AppBarConfiguration
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
+        navView.background = null
+        navView.menu.getItem(1).isEnabled = false
 
         navController = findNavController(R.id.nav_host_fragment)
 
-         appBarConfiguration = AppBarConfiguration(
+        appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
                 R.id.navigation_dashboard,
@@ -37,9 +47,33 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
+        setFabListener()
 
     }
+
+    private fun setFabListener() {
+        fab.setOnClickListener {
+            val current =
+                supportFragmentManager.fragments.last().childFragmentManager.fragments.last()
+            val action = when (current) {
+                is HomeFragment -> HomeFragmentDirections.actionNavigationHomeToAddEditFragment(
+                    null,
+                    getString(R.string.title_add_job)
+                )
+                is JobsListFragment -> JobsListFragmentDirections.actionNavigationApplicationsToAddEditFragment(
+                    null,
+                    getString(R.string.title_add_job)
+                )
+                else -> throw RuntimeException("unknown fragment")
+            }
+            fab.isEnabled = false
+            navController.navigate(action)
+        }
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            run { fab.isEnabled = destination.id != R.id.navigation_add_edit }
+        }
+    }
+
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()

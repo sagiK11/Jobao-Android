@@ -6,10 +6,14 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
 
+<!--    <item-->
+<!--        android:id="@+id/navigation_dashboard"-->
+<!--        android:icon="@drawable/ic_baseline_dashboard_24"-->
+<!--        android:title="@string/dashboard" />-->
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_baseline_dashboard_24"
-        android:title="@string/dashboard" />
+        android:id="@+id/place_holder"
+        android:enabled="false"
+     />
 
     <item
         android:id="@+id/navigation_applications"
