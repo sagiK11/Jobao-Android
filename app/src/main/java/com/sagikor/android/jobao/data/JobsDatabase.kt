@@ -16,7 +16,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
-@TypeConverters(Converters::class, AppliedViaConverters::class, SentWithCoverLetterConverters::class)
+
+@TypeConverters(
+    Converters::class,
+    AppliedViaConverters::class,
+    SentWithCoverLetterConverters::class
+)
 @Database(entities = [Job::class], version = 1, exportSchema = false)
 abstract class JobsDatabase : RoomDatabase() {
 
@@ -42,6 +47,8 @@ abstract class JobsDatabase : RoomDatabase() {
                         AppliedVia.REFERENCE,
                         SentWithCoverLetter.NO,
                         "",
+                        true,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -53,6 +60,8 @@ abstract class JobsDatabase : RoomDatabase() {
                         JobStatus.IN_PROCESS,
                         AppliedVia.EMAIL,
                         SentWithCoverLetter.NO,
+                        "",
+                        true,
                         "",
                         System.currentTimeMillis()
                     )
@@ -66,6 +75,8 @@ abstract class JobsDatabase : RoomDatabase() {
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "7/7/2018",
+                        false,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -73,11 +84,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Microsoft4",
                         "CTO",
-
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "1/1/2018",
+                        false,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -89,6 +101,8 @@ abstract class JobsDatabase : RoomDatabase() {
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "1/1/2021",
+                        true,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -96,10 +110,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Microsoft6",
                         "Manager",
-
                         JobStatus.PENDING,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
+                        "",
+                        false,
                         "",
                         System.currentTimeMillis()
                     )
@@ -108,10 +123,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Facebook1",
                         "Data Guy",
-
                         JobStatus.PENDING,
                         AppliedVia.SITE,
                         SentWithCoverLetter.YES,
+                        "",
+                        false,
                         "",
                         System.currentTimeMillis()
                     )
@@ -120,11 +136,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Facebook2",
                         "Spy Guy",
-
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "1/1/2007",
+                        false,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -132,10 +149,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Netflix1",
                         "Engineer1",
-
                         JobStatus.ACCEPTED,
                         AppliedVia.REFERENCE,
                         SentWithCoverLetter.NO,
+                        "",
+                        true,
                         "",
                         System.currentTimeMillis()
                     )
@@ -144,10 +162,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Netflix2",
                         "Engineer2",
-
                         JobStatus.IN_PROCESS,
                         AppliedVia.EMAIL,
                         SentWithCoverLetter.NO,
+                        "",
+                        true,
                         "",
                         System.currentTimeMillis()
                     )
@@ -156,10 +175,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Netflix3",
                         "Engineer3",
-
                         JobStatus.ACCEPTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
+                        "",
+                        true,
                         "",
                         System.currentTimeMillis()
                     )
@@ -168,11 +188,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Apple1",
                         "CTO",
-
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "1/5/2014",
+                        false,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -180,11 +201,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Apple2",
                         "Student",
-
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "1/1/2010",
+                        false,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -192,10 +214,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Apple3",
                         "Manager",
-
                         JobStatus.PENDING,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
+                        "",
+                        false,
                         "",
                         System.currentTimeMillis()
                     )
@@ -204,10 +227,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Apple4",
                         "Data Guy",
-
                         JobStatus.PENDING,
                         AppliedVia.SITE,
                         SentWithCoverLetter.YES,
+                        "",
+                        false,
                         "",
                         System.currentTimeMillis()
                     )
@@ -216,11 +240,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Google1",
                         "Architect",
-
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "1/2/2021",
+                        true,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -228,10 +253,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Google2",
                         "Manager",
-
                         JobStatus.PENDING,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
+                        "",
+                        false,
                         "",
                         System.currentTimeMillis()
                     )
@@ -240,10 +266,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Google3",
                         "Data Guy",
-
                         JobStatus.PENDING,
                         AppliedVia.SITE,
                         SentWithCoverLetter.YES,
+                        "",
+                        false,
                         "",
                         System.currentTimeMillis()
                     )
@@ -252,10 +279,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Dell1",
                         "Hardware Engineer",
-
                         JobStatus.ACCEPTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
+                        "",
+                        true,
                         "",
                         System.currentTimeMillis()
                     )
@@ -264,10 +292,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Dell12",
                         "Software Engineer",
-
                         JobStatus.ACCEPTED,
                         AppliedVia.REFERENCE,
                         SentWithCoverLetter.NO,
+                        "",
+                        true,
                         "",
                         System.currentTimeMillis()
                     )
@@ -276,11 +305,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Dell13",
                         "Engineer2",
-
                         JobStatus.REJECTED,
                         AppliedVia.EMAIL,
                         SentWithCoverLetter.NO,
                         "1/1/2020",
+                        false,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -288,11 +318,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Amazon1",
                         "Engineer3",
-
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "5/1/2017",
+                        false,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -300,11 +331,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Amazon2",
                         "CTO",
-
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "5/1/1999",
+                        true,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -312,11 +344,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Amazon3",
                         "Student",
-
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "1/1/2012",
+                        false,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -324,10 +357,11 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Amazon4",
                         "Manager",
-
                         JobStatus.PENDING,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
+                        "",
+                        false,
                         "",
                         System.currentTimeMillis()
                     )
@@ -336,11 +370,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Waze",
                         "Data Guy",
-
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.YES,
                         "3/4/2014",
+                        true,
+                        "",
                         System.currentTimeMillis()
                     )
                 )
@@ -348,11 +383,12 @@ abstract class JobsDatabase : RoomDatabase() {
                     Job(
                         "Waze2",
                         "Spy Guy",
-
                         JobStatus.REJECTED,
                         AppliedVia.SITE,
                         SentWithCoverLetter.NO,
                         "1/4/2021",
+                        false,
+                        "",
                         System.currentTimeMillis()
                     )
                 )

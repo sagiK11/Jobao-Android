@@ -8,7 +8,11 @@ import com.sagikor.android.jobao.util.*
 import kotlinx.android.parcel.Parcelize
 import java.text.DateFormat
 
-@TypeConverters(Converters::class, AppliedViaConverters::class, SentWithCoverLetterConverters::class)
+@TypeConverters(
+    Converters::class,
+    AppliedViaConverters::class,
+    SentWithCoverLetterConverters::class
+)
 @Parcelize
 @Entity(tableName = "user_jobs")
 data class Job(
@@ -21,6 +25,8 @@ data class Job(
     @TypeConverters(Converters::class)
     var isCoverLetterSent: SentWithCoverLetter,
     var declinedDate: String? = null,
+    var wasReplied: Boolean = false,
+    var note: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 

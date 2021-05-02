@@ -44,6 +44,12 @@ class AddEditViewModel @ViewModelInject constructor(
             state.set("jobDeclinedDate", value)
         }
 
+    var jobWasReplied = state.get<Boolean>("jobWasReplied") ?: job?.wasReplied ?: false
+        set(value) {
+            field = value
+            state.set("jobWasReplied", value)
+        }
+
     var jobStatus = state.get<JobStatus>("jobStatus") ?: job?.status ?: JobStatus.PENDING
         set(value) {
             field = value
@@ -64,6 +70,12 @@ class AddEditViewModel @ViewModelInject constructor(
             state.set("jobIsCoverLetterSent", value)
         }
 
+    var jobNote = state.get<String>("jobNote") ?: job?.note ?: ""
+        set(value) {
+            field = value
+            state.set("jobNote", value)
+        }
+
 
     fun onSaveClick() {
         try {
@@ -80,7 +92,9 @@ class AddEditViewModel @ViewModelInject constructor(
                 title = jobTitle,
                 status = jobStatus,
                 appliedVia = jobAppliedVia,
+                wasReplied = jobWasReplied,
                 declinedDate = jobDeclinedDate,
+                note = jobNote,
                 isCoverLetterSent = jobIsCoverLetterSent
             )
             updateJob(updatedJob)
@@ -90,7 +104,9 @@ class AddEditViewModel @ViewModelInject constructor(
                 title = jobTitle,
                 status = jobStatus,
                 appliedVia = jobAppliedVia,
+                wasReplied = jobWasReplied,
                 declinedDate = jobDeclinedDate,
+                note = jobNote,
                 isCoverLetterSent = jobIsCoverLetterSent
             )
             createJob(newJob)

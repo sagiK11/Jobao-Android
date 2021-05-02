@@ -21,6 +21,7 @@
         <item>Site</item>
         <item>Email</item>
         <item>Reference</item>
+        <item>Linkedin</item>
     </string-array>
     <string-array name="sent_with_cover_letter_array">
         <item>no</item>
@@ -62,7 +63,7 @@
     <string name="cancel">cancel</string>
     <string name="date">%1$d/%2$d/%3$d</string>
     <string name="applications_status">Applications status</string>
-    <string name="dates">Activity by dates</string>
+    <string name="dates">Last 7 days activity</string>
     <string name="total_application">%1$s total applications</string>
     <string name="total_replies">%1$s total replies</string>
     <string name="total_processes">%1$s total processes</string>
@@ -71,6 +72,18 @@
     <string name="total_offers">%1$s offers </string>
     <string name="date_dialog">Date</string>
     <string name="dashboard">Dashboard</string>
+    <string name="activity">Activity</string>
+    <string name="add_note">add note</string>
+    <string name="part_time">part time </string>
+    <string name="long_submission">long submission process </string>
+    <string name="remote_job">remote </string>
+    <string name="next_to_train">next to the train </string>
+    <string name="startup">start-up </string>
+    <string name="only_if_u_want">Only if you want to add</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_save">Save</string>
+    <string name="cancel_title">Go back?</string>
+    <string name="cancel_message">Your changes will not be saved, continue anyway?</string>
 
 
 </resources>

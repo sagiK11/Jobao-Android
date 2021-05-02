@@ -22,6 +22,7 @@
         <item>אתר החברה</item>
         <item>אימייל</item>
         <item>הפנייה מעמית</item>
+        <item>Linkedin</item>
     </string-array>
     <string-array name="sent_with_cover_letter_array">
         <item>לא</item>
@@ -63,7 +64,7 @@
     <string name="cancel">בטל</string>
     <string name="date">%1$d/%2$d/%3$d</string>
     <string name="applications_status">מצב ההגשות</string>
-    <string name="dates">הגשות לפי תאריך</string>
+    <string name="dates">הגשות ב-7 ימים האחרונים </string>
     <string name="total_application">%1$s הגשות</string>
     <string name="total_replies">הגשות שנענו %1$s</string>
     <string name="total_processes">%1$s תהליכים</string>
@@ -72,4 +73,17 @@
     <string name="total_offers">%1$s הצעות</string>
     <string name="date_dialog">תאריך</string>
     <string name="dashboard">לוח בקרה</string>
+    <string name="activity">פעילות</string>
+    <string name="add_note">הערה (לא חובה)</string>
+    <string name="part_time"> חצי משרה</string>
+    <string name="long_submission">תהליך הגשה ארוך </string>
+    <string name="remote_job">עבודה מהבית </string>
+    <string name="next_to_train">קרוב לרכבת </string>
+    <string name="startup">סטארט-אפ </string>
+    <string name="only_if_u_want">רק אם רוצים להוסיף</string>
+    <string name="btn_cancel">השלך</string>
+    <string name="btn_save">שמור</string>
+    <string name="cancel_title">לחזור אחורה?</string>
+    <string name="cancel_message">השינויים שביצעת לא ישמרו, לחזור בכל זאת?</string>
+
 </resources>

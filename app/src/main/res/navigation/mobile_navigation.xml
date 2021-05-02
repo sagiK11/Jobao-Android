@@ -21,7 +21,7 @@
         android:id="@+id/navigation_applications"
         android:name="com.sagikor.android.jobao.ui.fragments.jobslist.JobsListFragment"
         android:label="@string/applications"
-        tools:layout="@layout/fragment_jobs_list" >
+        tools:layout="@layout/fragment_jobs_list">
 
         <action
             android:id="@+id/action_navigation_applications_to_addEditFragment"
@@ -36,15 +36,21 @@
         android:id="@+id/navigation_add_edit"
         android:name="com.sagikor.android.jobao.ui.fragments.addedit.AddEditFragment"
         android:label="{title}"
-        tools:layout="@layout/fragment_add_edit_job" >
-            <argument
-                android:name="job"
-                app:argType="com.sagikor.android.jobao.model.Job"
-                app:nullable="true"
-                android:defaultValue="@null" />
-            <argument
-                android:name="title"
-                app:argType="string" />
+        tools:layout="@layout/fragment_add_edit_job">
+        <argument
+            android:name="job"
+            android:defaultValue="@null"
+            app:argType="com.sagikor.android.jobao.model.Job"
+            app:nullable="true" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_navigation_add_edit_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_add_edit_to_navigation_applications"
+            app:destination="@id/navigation_applications" />
     </fragment>
 
 

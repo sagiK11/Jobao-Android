@@ -1,21 +1,30 @@
 package com.sagikor.android.jobao.ui.activities
 
+import android.app.ActionBar
 import android.app.Activity
 import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.InputMethodManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.sagikor.android.jobao.R
+import com.sagikor.android.jobao.ui.fragments.addedit.AddEditFragment
 import com.sagikor.android.jobao.ui.fragments.home.HomeFragment
 import com.sagikor.android.jobao.ui.fragments.home.HomeFragmentDirections
 import com.sagikor.android.jobao.ui.fragments.jobslist.JobsListFragment
@@ -24,9 +33,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.RuntimeException
 
+internal const val TAG = "MainActivity"
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnScrollListener {
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -69,11 +79,12 @@ class MainActivity : AppCompatActivity() {
                 )
                 else -> throw RuntimeException("unknown fragment")
             }
-            fab.isEnabled = false
             navController.navigate(action)
         }
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            run { fab.isEnabled = destination.id != R.id.navigation_add_edit }
+            run {
+                fab.isEnabled = destination.id != R.id.navigation_add_edit
+            }
         }
     }
 
@@ -89,6 +100,14 @@ class MainActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onScrollUp() {
+        bottomAppBar.performShow()
+    }
+
+    override fun onScrollDown() {
+        bottomAppBar.performHide()
     }
 
 }

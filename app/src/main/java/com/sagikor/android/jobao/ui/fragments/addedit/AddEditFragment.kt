@@ -1,12 +1,14 @@
 package com.sagikor.android.jobao.ui.fragments.addedit
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.activity.OnBackPressedCallback
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -15,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.sagikor.android.jobao.R
 import com.sagikor.android.jobao.databinding.FragmentAddEditJobBinding
@@ -33,62 +36,131 @@ import java.util.*
 @AndroidEntryPoint
 class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
 
+    private val TAG = AddEditFragment::class.qualifiedName
     private val viewModel: AddEditViewModel by viewModels()
+    private lateinit var binding: FragmentAddEditJobBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentAddEditJobBinding.bind(view)
-        initSpinners(binding)
-        initEventChannel(binding)
-        binding.apply {
-            setFields(this)
-            bindListeners(this)
-        }
-
+        binding = FragmentAddEditJobBinding.bind(view)
+        initSpinners()
+        initEventChannel()
+        setFields()
+        bindListeners()
+        setOptionalViewsVisibility(View.GONE)
+        setOnBackPressDispatcherCallBack()
     }
 
-    private fun bindListeners(fragmentAddEditJobBinding: FragmentAddEditJobBinding) {
-        fragmentAddEditJobBinding.edCompanyName.addTextChangedListener {
-            viewModel.jobCompany = it.toString()
-        }
-        fragmentAddEditJobBinding.edPositionTitle.addTextChangedListener {
-            viewModel.jobTitle = it.toString()
-        }
 
-
-        fragmentAddEditJobBinding.btnAddApplication.setOnClickListener {
+    private fun bindListeners() {
+        binding.edCompanyName.addTextChangedListener { text ->
+            viewModel.jobCompany = text.toString()
+        }
+        binding.edPositionTitle.addTextChangedListener { text ->
+            viewModel.jobTitle = text.toString()
+        }
+        binding.edNotes.addTextChangedListener { text ->
+            viewModel.jobNote = text.toString()
+        }
+        binding.separator.setOnClickListener {
+            val isViewsVisible = binding.spinnerStatus.isVisible
+            setOptionalViewsVisibility(
+                when (isViewsVisible) {
+                    true -> View.GONE
+                    else -> View.VISIBLE
+                }
+            )
+        }
+        setChipLogic(binding.chipTrain, getString(R.string.next_to_train))
+        setChipLogic(binding.chipRemote, getString(R.string.remote_job))
+        setChipLogic(binding.chipStratup, getString(R.string.startup))
+        setChipLogic(binding.chipPartTime, getString(R.string.part_time))
+        setChipLogic(binding.chipLongSubmission, getString(R.string.long_submission))
+        binding.btnAddApplication.setOnClickListener {
             viewModel.onSaveClick()
         }
+        binding.btnCancelApplication.setOnClickListener {
+            showAlertDialog()
+        }
 
     }
 
-    private fun setFields(fragmentAddEditJobBinding: FragmentAddEditJobBinding) {
+    private fun showAlertDialog() {
+        val alertDialog = AlertDialog.Builder(binding.root.context)
+        alertDialog.setTitle(getString(R.string.cancel_title))
+        alertDialog.setMessage(getString(R.string.cancel_message))
+        alertDialog.setPositiveButton(R.string.yes) { _, _ ->
+            findNavController().popBackStack()
+        }
+        alertDialog.setNegativeButton(R.string.cancel) { _, _ ->
+            //do nothing
+        }
+        alertDialog.show()
+    }
+
+    private fun setOptionalViewsVisibility(visibility: Int) {
+        binding.spinnerStatus.visibility = visibility
+        binding.tvStatus.visibility = visibility
+        binding.spinnerAppliedVia.visibility = visibility
+        binding.tvAppliedVia.visibility = visibility
+        binding.spinnerSentCoverLetter.visibility = visibility
+        binding.tvSentWithCoverLetter.visibility = visibility
+        binding.separator.drawable.setImageDrawable(
+            when (visibility) {
+                View.GONE -> ResourcesCompat.getDrawable(
+                    resources,
+                    R.drawable.ic_baseline_add_circle_24,
+                    null
+                )
+                else -> ResourcesCompat.getDrawable(
+                    resources,
+                    R.drawable.ic_baseline_remove_circle_24,
+                    null
+                )
+            }
+        )
+    }
+
+
+    private fun setChipLogic(chip: Chip, text: String) {
+        chip.setOnCheckedChangeListener { _, isChecked ->
+            val editText = binding.edNotes
+            if (isChecked)
+                editText.append("$text, ")
+            else {
+                editText.setText(editText.text.toString().replace("$text, ", ""))
+            }
+        }
+    }
+
+    private fun setFields() {
         val isInEditMode = viewModel.job != null
-        fragmentAddEditJobBinding.edCompanyName.setText(viewModel.jobCompany)
-        fragmentAddEditJobBinding.edPositionTitle.setText(viewModel.jobTitle)
-        fragmentAddEditJobBinding.spinnerStatus.setSelection(viewModel.jobStatus.ordinal)
-        fragmentAddEditJobBinding.spinnerAppliedVia.setSelection(viewModel.jobAppliedVia.ordinal)
-        fragmentAddEditJobBinding.spinnerSentCoverLetter.setSelection(viewModel.jobIsCoverLetterSent.ordinal)
-        fragmentAddEditJobBinding.dateCreated.isVisible = isInEditMode
-        fragmentAddEditJobBinding.dateCreated.text =
+        binding.edCompanyName.setText(viewModel.jobCompany)
+        binding.edPositionTitle.setText(viewModel.jobTitle)
+        binding.spinnerStatus.setSelection(viewModel.jobStatus.ordinal)
+        binding.spinnerAppliedVia.setSelection(viewModel.jobAppliedVia.ordinal)
+        binding.spinnerSentCoverLetter.setSelection(viewModel.jobIsCoverLetterSent.ordinal)
+        binding.edNotes.setText(viewModel.jobNote)
+        binding.dateCreated.isVisible = isInEditMode
+        binding.dateCreated.text =
             getString(R.string.created_at, "${viewModel.job?.createdAtDateFormat}")
 
         if (isInEditMode) {
-            fragmentAddEditJobBinding.btnAddApplication.text = getString(R.string.edit_application)
+            binding.btnAddApplication.text = getString(R.string.btn_save)
         } else {
-            fragmentAddEditJobBinding.btnAddApplication.text = getString(R.string.add_application)
+            binding.btnAddApplication.text = getString(R.string.btn_save)
         }
 
 
     }
 
-    private fun initEventChannel(fragmentAddEditJobBinding: FragmentAddEditJobBinding) {
+    private fun initEventChannel() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.addEditJobEvent.collect { event ->
 
                 when (event) {
                     is AddEditViewModel.AddEditJobEvent.NavigateBackWithResult -> {
-                        fragmentAddEditJobBinding.edCompanyName.clearFocus()
+                        binding.edCompanyName.clearFocus()
                         setFragmentResult(
                             "add_edit_request",
                             bundleOf("add_edit_result" to event.result)
@@ -123,7 +195,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
         }
     }
 
-    private fun initSpinners(binding: FragmentAddEditJobBinding) {
+    private fun initSpinners() {
         setSpinnersText(
             binding.root.spinner_applied_via,
             R.array.applied_via_array,
@@ -197,12 +269,30 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
             viewModel.jobStatus = jobStatus
             if (jobStatus == JobStatus.REJECTED)
                 viewModel.jobDeclinedDate =
-                    SimpleDateFormat("d/M/yyyy").format(Date(System.currentTimeMillis()))
+                    SimpleDateFormat(
+                        "d/M/yyyy",
+                        Locale.ENGLISH
+                    ).format(Date(System.currentTimeMillis()))
             else {
                 viewModel.jobDeclinedDate = ""
+            }
+            if (jobStatus == JobStatus.IN_PROCESS) {
+                viewModel.jobWasReplied = true
             }
         }
 
         override fun onNothingSelected(parent: AdapterView<*>) {}
     }
+
+    private fun setOnBackPressDispatcherCallBack() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    showAlertDialog()
+                }
+            })
+    }
+
+
 }

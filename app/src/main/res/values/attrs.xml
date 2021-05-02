@@ -3,5 +3,6 @@
 
     <declare-styleable name="SeparatorView">
         <attr name="text" format="string"/>
+        <attr name="drawableSource" format="reference"/>
     </declare-styleable>
 </resources>
