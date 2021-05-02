@@ -1,170 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.fragments.home.HomeFragment">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/total_submissions"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
-        app:cardElevation="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/all_replies"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/total_submissions"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="4dp"
-            android:orientation="horizontal">
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:cardElevation="6dp"
+            app:layout_constraintBottom_toTopOf="@+id/all_replies"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_baseline_text_snippet_24" />
-
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_total_applications"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_baseline_text_snippet_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/total_applications"
+                    app:layout_constraintHorizontal_bias="0.09"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <TextView
                     android:id="@+id/total_applications"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:textAppearance="?attr/textAppearanceHeadline6" />
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    app:layout_constraintBottom_toTopOf="@+id/total_pending"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_total_applications"
+                    app:layout_constraintTop_toTopOf="@+id/iv_total_applications"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="48 applications" />
 
                 <TextView
                     android:id="@+id/total_pending"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginTop="2dp"
-                    android:textAppearance="?attr/textAppearanceBody2" />
-            </LinearLayout>
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_total_applications"
+                    app:layout_constraintStart_toStartOf="@+id/total_applications"
+                    app:layout_constraintTop_toBottomOf="@+id/total_applications"
+                    tools:text="wait for 10 to answer" />
 
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/all_replies"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardElevation="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/viewPager"
-        app:layout_constraintEnd_toStartOf="@+id/process_replies"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total_submissions">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/all_replies"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:cardElevation="6dp"
+            app:layout_constraintBottom_toTopOf="@+id/viewPager"
+            app:layout_constraintEnd_toStartOf="@+id/process_replies"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total_submissions">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="4dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_baseline_alternate_email_24" />
-
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:id="@+id/iv_all_replies"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_baseline_alternate_email_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/total_processes"
+                    app:layout_constraintHorizontal_bias="0.38"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <TextView
                     android:id="@+id/total_processes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:textAppearance="?attr/textAppearanceBody2" />
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:layout_constraintBottom_toTopOf="@+id/total_active_processes"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_all_replies"
+                    app:layout_constraintTop_toTopOf="@+id/iv_all_replies"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="23 in process" />
 
                 <TextView
                     android:id="@+id/total_active_processes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginTop="2dp"
-                    android:textAppearance="?attr/textAppearanceBody2" />
-            </LinearLayout>
-        </LinearLayout>
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_all_replies"
+                    app:layout_constraintStart_toStartOf="@+id/total_processes"
+                    app:layout_constraintTop_toBottomOf="@+id/total_processes"
+                    tools:text="4 active" />
 
-    </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/process_replies"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardElevation="6dp"
-        app:layout_constraintBottom_toBottomOf="@+id/all_replies"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/all_replies"
-        app:layout_constraintTop_toTopOf="@+id/all_replies">
+        </androidx.cardview.widget.CardView>
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/process_replies"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardElevation="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/all_replies"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/all_replies"
+            app:layout_constraintTop_toTopOf="@+id/all_replies">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_offers"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_baseline_check_circle_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/total_offers"
+                    app:layout_constraintHorizontal_bias="0.16"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/total_offers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_offers"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_offers"
+                    app:layout_constraintTop_toTopOf="@+id/iv_offers"
+                    tools:text="6 offers" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="4dp"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/all_replies">
+        </androidx.viewpager2.widget.ViewPager2>
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_baseline_check_circle_24" />
-
-            <TextView
-                android:id="@+id/total_offers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="2dp"
-                android:layout_gravity="center"
-                android:textAppearance="?attr/textAppearanceBody1" />
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/all_replies">
-
-
-    </androidx.viewpager2.widget.ViewPager2>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
