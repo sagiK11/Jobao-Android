@@ -1,5 +1,6 @@
 package com.sagikor.android.jobao.ui.fragments.jobslist
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -18,6 +19,7 @@ import com.sagikor.android.jobao.util.onQueryTextChanged
 import com.sagikor.android.jobao.data.SortOrder
 import com.sagikor.android.jobao.databinding.FragmentJobsListBinding
 import com.sagikor.android.jobao.model.Job
+import com.sagikor.android.jobao.ui.activities.OnScrollListener
 import com.sagikor.android.jobao.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_jobs_list.*
@@ -27,22 +29,17 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onItemClickListener {
-
+    private val TAG = JobsListFragment::class.qualifiedName
     private val jobViewModel: JobViewModel by viewModels()
-
+    private lateinit var binding: FragmentJobsListBinding
+    private var onScrollListener: OnScrollListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentJobsListBinding.bind(view)
+        binding = FragmentJobsListBinding.bind(view)
         val jobAdapter = JobAdapter(this)
 
-        binding.apply {
-            rvJobsList.apply {
-                adapter = jobAdapter
-                layoutManager = LinearLayoutManager(requireContext())
-                setHasFixedSize(true)
-            }
-        }
+        initRecycleViewSettings(jobAdapter)
         initItemTouchHelper(jobAdapter, rv_jobs_list)
 
         jobViewModel.jobs.observe(viewLifecycleOwner) {
@@ -56,6 +53,48 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
         initEventChannel()
 
         setHasOptionsMenu(true)
+    }
+
+    private fun initRecycleViewSettings(jobAdapter: JobAdapter) {
+        binding.apply {
+            rvJobsList.apply {
+                adapter = jobAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+                setHasFixedSize(true)
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        if (dy < 0) {
+                            onScrollListener?.onScrollUp()
+                        } else if (dy > 0) {
+                            onScrollListener?.onScrollDown()
+                        }
+                    }
+
+                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                        super.onScrollStateChanged(recyclerView, newState)
+                        if (!recyclerView.canScrollVertically(1)) {//reached bottom
+                            onScrollListener?.onScrollUp()
+                        }
+                    }
+                }
+                )
+            }
+        }
+    }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnScrollListener) {
+            onScrollListener = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onScrollListener?.onScrollUp()
+        onScrollListener = null
     }
 
     private fun initItemTouchHelper(jobAdapter: JobAdapter, rvJobsList: RecyclerView?) {
@@ -156,7 +195,7 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                 jobViewModel.onHideRejectedSelected(item.isChecked)
                 true
             }
-            R.id.action_sort_by_status ->{
+            R.id.action_sort_by_status -> {
                 jobViewModel.onSortOrderSelected(SortOrder.BY_STATUS)
                 true
             }

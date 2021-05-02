@@ -1,13 +1,12 @@
 package com.sagikor.android.jobao.ui.fragments.home
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
@@ -16,6 +15,7 @@ import com.sagikor.android.jobao.databinding.FragmentHomeBinding
 import com.sagikor.android.jobao.model.AppliedVia
 import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.model.JobStatus
+import com.sagikor.android.jobao.ui.activities.OnScrollListener
 import com.sagikor.android.jobao.viewmodel.JobViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.view.*
@@ -26,26 +26,55 @@ import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
+    private val TAG = HomeFragment::class.qualifiedName
     private val jobViewModel: JobViewModel by viewModels()
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var chartAdapter: ChartAdapter
     private val chartsList: MutableList<AAChartModel> = ArrayList()
+    private lateinit var binding: FragmentHomeBinding
+    private var onScrollListener: OnScrollListener? = null
 
     private enum class ChartOrder { STATUS, DATES, APPLIED_VIA }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentHomeBinding.bind(view)
+        binding = FragmentHomeBinding.bind(view)
 
-        observeApplicationsInfo(binding)
-        observeJobList(binding)
+        observeApplicationsInfo()
+        observeJobList()
         chartAdapter = ChartAdapter(chartsList)
-        setAdapter(binding)
-        initJobsChannel(binding)
+        setAdapter()
+        initJobsChannel()
+        initScrollListener()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnScrollListener) {
+            onScrollListener = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onScrollListener?.onScrollUp()
+        onScrollListener = null
+    }
+
+    private fun initScrollListener() {
+        binding.apply {
+            homeScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+                if (scrollY < oldScrollY || scrollY == 0) {
+                    onScrollListener?.onScrollUp()
+                } else {
+                    onScrollListener?.onScrollDown()
+                }
+            }
+        }
 
     }
 
-    private fun initJobsChannel(binding: FragmentHomeBinding) {
+    private fun initJobsChannel() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.jobEvent.collect { event ->
                 when (event) {
@@ -63,7 +92,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    private fun setAdapter(binding: FragmentHomeBinding) {
+    private fun setAdapter() {
         binding.apply {
             viewPager.apply {
                 viewPager.adapter = chartAdapter
@@ -71,7 +100,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun observeApplicationsInfo(binding: FragmentHomeBinding) {
+    private fun observeApplicationsInfo() {
         jobViewModel.jobs.observe(viewLifecycleOwner) {
             binding.apply {
                 totalApplications.text = getString(R.string.total_application, it.size.toString())
@@ -95,19 +124,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun observeJobList(binding: FragmentHomeBinding) {
-        val statusChart: AAChartModel = getStatusChart(binding)
-        val datesChart: AAChartModel = getDatesChart(binding)
-        val appliedViaChart: AAChartModel = getAppliedViaChart(binding)
+    private fun observeJobList() {
+        val statusChart: AAChartModel = getStatusChart()
+        val datesChart: AAChartModel = getDatesChart()
+        val appliedViaChart: AAChartModel = getAppliedViaChart()
         chartsList.add(statusChart)
         chartsList.add(datesChart)
         chartsList.add(appliedViaChart)
 
     }
 
-    private fun getDatesChart(binding: FragmentHomeBinding): AAChartModel {
+    private fun getDatesChart(): AAChartModel {
         val aaDatesChart: AAChartModel = AAChartModel()
-            .chartType(AAChartType.Column)
+            .chartType(AAChartType.Areaspline)
             .title(binding.root.context.getString(R.string.dates))
             .dataLabelsEnabled(true).tooltipEnabled(false)
 
@@ -126,11 +155,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     daysList[i] = getUpdatedDayValue(daysList[i], job)
                 }
             }
-            val seriesArray = mutableListOf<AASeriesElement>()
+            val seriesArray = mutableListOf<Int>()
             for (i in 0..6) {
-                seriesArray.add(getSeries(daysList[i].second, daysList[i].first))
+                seriesArray.add(daysList[i].second)
             }
-            aaDatesChart.series(seriesArray.toTypedArray())
+            aaDatesChart.series(
+                arrayOf(
+                    AASeriesElement()
+                        .name(getString(R.string.activity))
+                        .data(seriesArray.toTypedArray()),
+                )
+            )
         }
         return aaDatesChart
     }
@@ -154,7 +189,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    private fun getAppliedViaChart(binding: FragmentHomeBinding): AAChartModel {
+    private fun getAppliedViaChart(): AAChartModel {
         val appliedViaOptionNo = 3
         val options = IntArray(appliedViaOptionNo)
         val aaAppliedViaChart: AAChartModel = AAChartModel()
@@ -190,7 +225,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         return aaAppliedViaChart
     }
 
-    private fun getStatusChart(binding: FragmentHomeBinding): AAChartModel {
+    private fun getStatusChart(): AAChartModel {
         val statusOptionsNo = 4
         val status = IntArray(statusOptionsNo)
         val aaStatusChart: AAChartModel = AAChartModel()
