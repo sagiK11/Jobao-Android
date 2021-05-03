@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/theme_primary_light">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/pie_chart_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/chart_description"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.15"
+                android:gravity="center"
+                android:padding="6dp"
+                android:textAppearance="?attr/textAppearanceBody1" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie_chart"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="16dp"
+                android:layout_weight="1" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/chart_legend"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.34"
+                android:padding="8dp">
+
+                <View
+                    android:id="@+id/label_0_color"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/label_0"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/label_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/label_0_color"
+                    app:layout_constraintEnd_toStartOf="@+id/label_1_color"
+                    app:layout_constraintStart_toEndOf="@+id/label_0_color"
+                    app:layout_constraintTop_toTopOf="@+id/label_0_color" />
+
+                <View
+                    android:id="@+id/label_1_color"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/label_0"
+                    app:layout_constraintEnd_toStartOf="@id/label_1"
+                    app:layout_constraintStart_toEndOf="@+id/label_0"
+                    app:layout_constraintTop_toTopOf="@+id/label_0" />
+
+                <TextView
+                    android:id="@+id/label_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/label_1_color"
+                    app:layout_constraintEnd_toStartOf="@+id/label_2_color"
+                    app:layout_constraintStart_toEndOf="@+id/label_1_color"
+                    app:layout_constraintTop_toTopOf="@+id/label_1_color" />
+
+                <View
+                    android:id="@+id/label_2_color"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/label_1"
+                    app:layout_constraintEnd_toStartOf="@+id/label_2"
+                    app:layout_constraintStart_toEndOf="@+id/label_1"
+                    app:layout_constraintTop_toTopOf="@+id/label_1" />
+
+                <TextView
+                    android:id="@+id/label_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/label_2_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/label_2_color"
+                    app:layout_constraintTop_toTopOf="@+id/label_2_color" />
+
+                <View
+                    android:id="@+id/label_3_color"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/label_0_color"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@+id/label_0_color"
+                    app:layout_constraintTop_toBottomOf="@+id/label_0_color" />
+
+                <TextView
+                    android:id="@+id/label_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/label_3_color"
+                    app:layout_constraintStart_toEndOf="@+id/label_3_color"
+                    app:layout_constraintTop_toTopOf="@+id/label_3_color" />
+
+                <View
+                    android:id="@+id/label_4_color"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/label_3"
+                    app:layout_constraintStart_toEndOf="@+id/label_3"
+                    app:layout_constraintTop_toTopOf="@+id/label_3" />
+
+                <TextView
+                    android:id="@+id/label_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/label_4_color"
+                    app:layout_constraintStart_toEndOf="@+id/label_4_color"
+                    app:layout_constraintTop_toTopOf="@+id/label_4_color" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

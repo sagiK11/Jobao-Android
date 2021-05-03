@@ -20,4 +20,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="chart_1">#003f5c</color>
+    <color name="chart_2">#7a5195</color>
+    <color name="chart_3">#ef5675</color>
+    <color name="chart_4">#ffa600</color>
+    <color name="chart_5">#bc5090</color>
 </resources>

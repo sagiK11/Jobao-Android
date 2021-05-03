@@ -22,7 +22,8 @@
         <item>אתר החברה</item>
         <item>אימייל</item>
         <item>הפנייה מעמית</item>
-        <item>Linkedin</item>
+        <item>לינקדאין</item>
+        <item>אחר</item>
     </string-array>
     <string-array name="sent_with_cover_letter_array">
         <item>לא</item>
@@ -67,7 +68,7 @@
     <string name="dates">הגשות ב-7 ימים האחרונים </string>
     <string name="total_application">%1$s הגשות</string>
     <string name="total_replies">הגשות שנענו %1$s</string>
-    <string name="total_processes">%1$s תהליכים</string>
+    <string name="total_processes">%1$s תהליכים שהתחלת</string>
     <string name="total_pending">מחכה לתשובה מ-%1$s חברות</string>
     <string name="active_processes">%1$s פעילים</string>
     <string name="total_offers">%1$s הצעות</string>
@@ -80,10 +81,14 @@
     <string name="remote_job">עבודה מהבית </string>
     <string name="next_to_train">קרוב לרכבת </string>
     <string name="startup">סטארט-אפ </string>
-    <string name="only_if_u_want">רק אם רוצים להוסיף</string>
+    <string name="only_if_u_want">מומלץ להוסיף</string>
     <string name="btn_cancel">השלך</string>
     <string name="btn_save">שמור</string>
     <string name="cancel_title">לחזור אחורה?</string>
     <string name="cancel_message">השינויים שביצעת לא ישמרו, לחזור בכל זאת?</string>
+    <string name="linkedin">לינקדאין</string>
+    <string name="other">אחר</string>
+    <string name="applied_via_of_process">אופן הגשה מחברות שאיתן התחלתי תהליך</string>
+    <string name="applied_via_pie_chart_title">אופן הגשה מסך כל החברות</string>
 
 </resources>

@@ -10,14 +10,13 @@
         android:layout_width="match_parent"
         app:cardElevation="10dp"
         app:cardUseCompatPadding="true"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="5dp"
         android:layout_height="match_parent">
 
-        <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
-            android:id="@+id/chart_recent_activity"
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-             />
+            android:layout_height="match_parent" />
     </androidx.cardview.widget.CardView>
 
 

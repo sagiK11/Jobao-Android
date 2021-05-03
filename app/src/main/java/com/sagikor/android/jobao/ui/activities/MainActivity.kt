@@ -1,30 +1,21 @@
 package com.sagikor.android.jobao.ui.activities
 
-import android.app.ActionBar
+
 import android.app.Activity
-import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.inputmethod.InputMethodManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.sagikor.android.jobao.R
-import com.sagikor.android.jobao.ui.fragments.addedit.AddEditFragment
 import com.sagikor.android.jobao.ui.fragments.home.HomeFragment
 import com.sagikor.android.jobao.ui.fragments.home.HomeFragmentDirections
 import com.sagikor.android.jobao.ui.fragments.jobslist.JobsListFragment
@@ -33,10 +24,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.RuntimeException
 
-internal const val TAG = "MainActivity"
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), OnScrollListener {
+    private val TAG = MainActivity::class.qualifiedName
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -114,3 +105,4 @@ class MainActivity : AppCompatActivity(), OnScrollListener {
 
 const val ADD_JOB_RESULT_OK = Activity.RESULT_FIRST_USER
 const val EDIT_JOB_RESULT_OK = Activity.RESULT_FIRST_USER + 1
+const val GO_BACK_RESULT_OK = Activity.RESULT_FIRST_USER + 2

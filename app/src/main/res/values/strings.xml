@@ -22,6 +22,7 @@
         <item>Email</item>
         <item>Reference</item>
         <item>Linkedin</item>
+        <item>Other</item>
     </string-array>
     <string-array name="sent_with_cover_letter_array">
         <item>no</item>
@@ -79,11 +80,15 @@
     <string name="remote_job">remote </string>
     <string name="next_to_train">next to the train </string>
     <string name="startup">start-up </string>
-    <string name="only_if_u_want">Only if you want to add</string>
+    <string name="only_if_u_want">Charts valuable fields</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_save">Save</string>
     <string name="cancel_title">Go back?</string>
     <string name="cancel_message">Your changes will not be saved, continue anyway?</string>
+    <string name="linkedin">Linkedin</string>
+    <string name="other">Other</string>
+    <string name="applied_via_of_process">From the companies I had process with</string>
+    <string name="applied_via_pie_chart_title">From all the companies I applied to</string>
 
 
 </resources>
