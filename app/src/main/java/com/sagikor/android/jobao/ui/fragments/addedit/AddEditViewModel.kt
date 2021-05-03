@@ -10,6 +10,7 @@ import com.sagikor.android.jobao.model.JobStatus
 import com.sagikor.android.jobao.model.SentWithCoverLetter
 import com.sagikor.android.jobao.ui.activities.ADD_JOB_RESULT_OK
 import com.sagikor.android.jobao.ui.activities.EDIT_JOB_RESULT_OK
+import com.sagikor.android.jobao.ui.activities.GO_BACK_RESULT_OK
 import com.sagikor.android.jobao.util.AppExceptions
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -113,10 +114,19 @@ class AddEditViewModel @ViewModelInject constructor(
         }
     }
 
+    fun onCancelClick() {
+        viewModelScope.launch {
+            addEditTaskJobChannel.send(
+                AddEditJobEvent.ShowGoBackConfirmationMessage(GO_BACK_RESULT_OK)
+            )
+        }
+    }
+
 
     private fun createJob(newJob: Job) {
         viewModelScope.launch {
             jobDao.addJob(newJob)
+            addEditTaskJobChannel.send(AddEditJobEvent.NavigateBackWithResult(ADD_JOB_RESULT_OK))
             addEditTaskJobChannel.send(AddEditJobEvent.ShowOperationSuccess(ADD_JOB_RESULT_OK))
         }
     }
@@ -134,6 +144,7 @@ class AddEditViewModel @ViewModelInject constructor(
         data class ShowOperationSuccess(val result: Int) : AddEditJobEvent()
         data class NavigateBackWithResult(val result: Int) : AddEditJobEvent()
         data class ShowInvalidInputMessage(val location: AppExceptions.Location) : AddEditJobEvent()
+        data class ShowGoBackConfirmationMessage(val result: Int) : AddEditJobEvent()
     }
 
 

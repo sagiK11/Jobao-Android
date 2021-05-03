@@ -131,7 +131,7 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                         )
                             .setAction(getString(R.string.undo)) {
                                 jobViewModel.onUndoDeleteJob(event.job)
-                            }.setAnchorView(R.id.nav_view).show()
+                            }.setAnchorView(R.id.coordinator).show()
                     }
                     is JobViewModel.JobsEvents.NavigateToEditJobScreen -> {
                         val action =
@@ -150,7 +150,7 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                             requireView(),
                             msg,
                             Snackbar.LENGTH_LONG
-                        ).setAnchorView(R.id.nav_view).show()
+                        ).setAnchorView(R.id.coordinator).show()
                     }
                 }.exhaustive
             }

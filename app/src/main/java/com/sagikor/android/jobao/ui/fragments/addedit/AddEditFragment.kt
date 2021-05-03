@@ -80,45 +80,49 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
             viewModel.onSaveClick()
         }
         binding.btnCancelApplication.setOnClickListener {
-            showAlertDialog()
+            viewModel.onCancelClick()
         }
 
     }
 
     private fun showAlertDialog() {
-        val alertDialog = AlertDialog.Builder(binding.root.context)
-        alertDialog.setTitle(getString(R.string.cancel_title))
-        alertDialog.setMessage(getString(R.string.cancel_message))
-        alertDialog.setPositiveButton(R.string.yes) { _, _ ->
-            findNavController().popBackStack()
+        AlertDialog.Builder(binding.root.context).apply {
+            setTitle(getString(R.string.cancel_title))
+            setMessage(getString(R.string.cancel_message))
+            setPositiveButton(R.string.yes) { _, _ ->
+                findNavController().popBackStack()
+            }
+            setNegativeButton(R.string.cancel) { _, _ ->
+                //do nothing
+            }
+            show()
         }
-        alertDialog.setNegativeButton(R.string.cancel) { _, _ ->
-            //do nothing
-        }
-        alertDialog.show()
     }
 
     private fun setOptionalViewsVisibility(visibility: Int) {
-        binding.spinnerStatus.visibility = visibility
-        binding.tvStatus.visibility = visibility
-        binding.spinnerAppliedVia.visibility = visibility
-        binding.tvAppliedVia.visibility = visibility
-        binding.spinnerSentCoverLetter.visibility = visibility
-        binding.tvSentWithCoverLetter.visibility = visibility
-        binding.separator.drawable.setImageDrawable(
-            when (visibility) {
-                View.GONE -> ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.ic_baseline_add_circle_24,
-                    null
-                )
-                else -> ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.ic_baseline_remove_circle_24,
-                    null
-                )
-            }
-        )
+        binding.apply {
+            spinnerStatus.visibility = visibility
+            tvStatus.visibility = visibility
+            spinnerAppliedVia.visibility = visibility
+            tvAppliedVia.visibility = visibility
+            spinnerSentCoverLetter.visibility = visibility
+            tvSentWithCoverLetter.visibility = visibility
+            separator.drawable.setImageDrawable(
+                when (visibility) {
+                    View.GONE -> ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.ic_baseline_add_circle_24,
+                        null
+                    )
+                    else -> ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.ic_baseline_remove_circle_24,
+                        null
+                    )
+                }
+            )
+        }
+
     }
 
 
@@ -135,21 +139,24 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
 
     private fun setFields() {
         val isInEditMode = viewModel.job != null
-        binding.edCompanyName.setText(viewModel.jobCompany)
-        binding.edPositionTitle.setText(viewModel.jobTitle)
-        binding.spinnerStatus.setSelection(viewModel.jobStatus.ordinal)
-        binding.spinnerAppliedVia.setSelection(viewModel.jobAppliedVia.ordinal)
-        binding.spinnerSentCoverLetter.setSelection(viewModel.jobIsCoverLetterSent.ordinal)
-        binding.edNotes.setText(viewModel.jobNote)
-        binding.dateCreated.isVisible = isInEditMode
-        binding.dateCreated.text =
-            getString(R.string.created_at, "${viewModel.job?.createdAtDateFormat}")
+        binding.apply {
+            edCompanyName.setText(viewModel.jobCompany)
+            edPositionTitle.setText(viewModel.jobTitle)
+            spinnerStatus.setSelection(viewModel.jobStatus.ordinal)
+            spinnerAppliedVia.setSelection(viewModel.jobAppliedVia.ordinal)
+            spinnerSentCoverLetter.setSelection(viewModel.jobIsCoverLetterSent.ordinal)
+            edNotes.setText(viewModel.jobNote)
+            dateCreated.isVisible = isInEditMode
+            dateCreated.text =
+                getString(R.string.created_at, "${viewModel.job?.createdAtDateFormat}")
 
-        if (isInEditMode) {
-            binding.btnAddApplication.text = getString(R.string.btn_save)
-        } else {
-            binding.btnAddApplication.text = getString(R.string.btn_save)
+            if (isInEditMode) {
+                btnAddApplication.text = getString(R.string.btn_save)
+            } else {
+                btnAddApplication.text = getString(R.string.btn_save)
+            }
         }
+
 
 
     }
@@ -176,7 +183,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                             requireView(),
                             msg,
                             Snackbar.LENGTH_LONG
-                        ).setAnchorView(R.id.nav_view).show()
+                        ).setAnchorView(R.id.coordinator).show()
                     }
                     is AddEditViewModel.AddEditJobEvent.ShowInvalidInputMessage -> {
                         val error = when (event.location) {
@@ -188,8 +195,9 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                             requireView(),
                             error,
                             Snackbar.LENGTH_LONG
-                        ).setAnchorView(R.id.nav_view).show()
+                        ).setAnchorView(R.id.coordinator).show()
                     }
+                    is AddEditViewModel.AddEditJobEvent.ShowGoBackConfirmationMessage -> showAlertDialog()
                 }
             }
         }
@@ -236,7 +244,9 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
             val via = when (item) {
                 parent.context.getString(R.string.site) -> AppliedVia.SITE
                 parent.context.getString(R.string.email) -> AppliedVia.EMAIL
-                else -> AppliedVia.REFERENCE
+                parent.context.getString(R.string.reference) -> AppliedVia.REFERENCE
+                parent.context.getString(R.string.linkedin) -> AppliedVia.LINKEDIN
+                else -> AppliedVia.OTHER
             }
             viewModel.jobAppliedVia = via
         }
