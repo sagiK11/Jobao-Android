@@ -48,8 +48,9 @@
                     android:id="@+id/label_0_color"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
+                    android:layout_marginTop="2dp"
                     android:layout_marginEnd="3dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/label_3_color"
                     app:layout_constraintEnd_toStartOf="@+id/label_0"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
@@ -60,10 +61,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
+                    app:layout_constraintVertical_bias="0.61"
                     app:layout_constraintBottom_toBottomOf="@+id/label_0_color"
                     app:layout_constraintEnd_toStartOf="@+id/label_1_color"
                     app:layout_constraintStart_toEndOf="@+id/label_0_color"
-                    app:layout_constraintTop_toTopOf="@+id/label_0_color" />
+                    app:layout_constraintTop_toTopOf="@+id/label_0_color"
+                    tools:text="text" />
 
                 <View
                     android:id="@+id/label_1_color"
@@ -80,10 +83,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
+                    app:layout_constraintVertical_bias="0.61"
                     app:layout_constraintBottom_toBottomOf="@+id/label_1_color"
                     app:layout_constraintEnd_toStartOf="@+id/label_2_color"
                     app:layout_constraintStart_toEndOf="@+id/label_1_color"
-                    app:layout_constraintTop_toTopOf="@+id/label_1_color" />
+                    app:layout_constraintTop_toTopOf="@+id/label_1_color"
+                    tools:text="text" />
 
                 <View
                     android:id="@+id/label_2_color"
@@ -100,37 +105,44 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
+                    app:layout_constraintVertical_bias="0.61"
                     app:layout_constraintBottom_toBottomOf="@+id/label_2_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/label_2_color"
-                    app:layout_constraintTop_toTopOf="@+id/label_2_color" />
+                    app:layout_constraintTop_toTopOf="@+id/label_2_color"
+                    tools:text="text" />
 
                 <View
                     android:id="@+id/label_3_color"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
+                    android:layout_marginEnd="3dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/label_0_color"
+                    app:layout_constraintEnd_toStartOf="@+id/label_3"
                     app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@+id/label_0_color"
+                    app:layout_constraintStart_toEndOf="@+id/label_0_color"
                     app:layout_constraintTop_toBottomOf="@+id/label_0_color" />
 
                 <TextView
                     android:id="@+id/label_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
                     android:layout_marginEnd="6dp"
+                    app:layout_constraintVertical_bias="0.61"
                     app:layout_constraintBottom_toBottomOf="@+id/label_3_color"
+                    app:layout_constraintEnd_toStartOf="@+id/label_4_color"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toEndOf="@+id/label_3_color"
-                    app:layout_constraintTop_toTopOf="@+id/label_3_color" />
+                    app:layout_constraintTop_toTopOf="@+id/label_3_color"
+                    tools:text="text" />
 
                 <View
                     android:id="@+id/label_4_color"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="3dp"
                     app:layout_constraintBottom_toBottomOf="@+id/label_3"
+                    app:layout_constraintEnd_toStartOf="@+id/label_4"
                     app:layout_constraintStart_toEndOf="@+id/label_3"
                     app:layout_constraintTop_toTopOf="@+id/label_3" />
 
@@ -138,10 +150,12 @@
                     android:id="@+id/label_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
                     app:layout_constraintBottom_toBottomOf="@+id/label_4_color"
+                    app:layout_constraintEnd_toEndOf="@+id/label_2"
                     app:layout_constraintStart_toEndOf="@+id/label_4_color"
-                    app:layout_constraintTop_toTopOf="@+id/label_4_color" />
+                    app:layout_constraintTop_toTopOf="@+id/label_4_color"
+                    app:layout_constraintVertical_bias="0.61"
+                    tools:text="text" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
