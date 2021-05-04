@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.github.mikephil.charting.charts.Chart
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.sagikor.android.jobao.R
@@ -19,9 +18,11 @@ import com.sagikor.android.jobao.model.AppliedVia
 import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.model.JobStatus
 import com.sagikor.android.jobao.ui.activities.OnScrollListener
+import com.sagikor.android.jobao.ui.fragments.home.adapters.BarChartAdapter
+import com.sagikor.android.jobao.ui.fragments.home.adapters.LineChartAdapter
+import com.sagikor.android.jobao.ui.fragments.home.adapters.PieChartAdapter
 import com.sagikor.android.jobao.viewmodel.JobViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
@@ -71,7 +72,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun initScrollListener() {
         binding.apply {
             homeScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-                if (scrollY < oldScrollY || scrollY == 0) {
+                if (scrollY < oldScrollY ) {
                     onScrollListener?.onScrollUp()
                 } else {
                     onScrollListener?.onScrollDown()

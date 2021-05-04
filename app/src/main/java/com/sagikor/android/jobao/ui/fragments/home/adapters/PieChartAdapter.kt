@@ -1,4 +1,4 @@
-package com.sagikor.android.jobao.ui.fragments.home
+package com.sagikor.android.jobao.ui.fragments.home.adapters
 
 import android.view.LayoutInflater
 import android.view.View
