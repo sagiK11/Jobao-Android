@@ -3,13 +3,11 @@ package com.sagikor.android.jobao.data
 import androidx.room.*
 import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.model.JobStatus
-import com.sagikor.android.jobao.util.AppliedViaConverters
 import com.sagikor.android.jobao.util.Converters
-import com.sagikor.android.jobao.util.SentWithCoverLetterConverters
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-@TypeConverters(Converters::class, AppliedViaConverters::class, SentWithCoverLetterConverters::class)
+@TypeConverters(Converters::class)
 interface JobDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -50,10 +48,3 @@ interface JobDao {
     suspend fun deleteAll()
 }
 
-//original
-
-//@Query("SELECT * FROM user_jobs WHERE (isRejected != :isRejected OR isRejected = 0) AND companyName LIKE '%' || :searchQuery || '%' ORDER BY companyName ASC, companyName")
-//fun getJobsSortedByCompanyName(searchQuery: String,  isRejected: Boolean): Flow<List<Job>>
-//
-//@Query("SELECT * FROM user_jobs WHERE (isRejected != :isRejected OR isRejected = 0) AND companyName LIKE '%' || :searchQuery || '%' ORDER BY dateApplied ASC, dateApplied")
-//fun getJobsSortedByJobCreated(searchQuery: String,  isRejected: Boolean): Flow<List<Job>>

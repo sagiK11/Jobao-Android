@@ -11,18 +11,12 @@ class Converters {
 
     @TypeConverter
     fun fromStatus(value: JobStatus) = value.ordinal
-}
-
-class AppliedViaConverters {
 
     @TypeConverter
     fun toAppliedVia(value: Int) = enumValues<AppliedVia>()[value]
 
     @TypeConverter
     fun fromAppliedVia(value: AppliedVia) = value.ordinal
-}
-
-class SentWithCoverLetterConverters {
 
     @TypeConverter
     fun toSentWithCoverLetter(value: Int) = enumValues<SentWithCoverLetter>()[value]

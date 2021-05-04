@@ -89,6 +89,16 @@
     <string name="other">Other</string>
     <string name="applied_via_of_process">From the companies I had process with</string>
     <string name="applied_via_pie_chart_title">From all the companies I applied to</string>
+    <string name="more">More</string>
+    <string name="send_to_mail">Send to mail box</string>
+    <string name="rate_us">Rate us</string>
+    <string name="job_submissions">My Job submissions</string>
+    <string name="email_send_error">Oops! we could not send email :(</string>
+    <string name="had_process">Was there a process with company?</string>
+    <string name="declined_date">Declined date</string>
+    <string name="note">Note</string>
+    <string name="csv_created_at">created at</string>
+
 
 
 </resources>

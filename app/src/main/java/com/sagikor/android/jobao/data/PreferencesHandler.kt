@@ -35,7 +35,7 @@ class PreferencesHandler @Inject constructor(@ApplicationContext context: Contex
         }
         .map { preferences ->
             val sortOrder = SortOrder.valueOf(
-                preferences[PreferencesKeys.SORT_ORDER] ?: SortOrder.BY_COMPANY.name
+                preferences[PreferencesKeys.SORT_ORDER] ?: SortOrder.BY_DATE.name
             )
             val hideRejected = preferences[PreferencesKeys.HIDE_REJECTED] ?: false
             FilteredPreferences(sortOrder, hideRejected)

@@ -3,43 +3,71 @@ package com.sagikor.android.jobao.ui.activities
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.sagikor.android.jobao.R
+import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.ui.fragments.home.HomeFragment
 import com.sagikor.android.jobao.ui.fragments.home.HomeFragmentDirections
 import com.sagikor.android.jobao.ui.fragments.jobslist.JobsListFragment
 import com.sagikor.android.jobao.ui.fragments.jobslist.JobsListFragmentDirections
+import com.sagikor.android.jobao.util.appendAttribute
+import com.sagikor.android.jobao.viewmodel.JobViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.flow.collect
+import java.io.File
+import java.io.IOException
 import java.lang.RuntimeException
+import java.util.*
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), OnScrollListener {
     private val TAG = MainActivity::class.qualifiedName
-
+    private val jobViewModel: JobViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        initBottomAppBar()
+        initEventChannel()
 
-        navView.background = null
-        navView.menu.getItem(1).isEnabled = false
+    }
 
+    private fun initBottomAppBar() {
+        bottomAppBar.replaceMenu(R.menu.bottom_app_bar_more)
+        bottomAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.send_to_mail -> jobViewModel.onSendToMailClick()
+                R.id.rate_us -> jobViewModel.onRateUsClick()
+
+            }
+            true
+        }
         navController = findNavController(R.id.nav_host_fragment)
 
         appBarConfiguration = AppBarConfiguration(
@@ -49,10 +77,12 @@ class MainActivity : AppCompatActivity(), OnScrollListener {
                 R.id.navigation_applications
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-        setFabListener()
 
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        nav_view.setupWithNavController(navController)
+        nav_view.background = null
+
+        setFabListener()
     }
 
     private fun setFabListener() {
@@ -74,7 +104,7 @@ class MainActivity : AppCompatActivity(), OnScrollListener {
         }
         navController.addOnDestinationChangedListener { _, destination, _ ->
             run {
-                fab.isEnabled = destination.id != R.id.navigation_add_edit
+                coordinator.isVisible = destination.id != R.id.navigation_add_edit
             }
         }
     }
@@ -101,7 +131,88 @@ class MainActivity : AppCompatActivity(), OnScrollListener {
         bottomAppBar.performHide()
     }
 
-}
+    private fun initEventChannel() {
+        val appUri = "https://play.google.com/store/apps/details?id=$packageName"
+        lifecycleScope.launchWhenStarted {
+            jobViewModel.actionEvent.collect { action ->
+                when (action) {
+                    is JobViewModel.ActionEvent.NavigateToGooglePlayRate -> startActivity(
+                        Intent(Intent.ACTION_VIEW, Uri.parse(appUri))
+                    )
+                    is JobViewModel.ActionEvent.SendToMailSuccess -> sendAttachedFileToMail()
+                    is JobViewModel.ActionEvent.SendToMailFail -> popFailToSendEmail()
+                }
+            }
+        }
+    }
+
+    private fun popFailToSendEmail() {
+        Snackbar.make(
+            supportFragmentManager.fragments.last().requireView(),
+            getString(R.string.email_send_error),
+            Snackbar.LENGTH_LONG
+        ).setAnchorView(R.id.nav_view).show()
+    }
+
+    private fun sendAttachedFileToMail() {
+        val current = supportFragmentManager.fragments.last()
+        jobViewModel.jobs.observe(current.viewLifecycleOwner){jobsList ->
+            val jobsSubmission = getString(R.string.job_submissions) + ".csv"
+            val jobsSubmissionsData = getJobsSubmissionData(jobsList)
+
+            try {
+                openFileOutput(jobsSubmission, MODE_PRIVATE).apply {
+                    write(jobsSubmissionsData.toByteArray())
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+            val file = File(filesDir, jobsSubmission)
+            val authority = applicationContext.packageName + ".provider"
+            val path = FileProvider.getUriForFile(applicationContext, authority, file)
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/csv"
+                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.job_submissions))
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                putExtra(Intent.EXTRA_STREAM, path)
+            }
+            startActivity(Intent.createChooser(intent, "Send mail"))
+        }
+    }
+
+    private fun getJobsSubmissionData(jobsList : List<Job>): String {
+        val stringBuilder = StringBuilder().apply {
+            append(getHeaders())
+        }
+            jobsList.iterator().forEach {job ->
+                stringBuilder.apply {
+                    appendAttribute(job.companyName)
+                    appendAttribute(job.title)
+                    appendAttribute(job.wasReplied.toString().toLowerCase(Locale.ENGLISH))
+                    appendAttribute(job.declinedDate ?: "")
+                    appendAttribute(job.note ?: "")
+                    appendAttribute(job.createdAtDateFormat)
+                    append("\n")
+                }
+            }
+        return stringBuilder.toString()
+    }
+
+    private fun getHeaders(): String {
+            return StringBuilder().apply {
+                appendAttribute(getString(R.string.company_name))
+                appendAttribute(getString(R.string.position_title))
+                appendAttribute(getString(R.string.had_process))
+                appendAttribute(getString(R.string.declined_date))
+                appendAttribute(getString(R.string.note))
+                appendAttribute(getString(R.string.csv_created_at))
+                append("\n")
+            }.toString()
+        }
+    }
+
+
 
 const val ADD_JOB_RESULT_OK = Activity.RESULT_FIRST_USER
 const val EDIT_JOB_RESULT_OK = Activity.RESULT_FIRST_USER + 1

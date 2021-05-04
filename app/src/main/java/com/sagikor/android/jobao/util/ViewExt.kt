@@ -14,3 +14,7 @@ inline fun SearchView.onQueryTextChanged(crossinline listener: (String) -> Unit)
         }
     })
 }
+
+fun java.lang.StringBuilder.appendAttribute(attribute: String) {
+    append(attribute).append(",")
+}
