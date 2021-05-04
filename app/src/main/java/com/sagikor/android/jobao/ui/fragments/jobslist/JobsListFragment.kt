@@ -21,6 +21,7 @@ import com.sagikor.android.jobao.databinding.FragmentJobsListBinding
 import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.ui.activities.OnScrollListener
 import com.sagikor.android.jobao.util.exhaustive
+import com.sagikor.android.jobao.viewmodel.JOB_ADDED
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_jobs_list.*
 import kotlinx.coroutines.flow.collect
@@ -74,7 +75,7 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                         super.onScrollStateChanged(recyclerView, newState)
                         if (!recyclerView.canScrollVertically(1)) {//reached bottom
-                            onScrollListener?.onScrollUp()
+                            onScrollListener?.onScrollDown()
                         }
                     }
                 }
@@ -131,7 +132,7 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                         )
                             .setAction(getString(R.string.undo)) {
                                 jobViewModel.onUndoDeleteJob(event.job)
-                            }.setAnchorView(R.id.coordinator).show()
+                            }.setAnchorView(R.id.nav_view).show()
                     }
                     is JobViewModel.JobsEvents.NavigateToEditJobScreen -> {
                         val action =
@@ -143,14 +144,14 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                     }
                     is JobViewModel.JobsEvents.ShowJobSavedConfirmationMessage -> {
                         val msg =
-                            if (event.message == "Job added") getString(R.string.add_success) else getString(
+                            if (event.message == JOB_ADDED) getString(R.string.add_success) else getString(
                                 R.string.edit_success
                             )
                         Snackbar.make(
                             requireView(),
                             msg,
                             Snackbar.LENGTH_LONG
-                        ).setAnchorView(R.id.coordinator).show()
+                        ).setAnchorView(R.id.nav_view).show()
                     }
                 }.exhaustive
             }

@@ -130,9 +130,9 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
         chip.setOnCheckedChangeListener { _, isChecked ->
             val editText = binding.edNotes
             if (isChecked)
-                editText.append("$text, ")
+                editText.append("$text. ")
             else {
-                editText.setText(editText.text.toString().replace("$text, ", ""))
+                editText.setText(editText.text.toString().replace("$text. ", ""))
             }
         }
     }
@@ -183,7 +183,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                             requireView(),
                             msg,
                             Snackbar.LENGTH_LONG
-                        ).setAnchorView(R.id.coordinator).show()
+                        ).setAnchorView(R.id.nav_view).show()
                     }
                     is AddEditViewModel.AddEditJobEvent.ShowInvalidInputMessage -> {
                         val error = when (event.location) {
@@ -195,7 +195,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                             requireView(),
                             error,
                             Snackbar.LENGTH_LONG
-                        ).setAnchorView(R.id.coordinator).show()
+                        ).setAnchorView(R.id.nav_view).show()
                     }
                     is AddEditViewModel.AddEditJobEvent.ShowGoBackConfirmationMessage -> showAlertDialog()
                 }
