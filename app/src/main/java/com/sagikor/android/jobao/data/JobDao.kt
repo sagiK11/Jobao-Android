@@ -19,8 +19,11 @@ interface JobDao {
     @Delete
     suspend fun deleteJob(job: Job)
 
+    @Query("SELECT * FROM user_jobs")
+    fun getAllJobs(): Flow<List<Job>>
 
-    fun getJobs(query: String, sortOrder: SortOrder, status: JobStatus): Flow<List<Job>> =
+
+    fun getFilteredJobs(query: String, sortOrder: SortOrder, status: JobStatus): Flow<List<Job>> =
         when (sortOrder) {
             SortOrder.BY_COMPANY -> {
                 getJobsSortedByCompanyName(query, status)
