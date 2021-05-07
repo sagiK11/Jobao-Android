@@ -4,7 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.sagikor.android.jobao.util.*
+import com.sagikor.android.jobao.util.Converters
 import kotlinx.android.parcel.Parcelize
 import java.text.DateFormat
 
