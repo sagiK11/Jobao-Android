@@ -13,7 +13,9 @@
 
         <action
             android:id="@+id/action_navigation_home_to_addEditFragment"
-            app:destination="@id/navigation_add_edit" />
+            app:destination="@id/navigation_add_edit"
+            app:enterAnim="@anim/to_add_edit"
+            app:popEnterAnim="@anim/from_add_edit_to_home" />
     </fragment>
 
 
@@ -25,13 +27,10 @@
 
         <action
             android:id="@+id/action_navigation_applications_to_addEditFragment"
-            app:destination="@id/navigation_add_edit" />
+            app:destination="@id/navigation_add_edit"
+            app:enterAnim="@anim/to_add_edit"
+            app:popEnterAnim="@anim/from_add_edit_to_jobs_list" />
     </fragment>
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.sagikor.android.jobao.ui.fragments.dashboard.DashboardFragment"
-        android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
     <fragment
         android:id="@+id/navigation_add_edit"
         android:name="com.sagikor.android.jobao.ui.fragments.addedit.AddEditFragment"
