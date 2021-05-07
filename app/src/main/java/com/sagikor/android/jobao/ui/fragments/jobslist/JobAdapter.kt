@@ -2,6 +2,7 @@ package com.sagikor.android.jobao.ui.fragments.jobslist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +12,8 @@ import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.model.JobStatus
 
 
-class JobAdapter(private val listener: onItemClickListener)
-    : ListAdapter<Job, JobAdapter.JobViewHolder>(DiffCallback()) {
+class JobAdapter(private val listener: onItemClickListener) :
+    ListAdapter<Job, JobAdapter.JobViewHolder>(DiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
@@ -30,9 +31,9 @@ class JobAdapter(private val listener: onItemClickListener)
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.apply {
-                root.setOnClickListener{
+                root.setOnClickListener {
                     val pos = adapterPosition
-                    if(pos != RecyclerView.NO_POSITION){
+                    if (pos != RecyclerView.NO_POSITION) {
                         val job = getItem(pos)
                         listener.onItemClick(job)
                     }
@@ -42,26 +43,32 @@ class JobAdapter(private val listener: onItemClickListener)
         }
 
         fun bind(job: Job) {
-            val pendingIcon = binding.root.context.getDrawable(R.drawable.ic_round_hourglass_top_24)
-            val rejectIcon = binding.root.context.getDrawable(R.drawable.ic_baseline_close_24)
-            val acceptedIcon = binding.root.context.getDrawable(R.drawable.ic_baseline_done_24)
-            val inProcessIcon = binding.root.context.getDrawable(R.drawable.ic_baseline_sync_24)
+            val resource = binding.root.context.resources
+            val pendingIcon =
+                ResourcesCompat.getDrawable(resource, R.drawable.ic_waiting_for_reply, null)
+            val rejectIcon =
+                ResourcesCompat.getDrawable(resource, R.drawable.ic_baseline_close_24, null)
+            val acceptedIcon =
+                ResourcesCompat.getDrawable(resource, R.drawable.ic_baseline_done_24, null)
+            val inProcessIcon =
+                ResourcesCompat.getDrawable(resource, R.drawable.ic_in_process, null)
             binding.apply {
-                listItemId.text = job.id.toString()
                 listItemCompanyName.text = job.companyName
                 listItemPositionTitle.text = job.title
-                listItemStatus.setImageDrawable(when(job.status){
-                    JobStatus.PENDING -> pendingIcon
-                    JobStatus.REJECTED-> rejectIcon
-                    JobStatus.IN_PROCESS -> inProcessIcon
-                    else  -> acceptedIcon
-                })
+                listItemStatus.setImageDrawable(
+                    when (job.status) {
+                        JobStatus.PENDING -> pendingIcon
+                        JobStatus.REJECTED -> rejectIcon
+                        JobStatus.IN_PROCESS -> inProcessIcon
+                        else -> acceptedIcon
+                    }
+                )
             }
         }
     }
 
-    interface onItemClickListener{
-        fun onItemClick(job : Job)
+    interface onItemClickListener {
+        fun onItemClick(job: Job)
     }
 
 
