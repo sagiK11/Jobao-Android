@@ -50,7 +50,7 @@
     <string name="status">מצב ההגשה</string>
     <string name="add_success">ההגשה נוספה בהצלחה!</string>
     <string name="edit_success">ההגשה נשמרה בהצלחה!</string>
-    <string name="pending">מחכה לתשובה</string>
+    <string name="pending">מחכה לתגובה</string>
     <string name="in_process">בתהליך</string>
     <string name="accepted">התקבל</string>
     <string name="rejected">דחייה</string>
@@ -64,12 +64,12 @@
     <string name="confirmation_exit_msg">לצאת?</string>
     <string name="cancel">בטל</string>
     <string name="date">%1$d/%2$d/%3$d</string>
-    <string name="applications_status">מצב ההגשות</string>
+    <string name="applications_status">מצב ההגשות שלי</string>
     <string name="dates">הגשות ב-7 ימים האחרונים </string>
     <string name="total_application">%1$s הגשות</string>
     <string name="total_replies">הגשות שנענו %1$s</string>
-    <string name="total_processes">%1$s תהליכים שהתחלת</string>
-    <string name="total_pending">מחכה לתשובה מ-%1$s חברות</string>
+    <string name="total_processes">%1$s תהליכים שהתחלתי</string>
+    <string name="total_pending">מחכה לתגובה ראשונית מ-%1$s חברות</string>
     <string name="active_processes">%1$s פעילים</string>
     <string name="total_offers">%1$s הצעות</string>
     <string name="date_dialog">תאריך</string>
@@ -90,6 +90,9 @@
     <string name="other">אחר</string>
     <string name="applied_via_of_process">אופן הגשה מחברות שאיתן התחלתי תהליך</string>
     <string name="applied_via_pie_chart_title">אופן הגשה מסך כל החברות</string>
+    <string name="is_cover_letter_sent_chart_title">התפלגות הגשות עם מכתב נלווה</string>
+    <string name="cover_letter_sent">נשלח</string>
+    <string name="cover_letter_not_sent">לא נשלח</string>
     <string name="more">עוד</string>
     <string name="send_to_mail">שלח לי למייל</string>
     <string name="rate_us">דרג אותנו</string>
@@ -99,5 +102,14 @@
     <string name="declined_date">תאריך דחיה</string>
     <string name="note">הערה</string>
     <string name="csv_created_at">נוצר ב-</string>
+    <string name="no_data_text">אין מספיק נתונים</string>
+    <string name="fab">כפתור צף</string>
+    <string name="user_had_process">היה תהליך</string>
+    <string name="user_did_not_had_process">לא היה תהליך</string>
+    <string name="cover_letter_sent_and_replied">נשלח והיה תהליך</string>
+    <string name="cover_letter_sent_and_not_replied">נשלח ולא היה תהליך</string>
+    <string name="cover_letter_not_sent_and_replied">לא נשלח והיה תהליך</string>
+    <string name="cover_letter_not_sent_and_not_replied">לא נשלח ולא היה תהליך</string>
+
 
 </resources>

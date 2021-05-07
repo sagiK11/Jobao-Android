@@ -17,6 +17,7 @@ import com.sagikor.android.jobao.databinding.FragmentHomeBinding
 import com.sagikor.android.jobao.model.AppliedVia
 import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.model.JobStatus
+import com.sagikor.android.jobao.model.SentWithCoverLetter
 import com.sagikor.android.jobao.ui.activities.OnScrollListener
 import com.sagikor.android.jobao.ui.fragments.home.adapters.BarChartAdapter
 import com.sagikor.android.jobao.ui.fragments.home.adapters.LineChartAdapter
@@ -43,6 +44,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val lineDataList: MutableList<LineData> = mutableListOf()
 
     private enum class ChartOrder { FIRST, SECOND, THIRD, FOURTH }
+
+    private enum class CoverLetterOptions {
+        SENT_AND_REPLIED, SENT_AND_NOT_REPLIED,
+        NOT_SENT_AND_REPLIED, NOT_SENT_AND_NOT_REPLIED
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,7 +78,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun initScrollListener() {
         binding.apply {
             homeScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-                if (scrollY < oldScrollY ) {
+                if (scrollY < oldScrollY) {
                     onScrollListener?.onScrollUp()
                 } else {
                     onScrollListener?.onScrollDown()
@@ -119,7 +125,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun observeApplicationsInfo() {
-        jobViewModel.jobs.observe(viewLifecycleOwner) {
+        jobViewModel.allJobs.observe(viewLifecycleOwner) {
             binding.apply {
                 totalApplications.text = getString(R.string.total_application, it.size.toString())
                 totalPending.text = getString(
@@ -143,20 +149,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun observeJobList() {
-        observeStatus()
-        observeAppliedVia()
-        observeDates()
-        observeProcessWithAppliedVia()
+        observeStatusAttribute()
+        observeAppliedViaAttribute()
+        observeDatesAttribute()
+        observeProcessWithAppliedViaAttribute()
+        observeIsCoverLetterSentAttribute()
     }
 
-    private fun observeStatus() {
-        jobViewModel.jobs.observe(viewLifecycleOwner) { jobsList ->
-            createBarChart(jobsList, ChartOrder.FIRST, getString(R.string.applications_status))
+    private fun observeStatusAttribute() {
+        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
+            createStatusBarChart(
+                jobsList,
+                ChartOrder.FIRST,
+                getString(R.string.applications_status)
+            )
         }
     }
 
-    private fun observeAppliedVia() {
-        jobViewModel.jobs.observe(viewLifecycleOwner) { jobsList ->
+    private fun observeAppliedViaAttribute() {
+        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
             createPieChart(
                 jobsList,
                 ChartOrder.FIRST,
@@ -165,15 +176,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun observeDates() {
-        jobViewModel.jobs.observe(viewLifecycleOwner) { jobsList ->
+    private fun observeDatesAttribute() {
+        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
             createLineChart(jobsList, ChartOrder.FIRST, getString(R.string.dates))
         }
 
     }
 
-    private fun observeProcessWithAppliedVia() {
-        jobViewModel.jobs.observe(viewLifecycleOwner) { jobsList ->
+    private fun observeIsCoverLetterSentAttribute() {
+        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
+            createCoverLetterBarChart(jobsList, ChartOrder.SECOND)
+
+        }
+    }
+
+
+    private fun observeProcessWithAppliedViaAttribute() {
+        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
             val filteredJobs = jobsList.filter { job -> job.wasReplied }
             createPieChart(
                 filteredJobs,
@@ -187,7 +206,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         //gather data
         val daysList = getLastSevenDaysActivity(jobsList)
 
-        //create chart
+        //create chart data
         val entries = mutableListOf<Entry>().apply {
             for (i in 0..6) {
                 add(Entry(i.toFloat(), daysList[i].second.toFloat()))
@@ -199,6 +218,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             fillAlpha = 1000
             color = ResourcesCompat.getColor(resources, R.color.chart_3, null)
             setDrawFilled(true)
+            setDrawCircleHole(false)
+            color = ResourcesCompat.getColor(resources, R.color.chart_1, null)
+            setCircleColor(ResourcesCompat.getColor(resources, R.color.chart_1, null))
+            lineWidth = 1.5f;
+            mode = LineDataSet.Mode.CUBIC_BEZIER
         }
 
         val data = LineData(lineDataSet1).apply {
@@ -213,7 +237,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         //gather data
         val options = getAppliedViaOptionsData(jobsList)
 
-        //create chart
+        //create chart data
         val entries = mutableListOf<PieEntry>().apply {
             val stringResources = getAppliedViaStringResources()
             for (i in 0..4) {
@@ -238,11 +262,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         pieChartAdapter.submitList(pieDataList)
     }
 
-    private fun createBarChart(jobsList: List<Job>, chartOrder: ChartOrder, label: String) {
+    private fun createStatusBarChart(jobsList: List<Job>, chartOrder: ChartOrder, label: String) {
         //gather data
         val status = getSubmissionStatusData(jobsList)
 
-        //create chart
+        //create chart data
         val xValues = getXAxisStatusLabels()
         val entries = mutableListOf<BarEntry>().apply {
             for (i in 0..3) {
@@ -250,24 +274,82 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
-        val barDataSet1 = BarDataSet(entries, label).apply {
+        val barDataSet = BarDataSet(entries, label).apply {
             colors = getChartColors()
+            stackLabels = xValues.toTypedArray()
         }
 
-        val data = BarData(barDataSet1).apply {
+        val data = BarData(barDataSet).apply {
             setValueFormatter(object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return value.toInt().toString()
                 }
             })
-            barWidth = 0.5f
-            setValueTextSize(15f)
+            barWidth = 0.6f
+            setValueTextSize(0f)
         }
         addOrUpdateInBarList(data, chartOrder)
-        barBarChartAdapter.submitXLabels(xValues)
         barBarChartAdapter.submitList(barDataList)
-
     }
+
+    private fun createCoverLetterBarChart(
+        jobsList: List<Job>,
+        chartOrder: ChartOrder,
+    ) {
+        //gather data
+        val processData = getProcessData(jobsList)
+
+        //create chart data
+        val xValues = getXAxisCoverLetterLabels()
+
+        val coverLetterSentEntries = mutableListOf<BarEntry>().apply {
+            add(BarEntry(0f, processData[CoverLetterOptions.SENT_AND_REPLIED.ordinal]))
+            add(BarEntry(1f, processData[CoverLetterOptions.SENT_AND_NOT_REPLIED.ordinal]))
+        }
+
+        val coverLetterSentDataSet = BarDataSet(
+            coverLetterSentEntries,
+            getString(R.string.cover_letter_sent)
+        ).apply {
+            color = ContextCompat.getColor(requireContext(), R.color.chart_2)
+            stackLabels = xValues.toTypedArray()
+        }
+
+        val coverLetterNotSentEntries = mutableListOf<BarEntry>().apply {
+            add(BarEntry(0f, processData[CoverLetterOptions.NOT_SENT_AND_REPLIED.ordinal]))
+            add(BarEntry(1f, processData[CoverLetterOptions.NOT_SENT_AND_NOT_REPLIED.ordinal]))
+        }
+
+        val coverLetterNotSentDataSet =
+            BarDataSet(
+                coverLetterNotSentEntries, getString(R.string.cover_letter_not_sent)
+            ).apply {
+                stackLabels = xValues.toTypedArray()
+                color = ContextCompat.getColor(requireContext(), R.color.chart_3)
+            }
+
+        val data = BarData(coverLetterSentDataSet, coverLetterNotSentDataSet).apply {
+            setValueFormatter(object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return value.toInt().toString()
+                }
+            })
+            barWidth = 0.1f
+            setValueTextSize(0f)
+        }
+
+        addOrUpdateInBarList(data, chartOrder)
+        barBarChartAdapter.submitList(barDataList)
+    }
+
+
+    private fun getXAxisCoverLetterLabels(): MutableList<String> {
+        return mutableListOf<String>().apply {
+            add(getString(R.string.user_had_process))
+            add(getString(R.string.user_did_not_had_process))
+        }
+    }
+
 
     private fun addOrUpdateInBarList(
         data: BarData,
@@ -339,7 +421,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         return options
     }
 
-
     private fun getXAxisStatusLabels(): MutableList<String> {
         return mutableListOf<String>().apply {
             add(getString(R.string.pending))
@@ -363,7 +444,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val statusOptionsNo = 4
         val statusData = FloatArray(statusOptionsNo)
 
-        for (job in jobsList) {
+        jobsList.iterator().forEach { job ->
             when (job.status) {
                 JobStatus.PENDING -> statusData[JobStatus.PENDING.ordinal]++
                 JobStatus.IN_PROCESS -> statusData[JobStatus.IN_PROCESS.ordinal]++
@@ -372,6 +453,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
         return statusData
+    }
+
+
+    private fun getProcessData(jobsList: List<Job>): FloatArray {
+        val statusOptionsNo = 4
+        val optionsData = FloatArray(statusOptionsNo)
+
+        jobsList.iterator().forEach { job ->
+            if (job.isCoverLetterSent == SentWithCoverLetter.YES && job.wasReplied)
+                optionsData[CoverLetterOptions.SENT_AND_REPLIED.ordinal]++
+            else if (job.isCoverLetterSent == SentWithCoverLetter.YES && !job.wasReplied) {
+                optionsData[CoverLetterOptions.SENT_AND_NOT_REPLIED.ordinal]++
+            } else if (job.isCoverLetterSent == SentWithCoverLetter.NO && job.wasReplied)
+                optionsData[CoverLetterOptions.NOT_SENT_AND_REPLIED.ordinal]++
+            else {
+                optionsData[CoverLetterOptions.NOT_SENT_AND_NOT_REPLIED.ordinal]++
+            }
+        }
+        return optionsData
     }
 
     private fun getLastSevenDaysActivity(jobsList: List<Job>): MutableList<Pair<String, Int>> {

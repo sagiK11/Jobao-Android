@@ -47,7 +47,7 @@
     <string name="undo">UNDO</string>
     <string name="created_at">Created: %1$s </string>
     <string name="status">status</string>
-    <string name="add_success">application adde!</string>
+    <string name="add_success">application added!</string>
     <string name="edit_success">application saved!</string>
     <string name="pending">Pending</string>
     <string name="in_process">In Process</string>
@@ -63,18 +63,18 @@
     <string name="confirmation_exit_msg">Are you sure you wish to exit?</string>
     <string name="cancel">cancel</string>
     <string name="date">%1$d/%2$d/%3$d</string>
-    <string name="applications_status">Applications status</string>
+    <string name="applications_status">My applications status</string>
     <string name="dates">Last 7 days activity</string>
-    <string name="total_application">%1$s total applications</string>
+    <string name="total_application">%1$s applications</string>
     <string name="total_replies">%1$s total replies</string>
-    <string name="total_processes">%1$s total processes</string>
-    <string name="total_pending">%1$s total pending</string>
+    <string name="total_processes">%1$s processes</string>
+    <string name="total_pending">%1$s pending</string>
     <string name="active_processes">%1$s active </string>
     <string name="total_offers">%1$s offers </string>
     <string name="date_dialog">Date</string>
     <string name="dashboard">Dashboard</string>
     <string name="activity">Activity</string>
-    <string name="add_note">add note</string>
+    <string name="add_note">note</string>
     <string name="part_time">part time </string>
     <string name="long_submission">long submission process </string>
     <string name="remote_job">remote </string>
@@ -87,8 +87,11 @@
     <string name="cancel_message">Your changes will not be saved, continue anyway?</string>
     <string name="linkedin">Linkedin</string>
     <string name="other">Other</string>
-    <string name="applied_via_of_process">From the companies I had process with</string>
-    <string name="applied_via_pie_chart_title">From all the companies I applied to</string>
+    <string name="applied_via_of_process">Data from the companies I had process with</string>
+    <string name="applied_via_pie_chart_title">Data from all the companies I applied to</string>
+    <string name="is_cover_letter_sent_chart_title">Cover letter distribution</string>
+    <string name="cover_letter_sent">Sent</string>
+    <string name="cover_letter_not_sent">Was not sent</string>
     <string name="more">More</string>
     <string name="send_to_mail">Send to mail box</string>
     <string name="rate_us">Rate us</string>
@@ -98,6 +101,14 @@
     <string name="declined_date">Declined date</string>
     <string name="note">Note</string>
     <string name="csv_created_at">created at</string>
+    <string name="no_data_text">Not enough data</string>
+    <string name="fab">fab</string>
+    <string name="user_had_process">had process</string>
+    <string name="user_did_not_had_process">had no process</string>
+    <string name="cover_letter_sent_and_replied">sent letter and replied</string>
+    <string name="cover_letter_sent_and_not_replied">sent letter and not replied</string>
+    <string name="cover_letter_not_sent_and_replied">didn\'t sent letter and replied</string>
+    <string name="cover_letter_not_sent_and_not_replied">didn\'t sent letter and not replied</string>
 
 
 
