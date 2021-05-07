@@ -1,21 +1,19 @@
 package com.sagikor.android.jobao.ui.fragments.addedit
 
-import android.app.Activity
 import android.app.AlertDialog
+import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
@@ -24,13 +22,12 @@ import com.sagikor.android.jobao.databinding.FragmentAddEditJobBinding
 import com.sagikor.android.jobao.model.AppliedVia
 import com.sagikor.android.jobao.model.JobStatus
 import com.sagikor.android.jobao.model.SentWithCoverLetter
-import com.sagikor.android.jobao.ui.activities.ADD_JOB_RESULT_OK
 import com.sagikor.android.jobao.util.AppExceptions
+import com.sagikor.android.jobao.viewmodel.ADD_EDIT_REQUEST
+import com.sagikor.android.jobao.viewmodel.ADD_EDIT_RESULT
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_add_edit_job.view.*
+import kotlinx.android.synthetic.main.fragment_add_edit_job.*
 import kotlinx.coroutines.flow.collect
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -43,7 +40,6 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAddEditJobBinding.bind(view)
-        initSpinners()
         initEventChannel()
         setFields()
         bindListeners()
@@ -51,38 +47,97 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
         setOnBackPressDispatcherCallBack()
     }
 
-
     private fun bindListeners() {
-        binding.edCompanyName.addTextChangedListener { text ->
-            viewModel.jobCompany = text.toString()
-        }
-        binding.edPositionTitle.addTextChangedListener { text ->
-            viewModel.jobTitle = text.toString()
-        }
-        binding.edNotes.addTextChangedListener { text ->
-            viewModel.jobNote = text.toString()
-        }
-        binding.separator.setOnClickListener {
-            val isViewsVisible = binding.spinnerStatus.isVisible
-            setOptionalViewsVisibility(
-                when (isViewsVisible) {
-                    true -> View.GONE
-                    else -> View.VISIBLE
-                }
-            )
-        }
+        bindRequiredFieldsListener()
+        bindSeparatorListener()
+        bindOptionalFieldsListeners()
+        bindNoteFieldListener()
         setChipLogic(binding.chipTrain, getString(R.string.next_to_train))
         setChipLogic(binding.chipRemote, getString(R.string.remote_job))
         setChipLogic(binding.chipStratup, getString(R.string.startup))
         setChipLogic(binding.chipPartTime, getString(R.string.part_time))
         setChipLogic(binding.chipLongSubmission, getString(R.string.long_submission))
-        binding.btnAddApplication.setOnClickListener {
-            viewModel.onSaveClick()
-        }
-        binding.btnCancelApplication.setOnClickListener {
-            viewModel.onCancelClick()
-        }
+        bindSaveCancelButtonsListeners()
+    }
 
+    private fun bindSaveCancelButtonsListeners() {
+        binding.apply {
+            btnAddApplication.setOnClickListener {
+                viewModel.onSaveClick()
+            }
+            btnCancelApplication.setOnClickListener {
+                viewModel.onCancelClick()
+            }
+        }
+    }
+
+    private fun bindNoteFieldListener() {
+        binding.apply {
+            edNotes.addTextChangedListener { text ->
+                // comma in note breaks the csv generator
+                val safeText = text.toString().replace(",", ".")
+                viewModel.jobNote = safeText
+            }
+        }
+    }
+
+    private fun bindOptionalFieldsListeners() {
+        binding.apply {
+            statusGroup.addOnButtonCheckedListener { _, checkedId, _ ->
+                viewModel.jobStatus = when (checkedId) {
+                    R.id.btn_pending -> JobStatus.PENDING
+                    R.id.btn_in_process -> JobStatus.IN_PROCESS
+                    R.id.btn_rejected -> JobStatus.REJECTED
+                    else -> JobStatus.ACCEPTED
+                }
+                if (viewModel.jobStatus == JobStatus.ACCEPTED ||
+                    viewModel.jobStatus == JobStatus.IN_PROCESS
+                ) {
+                    viewModel.jobWasReplied = true
+                }
+            }
+            appliedViaGroup.addOnButtonCheckedListener { _, checkedId, _ ->
+                viewModel.jobAppliedVia = when (checkedId) {
+                    R.id.btn_company_site -> AppliedVia.SITE
+                    R.id.btn_email -> AppliedVia.EMAIL
+                    R.id.btn_reference -> AppliedVia.REFERENCE
+                    R.id.btn_linkedin -> AppliedVia.LINKEDIN
+                    else -> AppliedVia.OTHER
+                }
+
+            }
+            coverLetterGroup.addOnButtonCheckedListener { _, checkedId, _ ->
+                viewModel.jobIsCoverLetterSent = when (checkedId) {
+                    R.id.btn_cover_letter_positive -> SentWithCoverLetter.YES
+                    else -> SentWithCoverLetter.NO
+                }
+            }
+        }
+    }
+
+    private fun bindSeparatorListener() {
+        binding.apply {
+            separator.setOnClickListener {
+                val isViewsVisible = binding.tvStatus.isVisible
+                setOptionalViewsVisibility(
+                    when (isViewsVisible) {
+                        true -> View.GONE
+                        else -> View.VISIBLE
+                    }
+                )
+            }
+        }
+    }
+
+    private fun bindRequiredFieldsListener() {
+        binding.apply {
+            edCompanyName.addTextChangedListener { text ->
+                viewModel.jobCompany = text.toString()
+            }
+            edPositionTitle.addTextChangedListener { text ->
+                viewModel.jobTitle = text.toString()
+            }
+        }
     }
 
     private fun showAlertDialog() {
@@ -101,12 +156,12 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
 
     private fun setOptionalViewsVisibility(visibility: Int) {
         binding.apply {
-            spinnerStatus.visibility = visibility
             tvStatus.visibility = visibility
-            spinnerAppliedVia.visibility = visibility
+            statusGroup.visibility = visibility
             tvAppliedVia.visibility = visibility
-            spinnerSentCoverLetter.visibility = visibility
+            appliedViaGroup.visibility = visibility
             tvSentWithCoverLetter.visibility = visibility
+            coverLetterGroup.visibility = visibility
             separator.drawable.setImageDrawable(
                 when (visibility) {
                     View.GONE -> ResourcesCompat.getDrawable(
@@ -125,7 +180,6 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
 
     }
 
-
     private fun setChipLogic(chip: Chip, text: String) {
         chip.setOnCheckedChangeListener { _, isChecked ->
             val editText = binding.edNotes
@@ -135,30 +189,63 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                 editText.setText(editText.text.toString().replace("$text. ", ""))
             }
         }
+        //light / night mode adjustments
+        val resources = requireContext().resources
+        val color = when (resources.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                ResourcesCompat.getColor(resources, R.color.teal_700, null)
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                ResourcesCompat.getColor(resources, R.color.grayish_red_3, null)
+            }
+            else -> {
+                ResourcesCompat.getColor(resources, R.color.grayish_red_3, null)
+            }
+        }
+
+        chip.chipBackgroundColor = ColorStateList.valueOf(color)
     }
 
     private fun setFields() {
         val isInEditMode = viewModel.job != null
+        val createdAt = "${viewModel.job?.createdAtDateFormat}"
         binding.apply {
             edCompanyName.setText(viewModel.jobCompany)
             edPositionTitle.setText(viewModel.jobTitle)
-            spinnerStatus.setSelection(viewModel.jobStatus.ordinal)
-            spinnerAppliedVia.setSelection(viewModel.jobAppliedVia.ordinal)
-            spinnerSentCoverLetter.setSelection(viewModel.jobIsCoverLetterSent.ordinal)
             edNotes.setText(viewModel.jobNote)
-            dateCreated.isVisible = isInEditMode
-            dateCreated.text =
-                getString(R.string.created_at, "${viewModel.job?.createdAtDateFormat}")
-
-            if (isInEditMode) {
-                btnAddApplication.text = getString(R.string.btn_save)
-            } else {
-                btnAddApplication.text = getString(R.string.btn_save)
-            }
+            dateCreated.visibility = if (isInEditMode) View.VISIBLE else View.INVISIBLE
+            dateCreated.text = getString(R.string.created_at, createdAt)
+            btnAddApplication.text = getString(R.string.btn_save)
         }
+        setOptionalFields()
+    }
 
-
-
+    private fun setOptionalFields() {
+        binding.apply {
+            statusGroup.check(
+                when (viewModel.jobStatus) {
+                    JobStatus.PENDING -> R.id.btn_pending
+                    JobStatus.IN_PROCESS -> R.id.btn_in_process
+                    JobStatus.REJECTED -> R.id.btn_reference
+                    JobStatus.ACCEPTED -> R.id.btn_accepted
+                }
+            )
+            appliedViaGroup.check(
+                when (viewModel.jobAppliedVia) {
+                    AppliedVia.SITE -> R.id.btn_company_site
+                    AppliedVia.EMAIL -> R.id.btn_email
+                    AppliedVia.REFERENCE -> R.id.btn_reference
+                    AppliedVia.LINKEDIN -> R.id.btn_linkedin
+                    AppliedVia.OTHER -> R.id.btn_other
+                }
+            )
+            coverLetterGroup.check(
+                when (viewModel.jobIsCoverLetterSent) {
+                    SentWithCoverLetter.NO -> R.id.btn_cover_letter_negative
+                    SentWithCoverLetter.YES -> R.id.btn_cover_letter_positive
+                }
+            )
+        }
     }
 
     private fun initEventChannel() {
@@ -169,21 +256,10 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                     is AddEditViewModel.AddEditJobEvent.NavigateBackWithResult -> {
                         binding.edCompanyName.clearFocus()
                         setFragmentResult(
-                            "add_edit_request",
-                            bundleOf("add_edit_result" to event.result)
+                            ADD_EDIT_REQUEST,
+                            bundleOf(ADD_EDIT_RESULT to event.result)
                         )
-                        findNavController().popBackStack()
-                    }
-                    is AddEditViewModel.AddEditJobEvent.ShowOperationSuccess -> {
-                        val msg = when (event.result) {
-                            ADD_JOB_RESULT_OK -> getString(R.string.add_success)
-                            else -> getString(R.string.edit_success)
-                        }
-                        Snackbar.make(
-                            requireView(),
-                            msg,
-                            Snackbar.LENGTH_LONG
-                        ).setAnchorView(R.id.nav_view).show()
+                        findNavController().navigate(R.id.navigation_applications)
                     }
                     is AddEditViewModel.AddEditJobEvent.ShowInvalidInputMessage -> {
                         val error = when (event.location) {
@@ -195,103 +271,12 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                             requireView(),
                             error,
                             Snackbar.LENGTH_LONG
-                        ).setAnchorView(R.id.nav_view).show()
+                        ).setAnchorView(buttons_layout).show()
                     }
-                    is AddEditViewModel.AddEditJobEvent.ShowGoBackConfirmationMessage -> showAlertDialog()
+                    else -> showAlertDialog()
                 }
             }
         }
-    }
-
-    private fun initSpinners() {
-        setSpinnersText(
-            binding.root.spinner_applied_via,
-            R.array.applied_via_array,
-            AppliedViaListener()
-        )
-        setSpinnersText(
-            binding.root.spinner_sent_cover_letter,
-            R.array.sent_with_cover_letter_array,
-            IsCoverLetterSentListener()
-        )
-        setSpinnersText(
-            binding.root.spinner_status,
-            R.array.status_array,
-            StatusListener()
-        )
-    }
-
-    private fun setSpinnersText(
-        spinner: Spinner,
-        array: Int,
-        listener: AdapterView.OnItemSelectedListener
-    ) {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-
-        }
-        spinner.onItemSelectedListener = listener
-    }
-
-    inner class AppliedViaListener : Activity(), AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-            val item = parent.getItemAtPosition(pos).toString()
-            val via = when (item) {
-                parent.context.getString(R.string.site) -> AppliedVia.SITE
-                parent.context.getString(R.string.email) -> AppliedVia.EMAIL
-                parent.context.getString(R.string.reference) -> AppliedVia.REFERENCE
-                parent.context.getString(R.string.linkedin) -> AppliedVia.LINKEDIN
-                else -> AppliedVia.OTHER
-            }
-            viewModel.jobAppliedVia = via
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>) {}
-    }
-
-    inner class IsCoverLetterSentListener : Activity(), AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-            val item = parent.getItemAtPosition(pos).toString()
-            val answer = when (item) {
-                parent.context.getString(R.string.yes) -> SentWithCoverLetter.YES
-                else -> SentWithCoverLetter.NO
-            }
-            viewModel.jobIsCoverLetterSent = answer
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>) {}
-    }
-
-    inner class StatusListener : Activity(), AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-            val item = parent.getItemAtPosition(pos).toString()
-            val jobStatus = when (item) {
-                parent.context.getString(R.string.pending) -> JobStatus.PENDING
-                parent.context.getString(R.string.in_process) -> JobStatus.IN_PROCESS
-                parent.context.getString(R.string.accepted) -> JobStatus.ACCEPTED
-                else -> JobStatus.REJECTED
-            }
-            viewModel.jobStatus = jobStatus
-            if (jobStatus == JobStatus.REJECTED)
-                viewModel.jobDeclinedDate =
-                    SimpleDateFormat(
-                        "d/M/yyyy",
-                        Locale.ENGLISH
-                    ).format(Date(System.currentTimeMillis()))
-            else {
-                viewModel.jobDeclinedDate = ""
-            }
-            if (jobStatus == JobStatus.IN_PROCESS) {
-                viewModel.jobWasReplied = true
-            }
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>) {}
     }
 
     private fun setOnBackPressDispatcherCallBack() {
@@ -303,6 +288,4 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                 }
             })
     }
-
-
 }

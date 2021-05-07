@@ -2,7 +2,9 @@ package com.sagikor.android.jobao.ui.fragments.addedit
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sagikor.android.jobao.data.JobDao
 import com.sagikor.android.jobao.model.AppliedVia
 import com.sagikor.android.jobao.model.Job
@@ -127,7 +129,6 @@ class AddEditViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             jobDao.addJob(newJob)
             addEditTaskJobChannel.send(AddEditJobEvent.NavigateBackWithResult(ADD_JOB_RESULT_OK))
-            addEditTaskJobChannel.send(AddEditJobEvent.ShowOperationSuccess(ADD_JOB_RESULT_OK))
         }
     }
 
@@ -136,7 +137,6 @@ class AddEditViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             jobDao.updateJob(updatedJob)
             addEditTaskJobChannel.send(AddEditJobEvent.NavigateBackWithResult(EDIT_JOB_RESULT_OK))
-            addEditTaskJobChannel.send(AddEditJobEvent.ShowOperationSuccess(EDIT_JOB_RESULT_OK))
         }
     }
 

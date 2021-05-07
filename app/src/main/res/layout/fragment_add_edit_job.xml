@@ -1,26 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?><!--<layout -->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:windowSoftInputMode="adjustPan|adjustResize"
     tools:context=".ui.fragments.addedit.AddEditFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/add_edit_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_cancel_application"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="match_parent"
+        android:fadeScrollbars="true"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_company_name"
@@ -30,21 +27,23 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/company_name"
-                app:boxBackgroundColor="@color/transparent"
+                app:boxBackgroundColor="@android:color/transparent"
                 app:helperText="@string/required_field"
                 app:helperTextEnabled="true"
                 app:layout_constraintBottom_toTopOf="@+id/til_position_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.13999999"
+                app:layout_constraintVertical_bias="0.050000012"
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ed_company_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end" />
+                    android:inputType="textPersonName"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -55,10 +54,10 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/position_title"
-                app:boxBackgroundColor="@color/transparent"
+                app:boxBackgroundColor="@android:color/transparent"
                 app:helperText="@string/required_field"
                 app:helperTextEnabled="true"
-                app:layout_constraintBottom_toTopOf="@+id/tv_status"
+                app:layout_constraintBottom_toTopOf="@+id/separator"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/til_company_name">
@@ -67,7 +66,9 @@
                     android:id="@+id/ed_position_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end" />
+                    android:ellipsize="end"
+                    android:inputType="textPersonName"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.sagikor.android.jobao.ui.custom.SeparatorView
@@ -92,69 +93,187 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/status"
+                android:textAlignment="viewStart"
+                android:layout_marginBottom="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:layout_constraintBottom_toTopOf="@+id/tv_applied_via"
-                app:layout_constraintEnd_toStartOf="@id/spinner_status"
+                app:layout_constraintBottom_toTopOf="@+id/status_group"
+                app:layout_constraintEnd_toStartOf="@+id/tv_applied_via"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/separator" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_status"
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/status_group"
+                style="?attr/materialButtonToggleGroupStyle"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_status"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_status"
-                app:layout_constraintTop_toTopOf="@+id/tv_status" />
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/tv_sent_with_cover_letter"
+                app:layout_constraintEnd_toStartOf="@+id/applied_via_group"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_status"
+                app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_pending"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/pending" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_in_process"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/in_process" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_rejected"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/rejected" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_accepted"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/accepted" />
+
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <TextView
                 android:id="@+id/tv_applied_via"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/applied_via"
+                android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:layout_constraintBottom_toTopOf="@+id/tv_sent_with_cover_letter"
-                app:layout_constraintEnd_toStartOf="@id/spinner_applied_via"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_status" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_status"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_status"
+                app:layout_constraintTop_toTopOf="@+id/tv_status" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_applied_via"
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/applied_via_group"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_applied_via"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/status_group"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_applied_via"
-                app:layout_constraintTop_toTopOf="@+id/tv_applied_via" />
+                app:layout_constraintStart_toEndOf="@+id/status_group"
+                app:layout_constraintTop_toTopOf="@+id/status_group"
+                app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_company_site"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/site" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_reference"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/reference" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_email"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/email" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_linkedin"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/linkedin" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_other"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/other" />
+
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
 
             <TextView
                 android:id="@+id/tv_sent_with_cover_letter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/sent_with_cover_letter"
+                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:layout_constraintBottom_toTopOf="@+id/til_notes"
-                app:layout_constraintEnd_toStartOf="@+id/spinner_sent_cover_letter"
+                app:layout_constraintBottom_toTopOf="@+id/cover_letter_group"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_applied_via" />
+                app:layout_constraintTop_toBottomOf="@+id/status_group" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_sent_cover_letter"
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/cover_letter_group"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_sent_with_cover_letter"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_sent_with_cover_letter"
-                app:layout_constraintTop_toTopOf="@+id/tv_sent_with_cover_letter" />
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/til_notes"
+                app:layout_constraintEnd_toEndOf="@+id/tv_sent_with_cover_letter"
+                app:layout_constraintStart_toStartOf="@+id/tv_sent_with_cover_letter"
+                app:layout_constraintTop_toBottomOf="@+id/tv_sent_with_cover_letter"
+                app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cover_letter_negative"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/no" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cover_letter_positive"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/yes" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -164,16 +283,18 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                app:boxBackgroundColor="@color/transparent"
+                app:boxBackgroundColor="@android:color/transparent"
                 app:layout_constraintBottom_toTopOf="@+id/chip_group"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_sent_with_cover_letter">
+                app:layout_constraintTop_toBottomOf="@+id/cover_letter_group">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ed_notes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="5"
+                    android:inputType="textMultiLine"
                     android:hint="@string/add_note" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -233,6 +354,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="70dp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -240,33 +362,51 @@
                 app:layout_constraintTop_toBottomOf="@+id/chip_group"
                 tools:text="created at sunday" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_cancel_application"
-        style="@style/buttons"
-        android:layout_width="0dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/buttons_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/btn_cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_add_application"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_edit_scroll_view" />
+        app:cardCornerRadius="25dp"
+        app:cardElevation="5dp"
+        android:layout_margin="8dp"
+        app:layout_anchor="@+id/add_edit_scroll_view"
+        app:layout_anchorGravity="bottom|start"
+        app:cardBackgroundColor="@android:color/transparent"
+        android:outlineAmbientShadowColor="@color/black_7"
+        android:outlineSpotShadowColor="@color/black_7"
+        >
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_add_application"
-        style="@style/buttons"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/btn_save"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_cancel_application"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_cancel_application"
-        app:layout_constraintTop_toTopOf="@+id/btn_cancel_application" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel_application"
+            style="@style/buttons"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:paddingVertical="2dp"
+            android:background="@drawable/layout_bg"
+            android:layout_weight="1"
+            android:text="@string/btn_cancel" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_application"
+            style="@style/buttons"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="2dp"
+            android:background="@drawable/layout_bg"
+            android:layout_weight="1"
+            android:text="@string/btn_save" />
+    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
