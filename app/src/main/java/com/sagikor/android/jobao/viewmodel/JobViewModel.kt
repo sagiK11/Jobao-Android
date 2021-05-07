@@ -1,7 +1,6 @@
 package com.sagikor.android.jobao.viewmodel
 
 
-import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -26,12 +25,12 @@ class JobViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     private val TAG = JobViewModel::class.qualifiedName
+
     private val jobsEventsChannel = Channel<JobsEvents>()
     val jobsEvent = jobsEventsChannel.receiveAsFlow()
 
     private val actionEventChannel = Channel<ActionEvent>()
     val actionEvent = actionEventChannel.receiveAsFlow()
-
 
     val searchQuery = state.getLiveData("searchQuery", "")
     val preferencesFlow = preferencesHandler.preferenceFlow
@@ -42,7 +41,7 @@ class JobViewModel @ViewModelInject constructor(
     ) { query, filteredPreferences ->
         Pair(query, filteredPreferences)
     }.flatMapLatest { (query, filteredPreferences) ->
-        jobDao.getJobs(
+        jobDao.getFilteredJobs(
             query, filteredPreferences.sortOrder, when (filteredPreferences.hideRejected) {
                 true -> JobStatus.PENDING
                 else -> JobStatus.REJECTED
@@ -50,8 +49,10 @@ class JobViewModel @ViewModelInject constructor(
         )
     }
 
-    val jobs = jobsFlow.asLiveData()
+    val filteredJobs = jobsFlow.asLiveData()
 
+    private val allJobsFlow = jobDao.getAllJobs()
+    val allJobs = allJobsFlow.asLiveData()
 
     fun onSortOrderSelected(sortOrder: SortOrder) {
         viewModelScope.launch {
@@ -97,7 +98,6 @@ class JobViewModel @ViewModelInject constructor(
         }
     }
 
-
     fun onRateUsClick() {
         viewModelScope.launch {
             actionEventChannel.send(ActionEvent.NavigateToGooglePlayRate)
@@ -109,7 +109,6 @@ class JobViewModel @ViewModelInject constructor(
             actionEventChannel.send(ActionEvent.SendToMailSuccess)
         }
     }
-
 
     sealed class JobsEvents {
         data class NavigateToEditJobScreen(val job: Job) : JobsEvents()
@@ -126,3 +125,5 @@ class JobViewModel @ViewModelInject constructor(
 
 const val JOB_ADDED = "job_added"
 const val JOB_EDITED = "job_edited"
+const val ADD_EDIT_REQUEST = "add_edit_request"
+const val ADD_EDIT_RESULT = "add_edit_result"
