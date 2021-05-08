@@ -11,15 +11,9 @@
            <KeyAttribute
                motion:motionTarget="@+id/cards_layout"
                motion:framePosition="100"
+               android:transformPivotY="0dp"
+               android:scaleY="0"
                android:alpha="0" />
-           <KeyAttribute
-               motion:motionTarget="@+id/cards_layout"
-               motion:framePosition="100"
-               android:scaleX="0" />
-           <KeyAttribute
-               motion:motionTarget="@+id/cards_layout"
-               motion:framePosition="100"
-               android:scaleY="0" />
        </KeyFrameSet>
         <OnSwipe
             motion:touchAnchorId="@+id/cards_layout"
