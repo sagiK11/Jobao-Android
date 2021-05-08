@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -36,6 +37,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
     private val TAG = AddEditFragment::class.qualifiedName
     private val viewModel: AddEditViewModel by viewModels()
     private lateinit var binding: FragmentAddEditJobBinding
+    private var isInDarkMode = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +47,10 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
         bindListeners()
         setOptionalViewsVisibility(View.GONE)
         setOnBackPressDispatcherCallBack()
+        setInDarkModeField()
+
     }
+
 
     private fun bindListeners() {
         bindRequiredFieldsListener()
@@ -162,20 +167,29 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
             appliedViaGroup.visibility = visibility
             tvSentWithCoverLetter.visibility = visibility
             coverLetterGroup.visibility = visibility
-            separator.drawable.setImageDrawable(
-                when (visibility) {
-                    View.GONE -> ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.ic_baseline_add_circle_24,
-                        null
-                    )
-                    else -> ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.ic_baseline_remove_circle_24,
-                        null
+            when (visibility) {
+                View.GONE -> {
+                    required_fields_layout.background = null
+                    optionFieldsLayout.visibility = View.INVISIBLE
+                    separator.drawable.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_baseline_add_circle_24,
+                        )
                     )
                 }
-            )
+                View.VISIBLE -> {
+                    required_fields_layout.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.required_fields_layer_list
+                    )
+                    optionFieldsLayout.visibility = View.VISIBLE
+                    separator.drawable.setImageDrawable(ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_baseline_remove_circle_24
+                    ))
+                }
+            }
         }
 
     }
@@ -191,16 +205,9 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
         }
         //light / night mode adjustments
         val resources = requireContext().resources
-        val color = when (resources.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
-            Configuration.UI_MODE_NIGHT_YES -> {
-                ResourcesCompat.getColor(resources, R.color.teal_700, null)
-            }
-            Configuration.UI_MODE_NIGHT_NO -> {
-                ResourcesCompat.getColor(resources, R.color.grayish_red_3, null)
-            }
-            else -> {
-                ResourcesCompat.getColor(resources, R.color.grayish_red_3, null)
-            }
+        val color = when (isInDarkMode) {
+            true -> ResourcesCompat.getColor(resources, R.color.teal_700, null)
+            else -> ResourcesCompat.getColor(resources, R.color.grayish_red_3, null)
         }
 
         chip.chipBackgroundColor = ColorStateList.valueOf(color)
@@ -287,5 +294,20 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                     showAlertDialog()
                 }
             })
+    }
+
+
+    private fun setInDarkModeField() {
+        isInDarkMode = when (resources.configuration?.uiMode?.and(
+            Configuration
+                .UI_MODE_NIGHT_MASK
+        )) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                true
+            }
+            else -> {
+                false
+            }
+        }
     }
 }
