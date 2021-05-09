@@ -46,10 +46,6 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentJobsListBinding.bind(view)
         jobAdapter = JobAdapter(this)
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("add_edit_result")
-            ?.observe(viewLifecycleOwner) { result ->
-                jobViewModel.onAddEditResult(result)
-            }
 
 
         initRecycleViewSettings()
@@ -63,6 +59,7 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
 
     private fun observeJobs() {
         jobViewModel.filteredJobs.observe(viewLifecycleOwner) { jobsList ->
+            jobAdapter.submitList(null)//sending null to scroll to top after sort
             jobAdapter.submitList(jobsList)
         }
     }
