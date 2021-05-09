@@ -47,6 +47,9 @@ interface JobDao {
     @Query("SELECT * FROM user_jobs WHERE (status = :status OR status != 2) AND companyName LIKE '%' || :searchQuery || '%' ORDER BY status DESC")
     fun getJobsSortedByJobStatus(searchQuery: String, status: JobStatus): Flow<List<Job>>
 
+    @Query("SELECT * FROM user_jobs WHERE (status = :jobStatus)")
+    fun getFilteredJobByStatus(jobStatus: JobStatus) : Flow<List<Job>>
+
     @Query("DELETE FROM user_jobs")
     suspend fun deleteAll()
 }

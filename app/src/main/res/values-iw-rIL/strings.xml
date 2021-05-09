@@ -110,6 +110,8 @@
     <string name="cover_letter_sent_and_not_replied">נשלח ולא היה תהליך</string>
     <string name="cover_letter_not_sent_and_replied">לא נשלח והיה תהליך</string>
     <string name="cover_letter_not_sent_and_not_replied">לא נשלח ולא היה תהליך</string>
+    <string name="offers_title">הצעות</string>
+    <string name="active_process_title">תהליכים פעילים</string>
 
 
 </resources>

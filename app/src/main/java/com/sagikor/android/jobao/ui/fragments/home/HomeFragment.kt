@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.sagikor.android.jobao.R
+import com.sagikor.android.jobao.data.SortOrder
 import com.sagikor.android.jobao.databinding.FragmentHomeBinding
 import com.sagikor.android.jobao.model.AppliedVia
 import com.sagikor.android.jobao.model.Job
@@ -59,7 +60,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         observeJobList()
         setAdapters()
         initJobsChannel()
-        initScrollListener()
+        initListeners()
     }
 
     override fun onAttach(context: Context) {
@@ -75,7 +76,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         onScrollListener = null
     }
 
-    private fun initScrollListener() {
+    private fun initListeners() {
         binding.apply {
             homeScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                 if (scrollY < oldScrollY) {
@@ -83,6 +84,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 } else {
                     onScrollListener?.onScrollDown()
                 }
+            }
+            totalSubmissions.setOnClickListener {
+                findNavController().navigate(R.id.navigation_applications)
+            }
+            allReplies.setOnClickListener {
+             val action = HomeFragmentDirections.actionNavigationHomeToNavigationApplications(JobStatus.IN_PROCESS)
+                findNavController().navigate(action)
+            }
+            processReplies.setOnClickListener {
+                val action = HomeFragmentDirections.actionNavigationHomeToNavigationApplications(JobStatus.ACCEPTED)
+                findNavController().navigate(action)
             }
         }
 

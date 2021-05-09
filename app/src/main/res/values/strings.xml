@@ -109,6 +109,8 @@
     <string name="cover_letter_sent_and_not_replied">sent letter and not replied</string>
     <string name="cover_letter_not_sent_and_replied">didn\'t sent letter and replied</string>
     <string name="cover_letter_not_sent_and_not_replied">didn\'t sent letter and not replied</string>
+    <string name="offers_title">Offers</string>
+    <string name="active_process_title">Active Processes</string>
 
 
 

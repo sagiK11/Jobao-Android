@@ -34,6 +34,7 @@ class JobViewModel @ViewModelInject constructor(
 
     val searchQuery = state.getLiveData("searchQuery", "")
     val preferencesFlow = preferencesHandler.preferenceFlow
+    val jobStatus = state.getLiveData("jobStatus",JobStatus.IN_PROCESS)
 
     private val jobsFlow = combine(
         searchQuery.asFlow(),
@@ -53,6 +54,11 @@ class JobViewModel @ViewModelInject constructor(
 
     private val allJobsFlow = jobDao.getAllJobs()
     val allJobs = allJobsFlow.asLiveData()
+
+    private val filteredByStatusFlow = jobStatus.asFlow().flatMapLatest {jobStatus ->
+        jobDao.getFilteredJobByStatus(jobStatus)
+    }
+    val filteredByStatus = filteredByStatusFlow.asLiveData()
 
     fun onSortOrderSelected(sortOrder: SortOrder) {
         viewModelScope.launch {

@@ -1,27 +1,29 @@
 package com.sagikor.android.jobao.data
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.Log
 import androidx.datastore.preferences.createDataStore
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.emptyPreferences
 import androidx.datastore.preferences.preferencesKey
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val TAG = "PreferencesHandler"
-
-enum class SortOrder { BY_COMPANY, BY_DATE, BY_STATUS }
+@Parcelize
+enum class SortOrder : Parcelable { BY_COMPANY, BY_DATE, BY_STATUS,BY_WAS_REPLIED, BY_ACCEPTED }
 
 data class FilteredPreferences(val sortOrder: SortOrder, val hideRejected: Boolean)
 
 @Singleton
 class PreferencesHandler @Inject constructor(@ApplicationContext context: Context) {
     private val dataStore = context.createDataStore("user_preferences")
+    private val TAG = PreferencesHandler::class.qualifiedName
 
     val preferenceFlow = dataStore.data
         .catch { exception ->

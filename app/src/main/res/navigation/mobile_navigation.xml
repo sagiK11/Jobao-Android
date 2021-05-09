@@ -16,6 +16,9 @@
             app:destination="@id/navigation_add_edit"
             app:enterAnim="@anim/to_add_edit"
             app:popEnterAnim="@anim/from_add_edit_to_home" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_applications"
+            app:destination="@id/navigation_applications" />
     </fragment>
 
 
@@ -30,6 +33,11 @@
             app:destination="@id/navigation_add_edit"
             app:enterAnim="@anim/to_add_edit"
             app:popEnterAnim="@anim/from_add_edit_to_jobs_list" />
+        <argument
+            android:name="jobStatus"
+            app:argType="com.sagikor.android.jobao.model.JobStatus"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/navigation_add_edit"

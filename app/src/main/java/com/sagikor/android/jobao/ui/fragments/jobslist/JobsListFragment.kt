@@ -2,10 +2,12 @@ package com.sagikor.android.jobao.ui.fragments.jobslist
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -21,6 +23,7 @@ import com.sagikor.android.jobao.R
 import com.sagikor.android.jobao.data.SortOrder
 import com.sagikor.android.jobao.databinding.FragmentJobsListBinding
 import com.sagikor.android.jobao.model.Job
+import com.sagikor.android.jobao.model.JobStatus
 import com.sagikor.android.jobao.ui.activities.OnScrollListener
 import com.sagikor.android.jobao.util.exhaustive
 import com.sagikor.android.jobao.util.onQueryTextChanged
@@ -38,15 +41,17 @@ import kotlinx.coroutines.launch
 class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onItemClickListener {
     private val TAG = JobsListFragment::class.qualifiedName
     private val jobViewModel: JobViewModel by viewModels()
+    private val viewModel: JobsListViewModel by viewModels()
     private lateinit var binding: FragmentJobsListBinding
     private var onScrollListener: OnScrollListener? = null
     private lateinit var jobAdapter: JobAdapter
+    private var isJobSubmissionsList: Boolean? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentJobsListBinding.bind(view)
+        isJobSubmissionsList = viewModel.filterByStatus == null
         jobAdapter = JobAdapter(this)
-
 
         initRecycleViewSettings()
         initItemTouchHelper()
@@ -58,11 +63,22 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
     }
 
     private fun observeJobs() {
-        jobViewModel.filteredJobs.observe(viewLifecycleOwner) { jobsList ->
-            jobAdapter.submitList(null)//sending null to scroll to top after sort
-            jobAdapter.submitList(jobsList)
+        if (isJobSubmissionsList!!) {
+            jobViewModel.filteredJobs.observe(viewLifecycleOwner) { jobsList ->
+                submitList(jobsList)
+            }
+        } else {
+            jobViewModel.filteredByStatus.observe(viewLifecycleOwner) { jobsList ->
+                val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+                actionBar?.title = when (viewModel.filterByStatus) {
+                    JobStatus.ACCEPTED -> getString(R.string.offers_title)
+                    else -> getString(R.string.active_process_title)
+                }
+                submitList(jobsList)
+            }
         }
     }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -78,7 +94,7 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
     }
 
     private fun initRecycleViewSettings() {
-        rv_jobs_list.apply {
+        binding.rvJobsList.apply {
             adapter = jobAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
@@ -214,18 +230,19 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.jobs_list_menu, menu)
+        if (isJobSubmissionsList!!) {
+            inflater.inflate(R.menu.jobs_list_menu, menu)
+            val searchItem = menu.findItem(R.id.action_search)
+            val searchView = searchItem.actionView as SearchView
 
-        val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem.actionView as SearchView
+            searchView.onQueryTextChanged {
+                jobViewModel.searchQuery.value = it
+            }
 
-        searchView.onQueryTextChanged {
-            jobViewModel.searchQuery.value = it
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            menu.findItem(R.id.action_hide_declined_jobs).isChecked =
-                jobViewModel.preferencesFlow.first().hideRejected
+            viewLifecycleOwner.lifecycleScope.launch {
+                menu.findItem(R.id.action_hide_declined_jobs).isChecked =
+                    jobViewModel.preferencesFlow.first().hideRejected
+            }
         }
 
 
@@ -251,6 +268,13 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun submitList(jobsList: List<Job>?) {
+        jobAdapter.apply {
+            submitList(null)//sending null to scroll to top after sort
+            submitList(jobsList)
         }
     }
 }

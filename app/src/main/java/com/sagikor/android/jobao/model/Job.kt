@@ -28,6 +28,7 @@ data class Job(
         get() = DateFormat.getDateTimeInstance().format(createdAt)
 }
 
-enum class JobStatus { PENDING, IN_PROCESS, REJECTED, ACCEPTED }
+@Parcelize
+enum class JobStatus : Parcelable{ PENDING, IN_PROCESS, REJECTED, ACCEPTED }
 enum class AppliedVia { SITE, EMAIL, REFERENCE, LINKEDIN, OTHER }
 enum class SentWithCoverLetter { NO, YES, }
