@@ -167,6 +167,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
             appliedViaGroup.visibility = visibility
             tvSentWithCoverLetter.visibility = visibility
             coverLetterGroup.visibility = visibility
+            placeHolder.visibility = visibility
             when (visibility) {
                 View.GONE -> {
                     required_fields_layout.background = null
