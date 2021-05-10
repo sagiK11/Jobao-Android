@@ -15,9 +15,11 @@
         android:fillViewport="true"
         android:scrollbars="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layoutDescription="@xml/fragment_add_edit_job_xml_constraintlayout_scene">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/required_fields_layout"
@@ -111,6 +113,7 @@
 
                 <TextView
                     android:id="@+id/tv_status"
+                    style="@style/optional_fields"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -118,8 +121,6 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/status"
-                    android:textAlignment="viewStart"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     app:layout_constraintBottom_toTopOf="@+id/status_group"
                     app:layout_constraintEnd_toStartOf="@+id/tv_applied_via"
                     app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +142,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_pending"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:insetTop="0dp"
@@ -150,7 +151,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_in_process"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:insetTop="0dp"
@@ -159,7 +160,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_rejected"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:insetTop="0dp"
@@ -168,7 +169,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_accepted"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:insetTop="0dp"
@@ -179,13 +180,12 @@
 
                 <TextView
                     android:id="@+id/tv_applied_via"
+                    style="@style/optional_fields"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
                     android:text="@string/applied_via"
-                    android:textAlignment="viewStart"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_status"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_status"
@@ -207,7 +207,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_company_site"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:insetTop="0dp"
@@ -216,7 +216,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_reference"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:insetTop="0dp"
@@ -225,7 +225,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_email"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:insetTop="0dp"
@@ -234,7 +234,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_linkedin"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:insetTop="0dp"
@@ -243,7 +243,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_other"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:insetTop="0dp"
@@ -256,14 +256,13 @@
 
                 <TextView
                     android:id="@+id/tv_sent_with_cover_letter"
+                    style="@style/optional_fields"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:text="@string/sent_with_cover_letter"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     app:layout_constraintBottom_toTopOf="@+id/cover_letter_group"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -282,7 +281,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_cover_letter_negative"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -290,7 +289,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_cover_letter_positive"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/toggle_buttons"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -315,8 +314,8 @@
                         android:id="@+id/ed_notes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grayish_red_4"
                         android:hint="@string/add_note"
-                        android:backgroundTint="@color/grayish_red_1"
                         android:inputType="textMultiLine"
                         android:maxLines="5" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -377,31 +376,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginBottom="74dp"
                     android:textStyle="italic"
-                    app:layout_constraintBottom_toTopOf="@+id/place_holder"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chip_group"
                     tools:text="created at sunday" />
 
-                <androidx.constraintlayout.widget.Placeholder
-                    android:id="@+id/place_holder"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/date_created" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.motion.widget.MotionLayout>
 
 
     </androidx.core.widget.NestedScrollView>

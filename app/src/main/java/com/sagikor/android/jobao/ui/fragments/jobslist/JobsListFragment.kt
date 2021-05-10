@@ -2,11 +2,7 @@ package com.sagikor.android.jobao.ui.fragments.jobslist
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -25,6 +21,7 @@ import com.sagikor.android.jobao.databinding.FragmentJobsListBinding
 import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.model.JobStatus
 import com.sagikor.android.jobao.ui.activities.OnScrollListener
+import com.sagikor.android.jobao.ui.fragments.jobslist.JobsListViewModel.ListEvent.ObserveFilteredByStatusList
 import com.sagikor.android.jobao.util.exhaustive
 import com.sagikor.android.jobao.util.onQueryTextChanged
 import com.sagikor.android.jobao.viewmodel.ADD_EDIT_REQUEST
@@ -45,40 +42,54 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
     private lateinit var binding: FragmentJobsListBinding
     private var onScrollListener: OnScrollListener? = null
     private lateinit var jobAdapter: JobAdapter
-    private var isJobSubmissionsList: Boolean? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         binding = FragmentJobsListBinding.bind(view)
-        isJobSubmissionsList = viewModel.filterByStatus == null
+        viewModel.onCreated()
         jobAdapter = JobAdapter(this)
 
+        initListEventChannel()
         initRecycleViewSettings()
         initItemTouchHelper()
-        observeJobs()
         initFragmentResultListener()
-        initEventChannel()
+        initJobEventChannel()
         setHasOptionsMenu(true)
         setAdapterDataObserver()
     }
 
-    private fun observeJobs() {
-        if (isJobSubmissionsList!!) {
-            jobViewModel.filteredJobs.observe(viewLifecycleOwner) { jobsList ->
-                submitList(jobsList)
-            }
-        } else {
-            jobViewModel.filteredByStatus.observe(viewLifecycleOwner) { jobsList ->
-                val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
-                actionBar?.title = when (viewModel.filterByStatus) {
-                    JobStatus.ACCEPTED -> getString(R.string.offers_title)
-                    else -> getString(R.string.active_process_title)
+    private fun initListEventChannel() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.listEvent.collect { event ->
+                when (event) {
+                    is JobsListViewModel.ListEvent.ObserveAllJobsList -> observeAllJobs()
+                    is ObserveFilteredByStatusList -> {
+                        observeFilteredByStatusJobs(event.status)
+                        setHasOptionsMenu(false)
+                    }
+
                 }
-                submitList(jobsList)
             }
         }
     }
 
+    private fun observeAllJobs() {
+        jobViewModel.filteredJobs.observe(viewLifecycleOwner) { jobsList ->
+            submitList(jobsList)
+        }
+    }
+
+    private fun observeFilteredByStatusJobs(jobStatus: JobStatus?) {
+        jobViewModel.filteredByStatus.observe(viewLifecycleOwner) { jobsList ->
+            val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+            actionBar?.title = when (jobStatus) {
+                JobStatus.ACCEPTED -> getString(R.string.offers_title)
+                else -> getString(R.string.active_process_title)
+            }
+            submitList(jobsList)
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -147,7 +158,7 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
 
     }
 
-    private fun initEventChannel() {
+    private fun initJobEventChannel() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             jobViewModel.jobsEvent.collect { event ->
                 when (event) {
@@ -230,22 +241,18 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        if (isJobSubmissionsList!!) {
-            inflater.inflate(R.menu.jobs_list_menu, menu)
-            val searchItem = menu.findItem(R.id.action_search)
-            val searchView = searchItem.actionView as SearchView
+        inflater.inflate(R.menu.jobs_list_menu, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
 
-            searchView.onQueryTextChanged {
-                jobViewModel.searchQuery.value = it
-            }
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                menu.findItem(R.id.action_hide_declined_jobs).isChecked =
-                    jobViewModel.preferencesFlow.first().hideRejected
-            }
+        searchView.onQueryTextChanged {
+            jobViewModel.searchQuery.value = it
         }
 
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            menu.findItem(R.id.action_hide_declined_jobs).isChecked =
+                jobViewModel.preferencesFlow.first().hideRejected
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

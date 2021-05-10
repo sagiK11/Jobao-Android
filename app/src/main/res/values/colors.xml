@@ -17,6 +17,9 @@
     <color name="black_6">#0a0a0a</color>
     <color name="black_7">#000000</color>
 
+    <color name="complementary_1">#77a8b5</color>
+    <color name="complementary_2">#45737f</color>
+
     <color name="theme_primary">#d1afa7</color>
 
     <color name="theme_accent">#996c84</color>
@@ -39,4 +42,5 @@
     <color name="chart_3">#ef5675</color>
     <color name="chart_4">#ffa600</color>
     <color name="chart_5">#bc5090</color>
+
 </resources>

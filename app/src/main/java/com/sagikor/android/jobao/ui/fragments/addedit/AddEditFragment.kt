@@ -5,7 +5,9 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
@@ -41,6 +43,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         binding = FragmentAddEditJobBinding.bind(view)
         initEventChannel()
         setFields()
@@ -167,10 +170,13 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
             appliedViaGroup.visibility = visibility
             tvSentWithCoverLetter.visibility = visibility
             coverLetterGroup.visibility = visibility
-            placeHolder.visibility = visibility
+            tilNotes.visibility = visibility
+            chipGroup.visibility = visibility
+            dateCreated.visibility = visibility
             when (visibility) {
                 View.GONE -> {
                     required_fields_layout.background = null
+                    optionFieldsLayout.background = null
                     optionFieldsLayout.visibility = View.INVISIBLE
                     separator.drawable.setImageDrawable(
                         ContextCompat.getDrawable(
@@ -178,17 +184,26 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                             R.drawable.ic_baseline_add_circle_24,
                         )
                     )
+                    binding.constraintLayout.transitionToEnd()
                 }
                 View.VISIBLE -> {
-                    required_fields_layout.background = ContextCompat.getDrawable(
+                    binding.constraintLayout.transitionToStart()
+                    requiredFieldsLayout.background = ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.required_fields_layer_list
                     )
-                    optionFieldsLayout.visibility = View.VISIBLE
-                    separator.drawable.setImageDrawable(ContextCompat.getDrawable(
+                    optionFieldsLayout.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.ic_baseline_remove_circle_24
-                    ))
+                        R.drawable.optional_fields_layer_list
+                    )
+
+                    optionFieldsLayout.visibility = View.VISIBLE
+                    separator.drawable.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_baseline_remove_circle_24
+                        )
+                    )
                 }
             }
         }
@@ -206,12 +221,14 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
         }
         //light / night mode adjustments
         val resources = requireContext().resources
-        val color = when (isInDarkMode) {
+        val bgColor = when (isInDarkMode) {
             true -> ResourcesCompat.getColor(resources, R.color.teal_700, null)
-            else -> ResourcesCompat.getColor(resources, R.color.grayish_red_3, null)
+            else -> ResourcesCompat.getColor(resources, R.color.complementary_1, null)
         }
+        val textColor = ResourcesCompat.getColor(resources, R.color.white, null)
 
-        chip.chipBackgroundColor = ColorStateList.valueOf(color)
+        chip.chipBackgroundColor = ColorStateList.valueOf(bgColor)
+        chip.setTextColor(ColorStateList.valueOf(textColor))
     }
 
     private fun setFields() {

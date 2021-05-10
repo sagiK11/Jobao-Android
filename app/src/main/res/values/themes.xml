@@ -38,4 +38,15 @@
         <item name="backgroundTint">?attr/colorAccent</item>
     </style>
 
+    <style name="optional_fields">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/complementary_2</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle1</item>
+    </style>
+
+    <style name="toggle_buttons" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@drawable/toggle_button_text_color</item>
+        <item name="strokeColor">@drawable/toggle_button_stroke_color</item>
+    </style>
 </resources>
