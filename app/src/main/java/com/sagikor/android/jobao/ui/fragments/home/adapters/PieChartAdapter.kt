@@ -29,6 +29,7 @@ class PieChartAdapter(private var pieChartsList: List<PieData>) :
 
         holder.itemView.chart_description.text = currentDataChart.dataSet.label
         holder.itemView.pie_chart.apply {
+            setTouchEnabled(false)
             data = if (!isDataEmpty) currentDataChart else null
             holeRadius = 5f
             //setTouchEnabled(false)
@@ -64,9 +65,8 @@ class PieChartAdapter(private var pieChartsList: List<PieData>) :
         return pieChartsList.size
     }
 
-    inner class ChartHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ChartHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    }
 
     fun submitList(newList: List<PieData>) {
         this.pieChartsList = newList

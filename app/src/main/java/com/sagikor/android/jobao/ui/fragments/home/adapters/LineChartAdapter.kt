@@ -36,6 +36,7 @@ class LineChartAdapter(private var lineChartList: List<LineData>) :
             setDrawLabels(false)
         }
         holder.itemView.line_chart.apply {
+            setTouchEnabled(false)
             setNoDataText(resources.getString(R.string.no_data_text))
             data = if (!isDataEmpty) currentChartData else null
             description.isEnabled = false

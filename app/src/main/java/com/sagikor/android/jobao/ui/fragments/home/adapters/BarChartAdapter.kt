@@ -50,6 +50,7 @@ class BarChartAdapter(private var chartsList: List<BarData>) :
         setChartTitle(chartTitle, resources, currentChartData)
 
         chart.apply {
+            setTouchEnabled(false)
             setNoDataText(resources.getString(R.string.no_data_text))
             data = if (!isDataEmpty) currentChartData else null
             axisLeft.axisMinimum = 0f
