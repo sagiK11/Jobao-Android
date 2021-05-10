@@ -9,9 +9,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="50dp"
+        app:cardCornerRadius="30dp"
         app:cardElevation="10dp"
-
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -24,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_weight="0.1"
+                android:layout_weight="0.13"
                 android:gravity="center"
                 android:padding="6dp"
                 android:textAppearance="?attr/textAppearanceBody1"  />
