@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -27,7 +28,9 @@ import com.sagikor.android.jobao.util.appendAttribute
 import com.sagikor.android.jobao.viewmodel.JobViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -137,29 +140,36 @@ class MainActivity : AppCompatActivity(), OnScrollListener {
     }
 
     private fun sendAttachedFileToMail() {
-        val current = supportFragmentManager.fragments.last()
-        jobViewModel.allJobs.observe(current.viewLifecycleOwner) { jobsList ->
-            val jobsSubmission = getString(R.string.job_submissions) + ".csv"
-            val jobsSubmissionsData = getJobsSubmissionData(jobsList)
+        val currentView = supportFragmentManager.fragments.last()
+        progressBar.visibility = View.VISIBLE
 
-            try {
-                openFileOutput(jobsSubmission, MODE_PRIVATE).apply {
-                    write(jobsSubmissionsData.toByteArray())
+        jobViewModel.allJobs.observe(currentView.viewLifecycleOwner) { jobsList ->
+            currentView.lifecycleScope.launch(Dispatchers.IO) {
+                val jobsSubmissionsData = getJobsSubmissionData(jobsList)
+                val jobsSubmission = getString(R.string.job_submissions) + ".csv"
+
+                try {
+                    openFileOutput(jobsSubmission, MODE_PRIVATE).apply {
+                        write(jobsSubmissionsData.toByteArray())
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
 
-            val file = File(filesDir, jobsSubmission)
-            val authority = applicationContext.packageName + ".provider"
-            val path = FileProvider.getUriForFile(applicationContext, authority, file)
-            val intent = Intent(Intent.ACTION_SEND).apply {
-                type = "text/csv"
-                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.job_submissions))
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                putExtra(Intent.EXTRA_STREAM, path)
+                val file = File(filesDir, jobsSubmission)
+                val authority = applicationContext.packageName + ".provider"
+                val path = FileProvider.getUriForFile(applicationContext, authority, file)
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/csv"
+                    putExtra(Intent.EXTRA_SUBJECT, getString(R.string.job_submissions))
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    putExtra(Intent.EXTRA_STREAM, path)
+                }
+                currentView.lifecycleScope.launch(Dispatchers.Main) {
+                    progressBar.visibility = View.GONE
+                    startActivity(Intent.createChooser(intent, getString(R.string.send_to_mail)))
+                }
             }
-            startActivity(Intent.createChooser(intent, getString(R.string.send_to_mail)))
         }
     }
 
