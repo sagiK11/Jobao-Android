@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Jobao</string>
+    <string name="app_name">ג\'ובאו</string>
     <string name="title_home">בית</string>
     <string name="title_add_job">הגשה חדשה</string>
     <string name="title_edit_job">עדכון הגשה</string>
@@ -18,26 +18,8 @@
     <string name="no">לא</string>
     <string name="required_field">שדה חובה</string>
     <string name="select_date">בחר תאריך</string>
-    <string-array name="applied_via_array">
-        <item>אתר החברה</item>
-        <item>אימייל</item>
-        <item>הפנייה מעמית</item>
-        <item>לינקדאין</item>
-        <item>אחר</item>
-    </string-array>
-    <string-array name="sent_with_cover_letter_array">
-        <item>לא</item>
-        <item>כן</item>
-    </string-array>
-    <string-array name="status_array">
-        <item>מחכה לתשובה</item>
-        <item>בתהליך</item>
-        <item>נדחה</item>
-        <item>התקבל</item>
-    </string-array>
     <string name="applications">הגשות</string>
     <string name="search_application">חפש הגשה..</string>
-    <string name="some_data">קצת נתונים</string>
     <string name="sort">מיין</string>
     <string name="sort_by_name">מיין לפי חברה</string>
     <string name="sort_by_title">מיין לפי תפקיד</string>
@@ -73,7 +55,6 @@
     <string name="active_processes">%1$s פעילים</string>
     <string name="total_offers">%1$s הצעות</string>
     <string name="date_dialog">תאריך</string>
-    <string name="dashboard">לוח בקרה</string>
     <string name="activity">פעילות</string>
     <string name="add_note">הערה (לא חובה)</string>
     <string name="part_time"> חצי משרה</string>
@@ -106,12 +87,6 @@
     <string name="fab">כפתור צף</string>
     <string name="user_had_process">היה תהליך</string>
     <string name="user_did_not_had_process">לא היה תהליך</string>
-    <string name="cover_letter_sent_and_replied">נשלח והיה תהליך</string>
-    <string name="cover_letter_sent_and_not_replied">נשלח ולא היה תהליך</string>
-    <string name="cover_letter_not_sent_and_replied">לא נשלח והיה תהליך</string>
-    <string name="cover_letter_not_sent_and_not_replied">לא נשלח ולא היה תהליך</string>
     <string name="offers_title">הצעות</string>
     <string name="active_process_title">תהליכים פעילים</string>
-
-
 </resources>

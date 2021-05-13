@@ -20,12 +20,6 @@
     <color name="complementary_1">#77a8b5</color>
     <color name="complementary_2">#45737f</color>
 
-    <color name="theme_primary">#d1afa7</color>
-
-    <color name="theme_accent">#996c84</color>
-    <color name="theme_dark">#ba6b6c</color>
-    <color name="theme_primary_variant">#FFD1D8</color>
-
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
