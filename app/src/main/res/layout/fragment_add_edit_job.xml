@@ -16,7 +16,7 @@
         android:scrollbars="vertical">
 
         <androidx.constraintlayout.motion.widget.MotionLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/fieldsLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutDescription="@xml/fragment_add_edit_job_xml_constraintlayout_scene">
@@ -41,7 +41,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:hint="@string/company_name"
-                    app:boxBackgroundColor="@android:color/transparent"
+                    app:boxBackgroundColor="@color/grayish_red_1"
                     app:helperText="@string/required_field"
                     app:helperTextEnabled="true"
                     app:layout_constraintBottom_toTopOf="@+id/til_position_title"
@@ -69,7 +69,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:hint="@string/position_title"
-                    app:boxBackgroundColor="@android:color/transparent"
+                    app:boxBackgroundColor="@color/grayish_red_1"
                     app:helperText="@string/required_field"
                     app:helperTextEnabled="true"
                     app:layout_constraintBottom_toTopOf="@+id/separator"
@@ -362,7 +362,7 @@
                         android:text="@string/next_to_train" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_stratup"
+                        android:id="@+id/chip_startup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
@@ -397,14 +397,12 @@
         android:id="@+id/buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="25dp"
+        app:cardCornerRadius="15dp"
         app:cardElevation="5dp"
         android:layout_margin="8dp"
         app:layout_anchor="@+id/add_edit_scroll_view"
         app:layout_anchorGravity="bottom|start"
         app:cardBackgroundColor="@android:color/transparent"
-        android:outlineAmbientShadowColor="@color/black_7"
-        android:outlineSpotShadowColor="@color/black_7"
         >
 
         <LinearLayout
@@ -419,7 +417,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:paddingVertical="2dp"
-                android:background="@drawable/layout_bg"
                 android:layout_weight="1"
                 android:text="@string/btn_cancel" />
 
@@ -429,7 +426,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingVertical="2dp"
-                android:background="@drawable/layout_bg"
                 android:layout_weight="1"
                 android:text="@string/btn_save" />
         </LinearLayout>

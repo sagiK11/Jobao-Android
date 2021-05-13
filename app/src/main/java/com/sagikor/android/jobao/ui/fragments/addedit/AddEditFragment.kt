@@ -3,11 +3,11 @@ package com.sagikor.android.jobao.ui.fragments.addedit
 import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
@@ -54,7 +54,6 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
 
     }
 
-
     private fun bindListeners() {
         bindRequiredFieldsListener()
         bindSeparatorListener()
@@ -62,7 +61,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
         bindNoteFieldListener()
         setChipLogic(binding.chipTrain, getString(R.string.next_to_train))
         setChipLogic(binding.chipRemote, getString(R.string.remote_job))
-        setChipLogic(binding.chipStratup, getString(R.string.startup))
+        setChipLogic(binding.chipStartup, getString(R.string.startup))
         setChipLogic(binding.chipPartTime, getString(R.string.part_time))
         setChipLogic(binding.chipLongSubmission, getString(R.string.long_submission))
         bindSaveCancelButtonsListeners()
@@ -172,42 +171,42 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
             coverLetterGroup.visibility = visibility
             tilNotes.visibility = visibility
             chipGroup.visibility = visibility
-            dateCreated.visibility = visibility
+            dateCreated.visibility = if (viewModel.job == null) View.INVISIBLE else visibility
             when (visibility) {
                 View.GONE -> {
-                    required_fields_layout.background = null
-                    optionFieldsLayout.background = null
-                    optionFieldsLayout.visibility = View.INVISIBLE
-                    separator.drawable.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_baseline_add_circle_24,
-                        )
-                    )
-                    binding.constraintLayout.transitionToEnd()
+                    setFieldsLayoutToGone()
                 }
                 View.VISIBLE -> {
-                    binding.constraintLayout.transitionToStart()
-                    requiredFieldsLayout.background = ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.required_fields_layer_list
-                    )
-                    optionFieldsLayout.background = ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.optional_fields_layer_list
-                    )
-
-                    optionFieldsLayout.visibility = View.VISIBLE
-                    separator.drawable.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_baseline_remove_circle_24
-                        )
-                    )
+                    setFieldsLayoutToVisible()
                 }
             }
         }
+    }
 
+    private fun setFieldsLayoutToVisible() {
+        binding.apply {
+            fieldsLayout.transitionToStart()
+            requiredFieldsLayout.background =
+                getDrawable(R.drawable.required_fields_layer_list)
+            optionFieldsLayout.background =
+                getDrawable(R.drawable.optional_fields_layer_list)
+            separator.drawable.setImageDrawable(getDrawable(R.drawable.ic_baseline_remove_circle_24))
+        }
+    }
+
+    private fun setFieldsLayoutToGone() {
+        binding.apply {
+            fieldsLayout.transitionToEnd()
+            requiredFieldsLayout.background = null
+            optionFieldsLayout.background = null
+            separator.drawable.setImageDrawable(
+                getDrawable(R.drawable.ic_baseline_add_circle_24)
+            )
+        }
+    }
+
+    private fun getDrawable(source: Int): Drawable? {
+        return ContextCompat.getDrawable(requireContext(), source)
     }
 
     private fun setChipLogic(chip: Chip, text: String) {
@@ -240,7 +239,6 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
             edNotes.setText(viewModel.jobNote)
             dateCreated.visibility = if (isInEditMode) View.VISIBLE else View.INVISIBLE
             dateCreated.text = getString(R.string.created_at, createdAt)
-            btnAddApplication.text = getString(R.string.btn_save)
         }
         setOptionalFields()
     }
