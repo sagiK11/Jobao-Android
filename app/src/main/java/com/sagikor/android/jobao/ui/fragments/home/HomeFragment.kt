@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.sagikor.android.jobao.R
-import com.sagikor.android.jobao.data.SortOrder
 import com.sagikor.android.jobao.databinding.FragmentHomeBinding
 import com.sagikor.android.jobao.model.AppliedVia
 import com.sagikor.android.jobao.model.Job
@@ -56,8 +55,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
 
-        observeApplicationsInfo()
-        observeJobList()
+        observeJobsData()
         setAdapters()
         initJobsChannel()
         initListeners()
@@ -89,11 +87,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 findNavController().navigate(R.id.navigation_applications)
             }
             allReplies.setOnClickListener {
-             val action = HomeFragmentDirections.actionNavigationHomeToNavigationApplications(JobStatus.IN_PROCESS)
+                val action =
+                    HomeFragmentDirections.actionNavigationHomeToNavigationApplications(JobStatus.IN_PROCESS)
                 findNavController().navigate(action)
             }
             processReplies.setOnClickListener {
-                val action = HomeFragmentDirections.actionNavigationHomeToNavigationApplications(JobStatus.ACCEPTED)
+                val action =
+                    HomeFragmentDirections.actionNavigationHomeToNavigationApplications(JobStatus.ACCEPTED)
                 findNavController().navigate(action)
             }
         }
@@ -136,82 +136,56 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun observeApplicationsInfo() {
-        jobViewModel.allJobs.observe(viewLifecycleOwner) {
-            binding.apply {
-                totalApplications.text = getString(R.string.total_application, it.size.toString())
-                totalPending.text = getString(
-                    R.string.total_pending,
-                    it.filter { job -> job.status == JobStatus.PENDING }.size.toString()
-                )
-                totalProcesses.text = getString(
+    private fun observeJobsData() {
+        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
+            updateCardsLayout(jobsList)
+            updateCharts(jobsList)
+        }
+    }
+
+    private fun updateCardsLayout(jobsList: List<Job>) {
+        binding.apply {
+            totalApplications.text =
+                getString(R.string.total_application, jobsList.size.toString())
+            totalPending.text = getString(
+                R.string.total_pending,
+                jobsList.filter { job -> job.status == JobStatus.PENDING }.size.toString()
+            )
+            totalProcesses.text =
+                getString(
                     R.string.total_processes,
-                    it.filter { job -> job.wasReplied }.size.toString()
+                    jobsList.filter { job -> job.wasReplied }.size.toString()
                 )
-                totalActiveProcesses.text = getString(
-                    R.string.active_processes,
-                    it.filter { job -> job.status == JobStatus.IN_PROCESS }.size.toString()
-                )
-                totalOffers.text = getString(
-                    R.string.total_offers,
-                    it.filter { job -> job.status == JobStatus.ACCEPTED }.size.toString()
-                )
-            }
-        }
-    }
-
-    private fun observeJobList() {
-        observeStatusAttribute()
-        observeAppliedViaAttribute()
-        observeDatesAttribute()
-        observeProcessWithAppliedViaAttribute()
-        observeIsCoverLetterSentAttribute()
-    }
-
-    private fun observeStatusAttribute() {
-        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
-            createStatusBarChart(
-                jobsList,
-                ChartOrder.FIRST,
-                getString(R.string.applications_status)
+            totalActiveProcesses.text = getString(
+                R.string.active_processes,
+                jobsList.filter { job -> job.status == JobStatus.IN_PROCESS }.size.toString()
+            )
+            totalOffers.text = getString(
+                R.string.total_offers,
+                jobsList.filter { job -> job.status == JobStatus.ACCEPTED }.size.toString()
             )
         }
     }
 
-    private fun observeAppliedViaAttribute() {
-        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
-            createPieChart(
-                jobsList,
-                ChartOrder.FIRST,
-                getString(R.string.applied_via_pie_chart_title)
-            )
-        }
-    }
+    private fun updateCharts(jobsList: List<Job>) {
+        createStatusBarChart(
+            jobsList,
+            ChartOrder.FIRST,
+            getString(R.string.applications_status)
+        )
+        createPieChart(
+            jobsList,
+            ChartOrder.FIRST,
+            getString(R.string.applied_via_pie_chart_title)
+        )
+        createLineChart(jobsList, ChartOrder.FIRST, getString(R.string.dates))
+        createPieChart(
+            jobsList.filter { job -> job.wasReplied },
+            ChartOrder.SECOND,
+            getString(R.string.applied_via_of_process)
+        )
+        createCoverLetterBarChart(jobsList, ChartOrder.SECOND)
 
-    private fun observeDatesAttribute() {
-        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
-            createLineChart(jobsList, ChartOrder.FIRST, getString(R.string.dates))
-        }
-
-    }
-
-    private fun observeIsCoverLetterSentAttribute() {
-        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
-            createCoverLetterBarChart(jobsList, ChartOrder.SECOND)
-
-        }
-    }
-
-
-    private fun observeProcessWithAppliedViaAttribute() {
-        jobViewModel.allJobs.observe(viewLifecycleOwner) { jobsList ->
-            val filteredJobs = jobsList.filter { job -> job.wasReplied }
-            createPieChart(
-                filteredJobs,
-                ChartOrder.SECOND,
-                getString(R.string.applied_via_of_process)
-            )
-        }
     }
 
     private fun createLineChart(jobsList: List<Job>, chartOrder: ChartOrder, label: String) {
@@ -233,7 +207,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             setDrawCircleHole(false)
             color = ResourcesCompat.getColor(resources, R.color.chart_1, null)
             setCircleColor(ResourcesCompat.getColor(resources, R.color.chart_1, null))
-            lineWidth = 1.5f;
+            lineWidth = 1.5f
             mode = LineDataSet.Mode.CUBIC_BEZIER
         }
 
