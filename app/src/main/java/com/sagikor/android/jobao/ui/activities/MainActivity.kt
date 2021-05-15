@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity(), OnScrollListener {
     }
 
     private fun initBottomAppBar() {
-        bottomAppBar.replaceMenu(R.menu.bottom_app_bar_more)
         bottomAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.send_to_mail -> jobViewModel.onSendToMailClick()

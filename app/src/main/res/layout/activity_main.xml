@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_anchor="@+id/nav_host_fragment"
-        app:layout_anchorGravity="bottom|end">
+        app:layout_anchorGravity="bottom">
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
@@ -30,6 +30,7 @@
             android:layout_gravity="bottom"
             app:fabAlignmentMode="center"
             app:fabCradleMargin="10dp"
+            app:menu="@menu/bottom_app_bar_more"
             app:fabCradleRoundedCornerRadius="10dp"
             app:fabCradleVerticalOffset="10dp">
 
@@ -37,7 +38,7 @@
                 android:id="@+id/nav_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="38dp"
                 app:menu="@menu/bottom_nav_menu" />
         </com.google.android.material.bottomappbar.BottomAppBar>
 
