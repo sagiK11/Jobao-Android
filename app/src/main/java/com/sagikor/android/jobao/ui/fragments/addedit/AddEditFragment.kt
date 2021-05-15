@@ -296,7 +296,8 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                             Snackbar.LENGTH_LONG
                         ).setAnchorView(buttons_layout).show()
                     }
-                    else -> showAlertDialog()
+                    is AddEditViewModel.AddEditJobEvent.NavigateBack -> findNavController().popBackStack()
+                    is AddEditViewModel.AddEditJobEvent.ShowGoBackConfirmationMessage -> showAlertDialog()
                 }
             }
         }

@@ -66,7 +66,7 @@
     <string name="btn_cancel">השלך</string>
     <string name="btn_save">שמור</string>
     <string name="cancel_title">לחזור אחורה?</string>
-    <string name="cancel_message">אם ביצעת שינויים הם לא ישמרו, לחזור בכל זאת?</string>
+    <string name="cancel_message">השינויים שביצעת לא ישמרו, לחזור בכל זאת?</string>
     <string name="linkedin">לינקדאין</string>
     <string name="other">אחר</string>
     <string name="applied_via_of_process">אופן הגשה מחברות שאיתן התחלתי תהליך</string>
