@@ -24,10 +24,6 @@
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="text_layout">
-        <item name="boxBackgroundColor">@android:color/transparent</item>
-    </style>
-
     <style name="buttons">
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textSize">17sp</item>

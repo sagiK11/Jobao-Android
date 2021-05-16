@@ -89,4 +89,6 @@
     <string name="user_did_not_had_process">לא היה תהליך</string>
     <string name="offers_title">הצעות</string>
     <string name="active_process_title">תהליכים פעילים</string>
+    <string name="delete_application">מחק</string>
+
 </resources>

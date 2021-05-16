@@ -34,13 +34,13 @@ abstract class JobsDatabase : RoomDatabase() {
             val dao = database.get().jobDao()
             //mock data
             applicationScope.launch {
-                //addMockData(dao)
+                // addMockData(dao)
             }
         }
 
         private suspend fun addMockData(dao: JobDao) {
             dao.addJob(
-                Job( 
+                Job(
                     "Microsoft",
                     "Software Engineer",
 

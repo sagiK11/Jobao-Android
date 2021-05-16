@@ -12,7 +12,7 @@ import com.sagikor.android.jobao.model.Job
 import com.sagikor.android.jobao.model.JobStatus
 
 
-class JobAdapter(private val listener: onItemClickListener) :
+class JobAdapter(private val listener: OnItemClickListener) :
     ListAdapter<Job, JobAdapter.JobViewHolder>(DiffCallback()) {
 
 
@@ -31,14 +31,21 @@ class JobAdapter(private val listener: onItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.apply {
-                root.setOnClickListener {
+                editOption.setOnClickListener {
                     val pos = adapterPosition
                     if (pos != RecyclerView.NO_POSITION) {
                         val job = getItem(pos)
                         listener.onItemClick(job)
                     }
                 }
-
+                deleteOption.setOnClickListener {
+                    val pos = adapterPosition
+                    if (pos != RecyclerView.NO_POSITION) {
+                        val job = getItem(pos)
+                        listener.onItemDelete(job)
+                        jobListItemRoot.transitionToStart()
+                    }
+                }
             }
         }
 
@@ -67,8 +74,9 @@ class JobAdapter(private val listener: onItemClickListener) :
         }
     }
 
-    interface onItemClickListener {
+    interface OnItemClickListener {
         fun onItemClick(job: Job)
+        fun onItemDelete(job: Job)
     }
 
 

@@ -10,8 +10,6 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -35,7 +33,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onItemClickListener {
+class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.OnItemClickListener {
     private val TAG = JobsListFragment::class.qualifiedName
     private val jobViewModel: JobViewModel by viewModels()
     private val viewModel: JobsListViewModel by viewModels()
@@ -52,7 +50,6 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
 
         initListEventChannel()
         initRecycleViewSettings()
-        initItemTouchHelper()
         initFragmentResultListener()
         initJobEventChannel()
         setHasOptionsMenu(true)
@@ -109,12 +106,6 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
             adapter = jobAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
-            addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    DividerItemDecoration.VERTICAL
-                )
-            )
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
@@ -134,28 +125,6 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
                 }
             })
         }
-    }
-
-    private fun initItemTouchHelper() {
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                //not supported in app
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val job = jobAdapter.currentList[viewHolder.adapterPosition]
-                jobViewModel.onJobSwiped(job)
-            }
-        }).attachToRecyclerView(rv_jobs_list)
-
     }
 
     private fun initJobEventChannel() {
@@ -200,6 +169,7 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
             Snackbar.LENGTH_LONG
         ).setAction(getString(R.string.undo)) {
             jobViewModel.onUndoDeleteJob(job)
+
         }.setAnchorView(R.id.fab).show()
     }
 
@@ -238,6 +208,10 @@ class JobsListFragment : Fragment(R.layout.fragment_jobs_list), JobAdapter.onIte
 
     override fun onItemClick(job: Job) {
         jobViewModel.onJobSelected(job)
+    }
+
+    override fun onItemDelete(job: Job) {
+        jobViewModel.onJobDelete(job)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

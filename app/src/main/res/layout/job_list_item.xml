@@ -1,83 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/job_list_item_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="5dp"
-    android:outlineAmbientShadowColor="@color/chart_3"
-    android:outlineSpotShadowColor="@color/chart_2"
-    android:layout_marginHorizontal="4dp"
-    android:layout_marginVertical="4dp"
-    >
+    app:layoutDescription="@xml/job_list_item_scene">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/list_item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="22dp"
-        android:background="@android:color/transparent">
-
-
-    <ImageView
-        android:id="@+id/list_item_status"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="@string/edit_application"
-        app:layout_constraintHorizontal_weight="0.4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/linear_layout"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="4dp"
+        android:background="@android:color/transparent"
+        android:outlineAmbientShadowColor="@color/chart_3"
+        android:outlineSpotShadowColor="@color/chart_2"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_delete_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="22dp">
+
+
+            <ImageView
+                android:id="@+id/list_item_status"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/edit_application"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/linear_layout"
+                app:layout_constraintHorizontal_weight="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/list_item_status"
+                app:layout_constraintEnd_toStartOf="@+id/arrow_to_edit"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/list_item_status"
+                app:layout_constraintTop_toTopOf="@+id/list_item_status">
+
+                <TextView
+                    android:id="@+id/list_item_company_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textAlignment="viewStart"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textDirection="locale" />
+
+                <TextView
+                    android:id="@+id/list_item_position_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textAlignment="viewStart"
+                    android:textDirection="locale" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/arrow_to_edit"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@string/status"
+                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                app:layout_constraintBottom_toBottomOf="@+id/linear_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintStart_toEndOf="@+id/linear_layout"
+                app:layout_constraintTop_toTopOf="@+id/linear_layout"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/edit_delete_layout"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:alpha="0"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/list_item_card"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/list_item_card"
+        app:layout_constraintTop_toBottomOf="@+id/list_item_card">
 
         <LinearLayout
-            android:id="@+id/linear_layout"
+            android:id="@+id/edit_option"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/list_item_status"
-            app:layout_constraintTop_toTopOf="@+id/list_item_status"
-            app:layout_constraintBottom_toBottomOf="@+id/list_item_status"
-            app:layout_constraintEnd_toStartOf="@+id/arrow_to_edit"
-            >
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/v_separator"
+            app:layout_constraintEnd_toStartOf="@+id/v_separator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/v_separator">
+
+            <ImageView
+                android:id="@+id/edit_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/edit_application"
+                android:src="@drawable/ic_baseline_edit_24" />
 
             <TextView
-                android:id="@+id/list_item_company_name"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_edit"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="viewStart"
-                android:textDirection="locale"
-                android:ellipsize="end"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:text="@string/edit_application"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/v_separator"
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            android:alpha="1"
+            android:background="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/delete_option"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/v_separator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/v_separator"
+            app:layout_constraintTop_toTopOf="@+id/v_separator">
+
+            <ImageView
+                android:id="@+id/delete_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/delete_application"
+                android:src="@drawable/ic_baseline_delete_24" />
+
 
             <TextView
-                android:id="@+id/list_item_position_title"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="viewStart"
-                android:textDirection="locale"
-                android:ellipsize="end"
-                />
+                android:text="@string/delete_application"
+                android:textAlignment="center" />
+
         </LinearLayout>
 
 
-    <ImageView
-        android:id="@+id/arrow_to_edit"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:contentDescription="@string/status"
-        android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
-        app:layout_constraintHorizontal_weight="0.3"
-        app:layout_constraintBottom_toBottomOf="@+id/linear_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linear_layout"
-        app:layout_constraintTop_toTopOf="@+id/linear_layout"
-        app:layout_constraintVertical_bias="0.0" />
-</androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

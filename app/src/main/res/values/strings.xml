@@ -10,7 +10,7 @@
     <string name="position_title">Position Title</string>
     <string name="date_applied">date applied</string>
     <string name="add_application">new application</string>
-    <string name="edit_application">edit application</string>
+    <string name="edit_application">Edit</string>
     <string name="sent_with_cover_letter">sent with cover letter</string>
     <string name="applied_via">applied via</string>
     <string name="yes">yes</string>
@@ -88,6 +88,7 @@
     <string name="user_did_not_had_process">Had No Process</string>
     <string name="offers_title">Offers</string>
     <string name="active_process_title">Active Processes</string>
+    <string name="delete_application">Delete</string>
 
 
 

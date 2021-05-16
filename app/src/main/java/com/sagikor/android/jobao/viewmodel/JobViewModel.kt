@@ -34,7 +34,7 @@ class JobViewModel @ViewModelInject constructor(
 
     val searchQuery = state.getLiveData("searchQuery", "")
     val preferencesFlow = preferencesHandler.preferenceFlow
-    val jobStatus = state.getLiveData("jobStatus",JobStatus.IN_PROCESS)
+    val jobStatus = state.getLiveData("jobStatus", JobStatus.IN_PROCESS)
 
     private val jobsFlow = combine(
         searchQuery.asFlow(),
@@ -55,7 +55,7 @@ class JobViewModel @ViewModelInject constructor(
     private val allJobsFlow = jobDao.getAllJobs()
     val allJobs = allJobsFlow.asLiveData()
 
-    private val filteredByStatusFlow = jobStatus.asFlow().flatMapLatest {jobStatus ->
+    private val filteredByStatusFlow = jobStatus.asFlow().flatMapLatest { jobStatus ->
         jobDao.getFilteredJobByStatus(jobStatus)
     }
     val filteredByStatus = filteredByStatusFlow.asLiveData()
@@ -78,7 +78,7 @@ class JobViewModel @ViewModelInject constructor(
         }
     }
 
-    fun onJobSwiped(job: Job) {
+    fun onJobDelete(job: Job) {
         viewModelScope.launch {
             jobDao.deleteJob(job)
             jobsEventsChannel.send(JobsEvents.ShowUndoDeleteJobMessage(job))
