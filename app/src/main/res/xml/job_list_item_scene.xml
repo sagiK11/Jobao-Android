@@ -15,10 +15,6 @@
                android:alpha="1" />
        </KeyFrameSet>
 
-        <OnClick
-            motion:targetId="@+id/list_item_card"
-            />
-
     </Transition>
 
     <ConstraintSet android:id="@+id/start">

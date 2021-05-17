@@ -29,6 +29,11 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="soft_white_1">#FBFAF5</color>
+    <color name="soft_white_2">#F5F6FB</color>
+    <color name="soft_white_3">#d6daec</color>
+    <color name="soft_white_4">#dee1f0</color>
+    <color name="soft_white_5">#DDE0F1</color>
 
 
     <color name="chart_1">#003f5c</color>

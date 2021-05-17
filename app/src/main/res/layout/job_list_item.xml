@@ -15,21 +15,21 @@
         android:layout_marginHorizontal="4dp"
         android:layout_marginVertical="4dp"
         android:background="@android:color/transparent"
-        android:outlineAmbientShadowColor="@color/chart_3"
-        android:outlineSpotShadowColor="@color/chart_2"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="5dp"
+        android:elevation="0dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toTopOf="@+id/edit_delete_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/card_motion_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="22dp">
+            android:background="@drawable/list_item_job_layer_list"
+            android:padding="22dp"
+            app:layoutDescription="@xml/job_list_item_xml_constraintlayout_scene">
 
 
             <ImageView
@@ -88,7 +88,7 @@
                 app:layout_constraintTop_toTopOf="@+id/linear_layout"
                 app:layout_constraintVertical_bias="0.0" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.motion.widget.MotionLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

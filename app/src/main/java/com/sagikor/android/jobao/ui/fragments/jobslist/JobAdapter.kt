@@ -31,6 +31,17 @@ class JobAdapter(private val listener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.apply {
+                jobListItemRoot.apply {
+                    setOnClickListener {
+                        if (jobListItemRoot.currentState == jobListItemRoot.startState) {
+                            jobListItemRoot.transitionToEnd()
+                            cardMotionLayout.transitionToEnd()
+                        } else {
+                            jobListItemRoot.transitionToStart()
+                            cardMotionLayout.transitionToStart()
+                        }
+                    }
+                }
                 editOption.setOnClickListener {
                     val pos = adapterPosition
                     if (pos != RecyclerView.NO_POSITION) {
@@ -44,6 +55,7 @@ class JobAdapter(private val listener: OnItemClickListener) :
                         val job = getItem(pos)
                         listener.onItemDelete(job)
                         jobListItemRoot.transitionToStart()
+                        cardMotionLayout.transitionToStart()
                     }
                 }
             }
