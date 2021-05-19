@@ -29,6 +29,6 @@ data class Job(
 }
 
 @Parcelize
-enum class JobStatus : Parcelable{ PENDING, IN_PROCESS, REJECTED, ACCEPTED }
-enum class AppliedVia { SITE, EMAIL, REFERENCE, LINKEDIN, OTHER }
-enum class SentWithCoverLetter { NO, YES, }
+enum class JobStatus : Parcelable { PENDING, IN_PROCESS, REJECTED, ACCEPTED, UNPROVIDED }
+enum class AppliedVia { SITE, EMAIL, REFERENCE, LINKEDIN, OTHER, UNPROVIDED }
+enum class SentWithCoverLetter { NO, YES, UNPROVIDED }

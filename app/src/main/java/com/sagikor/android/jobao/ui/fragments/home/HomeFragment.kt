@@ -3,6 +3,7 @@ package com.sagikor.android.jobao.ui.fragments.home
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -401,7 +402,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 AppliedVia.EMAIL -> options[AppliedVia.EMAIL.ordinal]++
                 AppliedVia.REFERENCE -> options[AppliedVia.REFERENCE.ordinal]++
                 AppliedVia.LINKEDIN -> options[AppliedVia.LINKEDIN.ordinal]++
-                else -> options[AppliedVia.OTHER.ordinal]++
+                AppliedVia.OTHER -> options[AppliedVia.OTHER.ordinal]++
+                AppliedVia.UNPROVIDED -> {
+                    Log.i(TAG, "getSubmissionStatusData: user didn't provide how he applied")
+                }
             }
         }
         return options
@@ -436,6 +440,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 JobStatus.IN_PROCESS -> statusData[JobStatus.IN_PROCESS.ordinal]++
                 JobStatus.REJECTED -> statusData[JobStatus.REJECTED.ordinal]++
                 JobStatus.ACCEPTED -> statusData[JobStatus.ACCEPTED.ordinal]++
+                JobStatus.UNPROVIDED -> {
+                    Log.i(TAG, "getSubmissionStatusData: user didn't provide status")
+                }
             }
         }
         return statusData
@@ -447,13 +454,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val optionsData = FloatArray(statusOptionsNo)
 
         jobsList.iterator().forEach { job ->
-            if (job.isCoverLetterSent == SentWithCoverLetter.YES && job.wasReplied)
+            if (job.isCoverLetterSent == SentWithCoverLetter.YES && job.wasReplied) {
                 optionsData[CoverLetterOptions.SENT_AND_REPLIED.ordinal]++
-            else if (job.isCoverLetterSent == SentWithCoverLetter.YES && !job.wasReplied) {
+            } else if (job.isCoverLetterSent == SentWithCoverLetter.YES && !job.wasReplied) {
                 optionsData[CoverLetterOptions.SENT_AND_NOT_REPLIED.ordinal]++
-            } else if (job.isCoverLetterSent == SentWithCoverLetter.NO && job.wasReplied)
+            } else if (job.isCoverLetterSent == SentWithCoverLetter.NO && job.wasReplied) {
                 optionsData[CoverLetterOptions.NOT_SENT_AND_REPLIED.ordinal]++
-            else {
+            } else if (job.isCoverLetterSent == SentWithCoverLetter.NO && !job.wasReplied) {
                 optionsData[CoverLetterOptions.NOT_SENT_AND_NOT_REPLIED.ordinal]++
             }
         }

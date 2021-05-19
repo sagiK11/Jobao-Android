@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
@@ -95,7 +96,8 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                     R.id.btn_pending -> JobStatus.PENDING
                     R.id.btn_in_process -> JobStatus.IN_PROCESS
                     R.id.btn_rejected -> JobStatus.REJECTED
-                    else -> JobStatus.ACCEPTED
+                    R.id.btn_accepted -> JobStatus.ACCEPTED
+                    else -> JobStatus.UNPROVIDED
                 }
                 if (viewModel.jobStatus == JobStatus.ACCEPTED ||
                     viewModel.jobStatus == JobStatus.IN_PROCESS
@@ -109,14 +111,16 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                     R.id.btn_email -> AppliedVia.EMAIL
                     R.id.btn_reference -> AppliedVia.REFERENCE
                     R.id.btn_linkedin -> AppliedVia.LINKEDIN
-                    else -> AppliedVia.OTHER
+                    R.id.btn_other -> AppliedVia.OTHER
+                    else -> AppliedVia.UNPROVIDED
                 }
 
             }
             coverLetterGroup.addOnButtonCheckedListener { _, checkedId, _ ->
                 viewModel.jobIsCoverLetterSent = when (checkedId) {
                     R.id.btn_cover_letter_positive -> SentWithCoverLetter.YES
-                    else -> SentWithCoverLetter.NO
+                    R.id.btn_cover_letter_negative -> SentWithCoverLetter.NO
+                    else -> SentWithCoverLetter.UNPROVIDED
                 }
             }
         }
@@ -249,8 +253,11 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                 when (viewModel.jobStatus) {
                     JobStatus.PENDING -> R.id.btn_pending
                     JobStatus.IN_PROCESS -> R.id.btn_in_process
-                    JobStatus.REJECTED -> R.id.btn_reference
+                    JobStatus.REJECTED -> R.id.btn_rejected
                     JobStatus.ACCEPTED -> R.id.btn_accepted
+                    JobStatus.UNPROVIDED -> {
+                        Log.i(TAG, "setOptionalFields: user didn't provide status")
+                    }
                 }
             )
             appliedViaGroup.check(
@@ -260,12 +267,18 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_job) {
                     AppliedVia.REFERENCE -> R.id.btn_reference
                     AppliedVia.LINKEDIN -> R.id.btn_linkedin
                     AppliedVia.OTHER -> R.id.btn_other
+                    AppliedVia.UNPROVIDED -> {
+                        Log.i(TAG, "setOptionalFields: user didn't provide how he applied")
+                    }
                 }
             )
             coverLetterGroup.check(
                 when (viewModel.jobIsCoverLetterSent) {
                     SentWithCoverLetter.NO -> R.id.btn_cover_letter_negative
                     SentWithCoverLetter.YES -> R.id.btn_cover_letter_positive
+                    SentWithCoverLetter.UNPROVIDED -> {
+                        Log.i(TAG, "setOptionalFields: user didn't provide if he sent CL")
+                    }
                 }
             )
         }

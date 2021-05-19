@@ -16,7 +16,7 @@ android {
         applicationId "com.sagikor.android.jobao"
         minSdkVersion 28
         targetSdkVersion 30
-        versionCode 7
+        versionCode 8
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

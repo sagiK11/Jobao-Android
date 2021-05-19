@@ -1,5 +1,6 @@
 package com.sagikor.android.jobao.ui.fragments.jobslist
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
@@ -62,27 +63,24 @@ class JobAdapter(private val listener: OnItemClickListener) :
         }
 
         fun bind(job: Job) {
-            val resource = binding.root.context.resources
-            val pendingIcon =
-                ResourcesCompat.getDrawable(resource, R.drawable.ic_waiting_for_reply, null)
-            val rejectIcon =
-                ResourcesCompat.getDrawable(resource, R.drawable.ic_baseline_close_24, null)
-            val acceptedIcon =
-                ResourcesCompat.getDrawable(resource, R.drawable.ic_baseline_done_24, null)
-            val inProcessIcon =
-                ResourcesCompat.getDrawable(resource, R.drawable.ic_in_process, null)
             binding.apply {
                 listItemCompanyName.text = job.companyName
                 listItemPositionTitle.text = job.title
                 listItemStatus.setImageDrawable(
                     when (job.status) {
-                        JobStatus.PENDING -> pendingIcon
-                        JobStatus.REJECTED -> rejectIcon
-                        JobStatus.IN_PROCESS -> inProcessIcon
-                        else -> acceptedIcon
+                        JobStatus.PENDING -> getDrawable(R.drawable.ic_waiting_for_reply)
+                        JobStatus.REJECTED -> getDrawable(R.drawable.ic_baseline_close_24)
+                        JobStatus.IN_PROCESS -> getDrawable(R.drawable.ic_in_process)
+                        JobStatus.ACCEPTED -> getDrawable(R.drawable.ic_baseline_done_24)
+                        JobStatus.UNPROVIDED -> getDrawable(R.drawable.ic_info)
                     }
                 )
             }
+        }
+
+        private fun getDrawable(drawable: Int): Drawable? {
+            val resource = binding.root.context.resources
+            return ResourcesCompat.getDrawable(resource, drawable, null)
         }
     }
 

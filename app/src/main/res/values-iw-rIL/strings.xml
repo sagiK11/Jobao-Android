@@ -36,7 +36,7 @@
     <string name="in_process">בתהליך</string>
     <string name="accepted">התקבל</string>
     <string name="rejected">דחייה</string>
-    <string name="company_view_error">שם חברה לא תקין</string>
+    <string name="company_view_error">שם החברה לא תקין</string>
     <string name="title_view_error">תפקיד לא תקין</string>
     <string name="date_view_error">תאריך לא תקין</string>
     <string name="site">אתר החברה</string>

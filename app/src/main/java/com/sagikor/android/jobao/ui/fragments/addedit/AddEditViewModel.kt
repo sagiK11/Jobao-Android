@@ -58,14 +58,14 @@ class AddEditViewModel @ViewModelInject constructor(
             state.set(Keys.wasReplied, value)
         }
 
-    var jobStatus = state.get<JobStatus>(Keys.status) ?: job?.status ?: JobStatus.PENDING
+    var jobStatus = state.get<JobStatus>(Keys.status) ?: job?.status ?: JobStatus.UNPROVIDED
         set(value) {
             field = value
             isStateChanged = true
             state.set(Keys.status, value)
         }
 
-    var jobAppliedVia = state.get<AppliedVia>(Keys.appliedVia) ?: job?.appliedVia ?: AppliedVia.SITE
+    var jobAppliedVia = state.get<AppliedVia>(Keys.appliedVia) ?: job?.appliedVia ?: AppliedVia.UNPROVIDED
         set(value) {
             field = value
             isStateChanged = true
@@ -74,7 +74,7 @@ class AddEditViewModel @ViewModelInject constructor(
 
     var jobIsCoverLetterSent =
         state.get<SentWithCoverLetter>(Keys.coverLetter) ?: job?.isCoverLetterSent
-        ?: SentWithCoverLetter.NO
+        ?: SentWithCoverLetter.UNPROVIDED
         set(value) {
             field = value
             isStateChanged = true
